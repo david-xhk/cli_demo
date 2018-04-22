@@ -1,19 +1,19 @@
-****
-Home
-****
+******
+ Home
+******
 
-Welcome to the documentation page of binary_tree!
+Welcome to the documentation page of demo!
 
-.. image:: https://img.shields.io/travis/han-keong/binary_tree.svg
-    :target: https://travis-ci.org/han-keong/binary_tree
+.. image:: https://img.shields.io/travis/han-keong/demo.svg
+    :target: https://travis-ci.org/han-keong/demo
 
-.. image:: https://readthedocs.org/projects/binary-tree/badge/?version=latest
-    :target: https://binary-tree.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/demo/badge/?version=latest
+    :target: https://demo.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-========
-Contents
-========
+==========
+ Contents
+==========
 
 .. toctree::
     :maxdepth: 2

@@ -1,12 +1,12 @@
-*************
-Documentation
-*************
+***************
+ Documentation
+***************
 
-==================
-:mod:`binary_tree`
-==================
+=============
+ :mod:`demo`
+=============
 
-.. automodule:: binary_tree
+.. automodule:: demo
     :members:
     :imported-members:
     :member-order:
