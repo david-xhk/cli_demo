@@ -74,10 +74,10 @@ class DemoOptions(object):
             return inner
         return options_decorator
 
-    def register(self, callback_name, **kwargs):
+    def register(self, callback_name, desc="", **kwargs):
+        newline = kwargs.pop("newline", False)
         retry = kwargs.pop("retry", False)
         lock = kwargs.pop("lock", False)
-        newline = kwargs.pop("newline", True)
         def register_decorator(func):
             @functools.wraps(func)
             def callback(demo, *args, **kwargs):
@@ -92,6 +92,7 @@ class DemoOptions(object):
                     if did_return and retry:
                         demo.retry()
             callback.lock = lock
+            callback.desc = desc
             self.callbacks[callback_name] = callback
             return func
         return register_decorator

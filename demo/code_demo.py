@@ -26,7 +26,7 @@ bar = 5 * 2
 spam = 14"""
     """Code for setting up a context for the commands."""
 
-    command_prompt = "Choose an option: "
+    command_prompt = "Choose a command: "
 
     commands = [
         "1  # Comments will be removed.",
@@ -38,14 +38,13 @@ spam = 14"""
 
     options = Demo.options.copy()
 
-    @options.register("c", retry=True)
+    @options.register("c", "Setup code.", retry=True, newline=True)
     def print_setup(self):
-        """Setup code."""
         print("Setup:")
         self.print_in(self.setup_code)
         print()
 
-    @options.register("setup", newline=False)
+    @options.register("setup")
     def setup_callback(self, response):
         """Import the global namespace from __main__ and execute `setup_code`.
 
@@ -65,7 +64,7 @@ spam = 14"""
         print()
         self.print_setup()
 
-    @options.register("commands", retry=True, newline=False)
+    @options.register("commands", retry=True)
     def commands_callback(self, response):
         """Check if commands are correct and push them to `execute`."""
         commands = None

@@ -20,9 +20,8 @@ class SandboxDemo(CodeDemo):
 
     options.insert("commands", 2, "s")
 
-    @options.register("s", retry=True, lock=True, newline=False)
+    @options.register("s", "Sandbox mode.", retry=True, lock=True)
     def sandbox(self, key):
-        """Sandbox mode."""
         print("Switched to sandbox mode.")
         print("Use quit() to leave sandbox mode.")
         print()

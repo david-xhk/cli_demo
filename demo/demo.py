@@ -17,7 +17,7 @@ from .exceptions import DemoRetry, DemoExit, DemoRestart, catch_exc
 class Demo(object):
     """Demo provides a basic framework for interactive demonstrations in the command-line interface.
 
-Several key features are introduced:
+    Several key features are introduced:
     `restart`, `retry`, and `exit`: the main control flow tools.
     `run`, the main logic of a demo program.
     `print_help`, a function that prints the help text.
@@ -26,6 +26,7 @@ Several key features are introduced:
         Register a callback for some input response.
     `print_options`, a function that prints what responses are allowed."""
     
+
     help_text = """
 Demo provides a basic framework for interactive demonstrations in the command-line interface.
 
@@ -38,11 +39,14 @@ Several key features are introduced:
         Register a callback for some input response.
     `print_options`, a function that prints what responses are allowed."""
 
-    symbols = [" ", "●", "○", "▸", "▹"]
-
-    max_width = 60
-
-    indent = 4
+    help_options = {
+        "symbols" : [" ", "●", "○", "▸", "▹"],
+        "max_width" : 60,
+        "indent" : 4,
+        "border" : "~",
+        "title" : "=",
+        "subtitle" : "-"
+    }
 
     setup_prompt = "Select an option, or type something random: "
 
@@ -90,9 +94,11 @@ Several key features are introduced:
 
     A callback registered under a supposed `key` should accept a `response` argument.
     
+    The `desc` keyword is used to specify the description of the option being registered.
+
     Setting `lock` to True causes the `key` of a triggering input function to be received. (default is False).
 
-    Setting `newline` to True causes a new line to be printed before the callback is executed. (default is True)
+    Setting `newline` to True causes a new line to be printed before the callback is executed. (default is False)
 
     Setting `retry` to True causes the input function to be called again once the callback has returned. (default is False)
 
@@ -135,14 +141,12 @@ Several key features are introduced:
             ...
     """
 
-    @options.register("r", newline=False)
+    @options.register("r", "Restart.")
     def restart(self, text=None):
-        """Restart."""
         raise DemoRestart(text)
 
-    @options.register("q", newline=False)
+    @options.register("q", "Quit.")
     def quit(self, text=None):
-        """Quit."""
         raise DemoExit(text)
 
     def retry(self, text=None):
@@ -154,20 +158,20 @@ Several key features are introduced:
         self.print_intro = lambda: None
 
     @classmethod
-    def get_dashes(cls, dash="=", num=None):
+    def get_dashes(cls, dash, num=None):
         if not num:
-            num = cls.max_width
+            num = cls.help_options["max_width"]
         return dash * num
 
     @classmethod
     def format_help(cls):
-        return """{line}\n{title}\n{line}\n\n{text}\n\n""".format(
-            line=cls.get_dashes("-", len(cls.__name__)),
-            title=cls.__name__, text=cls.help_text.strip())
+        return """{title}\n{line}\n\n{text}\n\n""".format(
+            title=cls.__name__, text=cls.help_text.strip(),
+            line=cls.get_dashes(
+                cls.help_options["subtitle"], len(cls.__name__)))
 
-    @options.register("h", retry=True)
+    @options.register("h", "Help.", retry=True, newline=True)
     def print_help(self):
-        """Help."""
         """Format and print the help text.
 
         The indentation of the text printed is controlled by the class attribute `indent`.
@@ -183,12 +187,17 @@ Unindented lines are printed as-is.
 
         Sections can be separated with whitespace.
         """
-        symbols = list(enumerate(self.symbols))
-        dashes = self.get_dashes()
-        width = self.max_width
-        indent = self.indent
-        print("Help:")
-        print(dashes)
+        help_options = self.help_options
+        symbols = list(enumerate(help_options["symbols"]))
+        border = self.get_dashes(help_options["border"])
+        line = self.get_dashes(help_options["title"], 4)
+        width = help_options["max_width"]
+        indent = help_options["indent"]
+        print(border)
+        print(line)
+        print("Help")
+        print(line)
+        print()
         for cls in self.__class__.__mro__[-2::-1]:
             for line in cls.format_help().splitlines():
                 if not line.lstrip():
@@ -217,32 +226,31 @@ Unindented lines are printed as-is.
                         k = line.rfind(" ", 0, width + (escapes or 1))
                         if k == -1:
                             k = width + escapes
-                        lines[j], overflow = line[:k], lines[k+1:]
+                        lines[j], overflow = line[:k], line[k+1:]
                         lines.append(ws + overflow)
                         j += 1
                     for line in lines:
                         print(line)
                     break
-        print(dashes)
+        print(border)
         print()
 
-    @options.register("o", retry=True, lock=True)
+    @options.register("o", "Options.", retry=True, lock=True, newline=True)
     def print_options(self, *opts, **kwargs):
-        """Options."""
         """Print what responses are allowed for an input function.
 
         If a `key` is provided, print_options will do the following:
             Retrieve options and descriptions from the function starting with `key` and ending in '_options', if defined.
 
             Check the cache in the options object for the options of the input function that uses `key`.
-        
-        The description for an option will be the docstring of its registered callback.
 
         Options are printed in the following order: 
             Options from defined `key` function
             Keyword options from options cache
             Argument options from options cache
             Argument options passed to `print_options`
+
+        Besides options defined from the `key` function, descriptions are taken from the `desc` keyword when an option's callback was registered.
         """
         print("Options:")
         opt_list = []
@@ -260,7 +268,7 @@ Unindented lines are printed as-is.
                         + opts)
         for opt, name in opts:
             if self.options.has_callback(name):
-                desc = self.options.get_callback(name).__doc__
+                desc = self.options.get_callback(name).desc
             else:
                 desc = ""
             opt_list.append((opt, desc))
@@ -272,7 +280,7 @@ Unindented lines are printed as-is.
     def __init__(self):
         self.options.demo = self
 
-    @options.register("setup", retry=True, newline=False)
+    @options.register("setup", retry=True)
     def setup_callback(self, response):
         print("Got: {}".format(response))
         print()
