@@ -15,7 +15,9 @@ from .exceptions import catch_exc
 
 
 class CodeDemo(Demo):
-    help_text = "CodeDemo improves Demo by introducing a feature called `commands`, which allows the user to select from a set of code snippets and view the result of it being executed."
+    """CodeDemo improves Demo by introducing a feature called `commands`, which allows the user to select from a set of code snippets and view the result of it being executed."""
+    
+    help_text = """CodeDemo improves Demo by introducing a feature called `commands`, which allows the user to select from a set of code snippets and view the result of it being executed."""
 
     setup_code = """\
 # Setup code here.

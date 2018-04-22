@@ -12,7 +12,9 @@ from .code_demo import CodeDemo
 
 
 class SandboxDemo(CodeDemo):
-    help_text = "SandboxDemo extends CodeDemo by providing a shell in which users can experiment with the context that has been set up by CodeDemo."
+    """SandboxDemo extends CodeDemo by providing a shell in which users can experiment with the context that has been set up by CodeDemo."""
+    
+    help_text = """SandboxDemo extends CodeDemo by providing a shell in which users can experiment with the context that has been set up by CodeDemo."""
 
     options = CodeDemo.options.copy()
 

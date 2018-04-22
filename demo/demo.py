@@ -15,6 +15,17 @@ from .exceptions import DemoRetry, DemoExit, DemoRestart, catch_exc
 
 
 class Demo(object):
+    """Demo provides a basic framework for interactive demonstrations in the command-line interface.
+
+Several key features are introduced:
+    `restart`, `retry`, and `exit`: the main control flow tools.
+    `run`, the main logic of a demo program.
+    `print_help`, a function that prints the help text.
+    `options`, a class object that you can use to:
+        Decorate an input function with the responses allowed.
+        Register a callback for some input response.
+    `print_options`, a function that prints what responses are allowed."""
+    
     help_text = """
 Demo provides a basic framework for interactive demonstrations in the command-line interface.
 
