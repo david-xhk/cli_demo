@@ -16,7 +16,7 @@ __all__ = ["DemoException", "DemoRestart", "DemoExit", "DemoRetry",
 class DemoException(Exception):
     """Base exception for any error raised in a Demo.
 
-    Initiating an instance of DemoException with some text will override the default text defined in the class.
+    Initializing an instance of DemoException with some text will override the default text defined in the class.
     
     Attributes:
         text (str): The text to print when an instance is caught.
