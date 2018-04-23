@@ -23,7 +23,7 @@ class DemoException(Exception):
     """
     text = None
     def __init__(self, text=None):
-        """Override the default class text if needed.
+        """Override the default class text if `text` is given.
 
         Args:
             text (str, optional): A custom error text.
