@@ -77,11 +77,9 @@ class CallbackNotLockError(OptionError):
 def catch_exc(*demo_exc):
     """Catch instances of `demo_exc` raised while running a function.
     
-    DemoException is the default if no subclasses of it are provided.
-    
-    Non-subclasses are ignored, unless a function or method is provided- as a shortcut, when a function is passed into catch_exc, the wrapped function is returned directly.
+    Non-subclasses of DemoException are ignored, unless a function or method is provided (as a shortcut, when a function is passed into catch_exc, the wrapped function is returned directly). DemoException is the default if no subclasses are provided.
 
-    In the function wrapper, the function is called at the start of a while loop. KeyboardInterrupt is caught and re-raised as DemoExit in an inner try clause, while an outer try clause catches any instance of `demo_exc` and prints its text if not blank. DemoExit causes the loop to break and return None, or else the loop restarts. 
+    Inside the function wrapper, the function is called at the start of a while loop. KeyboardInterrupt is caught and re-raised as DemoExit in an inner try clause, while an outer try clause catches any instance of `demo_exc` and prints its text if not blank. DemoExit causes the loop to break and return None, or else the loop restarts. 
 
     Non-instances of `demo_exc` will not be caught. They should typically be handled by a higher level and more general kind of catch_exc.
 
