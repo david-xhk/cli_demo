@@ -50,7 +50,7 @@ class DemoRetry(DemoException):
 class OptionError(DemoException):
     """Base exception for any error raised when an option is selected.
 
-    Instances of OptionError must be initiated with the name of the erroneous option, which is what the default format string is supposed to be formatted with.
+    Instances of OptionError must be initialized with the name of the erroneous option, which is what the default format string is supposed to be formatted with.
     
     Attributes:
         text (str): A format string for an option.
