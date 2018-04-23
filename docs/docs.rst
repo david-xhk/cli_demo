@@ -41,3 +41,5 @@
 .. automodule:: demo.exceptions
     :members:
     :member-order:
+    :special-members: __init__
+
