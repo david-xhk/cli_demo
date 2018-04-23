@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""This module contains Demo, a framework for interactive command line demonstrations, and some of its subclasses.
-
-For example::
-
-    # example here
-"""
+"""This module contains Demo, a framework for interactive command line demonstrations, and some of its extensions."""
 
 __author__ = 'Han Keong'
 __email__ = 'hk997@live.com'

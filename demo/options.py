@@ -10,6 +10,8 @@ import inspect
 from .exceptions import (DemoException, DemoRetry, CallbackError,
                          CallbackNotLockError, catch_exc)
 
+__all__ = ["DemoOptions"]
+
 
 class DemoOptions(object):
     def __init__(self):
