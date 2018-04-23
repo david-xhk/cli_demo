@@ -20,12 +20,14 @@ class DemoException(Exception):
     
     Attributes:
         text (str): The text to print when an instance is caught.
-
-    Args:
-        text (str, optional): A custom error text.
     """
     text = None
     def __init__(self, text=None):
+        """Override the default class text if needed.
+
+        Args:
+            text (str, optional): A custom error text.
+        """
         if text:
             self.text = text
 
@@ -52,11 +54,13 @@ class OptionError(DemoException):
     
     Attributes:
         text (str): A format string for an option.
-    
-    Args:
-        option (str): The option name.
     """
     def __init__(self, option):
+        """Format the class text with an option name.
+        
+        Args:
+            option (str): The option name.
+        """
         self.text = self.text.format(option)
 
 

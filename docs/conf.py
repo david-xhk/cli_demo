@@ -29,6 +29,9 @@ import demo.sandbox_demo
 
 # -- General configuration ---------------------------------------------
 
+# Include __init__ methods in class documentations
+autoclass_content = 'both'
+
 # If your documentation needs a minimal Sphinx version, state it here.
 #
 # needs_sphinx = '1.0'
