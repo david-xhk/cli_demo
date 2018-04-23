@@ -7,11 +7,11 @@ __email__ = 'hk997@live.com'
 __version__ = '0.0.1'
 
 from .options import DemoOptions
-from .base_demo import Demo
-from .code_demo import CodeDemo
-from .sandbox_demo import SandboxDemo
+from .demo import Demo
+from .code import CodeDemo
+from .sandbox import SandboxDemo
 
 __all__ = ["DemoOptions", "Demo", "CodeDemo", "SandboxDemo"]
 
-del options, base_demo, code_demo, sandbox_demo
+del options, demo, code, sandbox
 

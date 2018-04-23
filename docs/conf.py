@@ -23,9 +23,9 @@ sys.path.insert(0, os.path.abspath('..'))
 
 import demo.exceptions
 import demo.options
-import demo.base_demo
-import demo.code_demo
-import demo.sandbox_demo
+import demo.demo
+import demo.code
+import demo.sandbox
 
 # -- General configuration ---------------------------------------------
 
@@ -35,7 +35,8 @@ import demo.sandbox_demo
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 'sphinx.ext.napoleon', 'sphinx.ext.autosectionlabel']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 
+              'sphinx.ext.napoleon', 'sphinx.ext.autosectionlabel']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

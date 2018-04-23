@@ -3,26 +3,26 @@
 ***************
 
 ==================
- :mod:`demo.base_demo`
+ :mod:`demo.demo`
 ==================
 
-.. automodule:: demo.base_demo
+.. automodule:: demo.demo
     :members:
     :member-order:
 
-=======================
- :mod:`demo.code_demo`
-=======================
+==================
+ :mod:`demo.code`
+==================
 
-.. automodule:: demo.code_demo
+.. automodule:: demo.code
     :members:
     :member-order:
 
-==========================
- :mod:`demo.sandbox_demo`
-==========================
+=====================
+ :mod:`demo.sandbox`
+=====================
 
-.. automodule:: demo.sandbox_demo
+.. automodule:: demo.sandbox
     :members:
     :member-order:
 
