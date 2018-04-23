@@ -10,7 +10,7 @@ if sys.version_info < (3,3):
 
 import inspect
 import pprint
-from .demo import Demo
+from .base_demo import Demo
 from .exceptions import catch_exc
 
 

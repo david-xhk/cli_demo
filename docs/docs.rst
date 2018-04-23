@@ -3,10 +3,10 @@
 ***************
 
 ==================
- :mod:`demo.demo`
+ :mod:`demo.base_demo`
 ==================
 
-.. automodule:: demo.demo
+.. automodule:: demo.base_demo
     :members:
     :member-order:
 

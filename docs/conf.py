@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 import demo.exceptions
 import demo.options
-import demo.demo
+import demo.base_demo
 import demo.code_demo
 import demo.sandbox_demo
 
