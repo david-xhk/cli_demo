@@ -85,7 +85,10 @@ def catch_exc(*demo_exc):
     func = None
     demo_exc = list(demo_exc)
     for i in range(len(demo_exc)-1, -1, -1):
-        if not issubclass(demo_exc[i], DemoException):
+        try:
+            if not issubclass(demo_exc[i], DemoException):
+                demo_exc.pop(i)
+        except TypeError:
             obj = demo_exc.pop(i)
             if (inspect.isfunction(obj) or inspect.ismethod(obj)) and not func:
                 func = obj
