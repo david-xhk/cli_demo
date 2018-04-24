@@ -155,42 +155,44 @@ class DemoOptions(object):
             def restart(self):
                 # Restart demo
 
-            Registering with `option` as an input function key:
+            Registering with `option` as an input function key::
 
-            @options.register("setup"):
-            def setup_callback(self, response):
-                # Process response.
+                @options.register("setup"):
+                def setup_callback(self, response):
+                    # Process response.
 
             Setting newline to True:
+                ::
 
-            @options.register("h", "Help." newline=True):
-            def print_help(self):
-                print("This is the help text.")
-            
-            >>> Enter an input: h
+                @options.register("h", "Help." newline=True):
+                def print_help(self):
+                    print("This is the help text.")
                 
-            This is the help text.  # A gap is inserted beforehand.
-            ...
+                >>> Enter an input: h
+                        
+                This is the help text.  # A gap is inserted beforehand.
+                ...
 
             Setting retry to True:
+                ::
+    
+                @options.register("echo", retry=True):
+                def echo_response(self, response):
+                    print("Got:", response)
 
-            @options.register("echo", retry=True):
-            def echo_response(self, response):
-                print("Got:", response)
+                >>> Enter an input: hello
+                Got: hello
+                >>> Enter an input:  # The input function is called again.
 
-            >>> Enter an input: hello
-            Got: hello
-            >>> Enter an input:  # The input function is called again.
-
-            Setting lock to True:
-
-            @options.register("o", lock=True):
-            def print_options(self, key):
-                if key == "setup":
-                    # Print setup options
-                elif key == "echo":
-                    # Print echo options
-                ...
+            Setting lock to True::
+            
+                @options.register("o", lock=True):
+                def print_options(self, key):
+                    if key == "setup":
+                        # Print setup options
+                    elif key == "echo":
+                        # Print echo options
+                    ...
 
         Returns:
             register_decorator, which takes a function, creates a callback based on the arguments provided to `register` and stores it in self.callbacks, then returns the function unchanged.
@@ -285,17 +287,17 @@ class DemoOptions(object):
         This is to avoid mangling options between superclass and subclasses.
 
         Examples:
-            Making a copy of the superclass options:
+            Making a copy of the superclass options::
 
-            class DemoSubclass(Demo):
-                options = Demo.options.copy()
-                ...
+                class DemoSubclass(Demo):
+                    options = Demo.options.copy()
+                    ...
             
-            Creating a new instance of DemoOptions:
+            Creating a new instance of DemoOptions::
 
-            class NewDemo(Demo):
-                options = DemoOptions()
-                ...
+                class NewDemo(Demo):
+                    options = DemoOptions()
+                    ...
 
         Returns:
             DemoOptions: An instance of DemoOptions with a copy of self.cache and self.callbacks.
