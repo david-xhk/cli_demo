@@ -153,7 +153,7 @@ class DemoOptions(object):
             lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
 
         Examples:
-            Registering with `option` as an expected user input:
+            Registering with `option` as an expected user input::
             
                 @options.register("r", "Restart."):
                 def restart(self):
@@ -169,26 +169,26 @@ class DemoOptions(object):
 
                 ::
 
-                @options.register("h", "Help." newline=True):
-                def print_help(self):
-                    print("This is the help text.")
-                
-                >>> Enter an input: h
-                        
-                This is the help text.  # A gap is inserted beforehand.
-                ...
+                    @options.register("h", "Help." newline=True):
+                    def print_help(self):
+                        print("This is the help text.")
+                    
+                    >>> Enter an input: h
+                            
+                    This is the help text.  # A gap is inserted beforehand.
+                    ...
 
             Setting retry to True:
-            
-                ::
-    
-                @options.register("echo", retry=True):
-                def echo_response(self, response):
-                    print("Got:", response)
 
-                >>> Enter an input: hello
-                Got: hello
-                >>> Enter an input:  # The input function is called again.
+                ::
+        
+                    @options.register("echo", retry=True):
+                    def echo_response(self, response):
+                        print("Got:", response)
+
+                    >>> Enter an input: hello
+                    Got: hello
+                    >>> Enter an input:  # The input function is called again.
 
             Setting lock to True::
 
