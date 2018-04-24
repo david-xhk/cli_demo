@@ -157,13 +157,13 @@ class DemoOptions(object):
             
                 @options.register("r", "Restart."):
                 def restart(self):
-                    # Restart demo
+                    ...  # Restart demo
 
             Registering with `option` as an input function key::
 
                 @options.register("setup"):
                 def setup_callback(self, response):
-                    # Process response.
+                    ...  # Process response.
 
             Setting newline to True:
 
@@ -174,8 +174,8 @@ class DemoOptions(object):
                     print("This is the help text.")
                     
             >>> Enter an input: h
-                    
-            This is the help text.  # A gap is inserted beforehand.
+              # A gap is inserted.
+            This is the help text.  
             ...
 
             Setting retry to True:
@@ -195,10 +195,9 @@ class DemoOptions(object):
                 @options.register("o", lock=True):
                 def print_options(self, key):
                     if key == "setup":
-                        # Print setup options
+                        ...  # Print setup options
                     elif key == "echo":
-                        # Print echo options
-                    ...
+                        ...  # Print echo options
 
         Returns:
             register_decorator, which takes a function, creates a callback based on the arguments provided to `register` and stores it in self.callbacks, then returns the function unchanged.
