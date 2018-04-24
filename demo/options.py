@@ -103,7 +103,7 @@ class DemoOptions(object):
             if isinstance(kw, str) and not kw.isdigit():
                 keyword_options[kw] = opt
             else:
-                options[0].insert(int(kw), opt)
+                options.insert(int(kw), opt)
     
     def __call__(self, *opts, **kw_opts):
         retry = kw_opts.pop("retry", "Please try again.")
@@ -116,16 +116,16 @@ class DemoOptions(object):
                 response = input_func(demo, *args, **kwargs)
                 opts, kw_opts = demo.options[key or input_func]
                 if response in opts or response in kw_opts:
-                    callback_key = kw_opts.get(response) or response
-                    if not demo.options.has_callback(callback_name):
+                    option = kw_opts.get(response) or response
+                    if not demo.options.has_callback(option):
                         raise CallbackError(response)
-                    elif demo.options.is_lock(callback_name):
+                    elif demo.options.is_lock(option):
                         try:
-                            return demo.options.call(callback_name, key=key)
+                            return demo.options.call(option, key=key)
                         except TypeError as exc:
                             raise CallbackNotLockError(response)
                     else:
-                        return demo.options.call(callback_name)
+                        return demo.options.call(option)
                 elif key:
                     return demo.options.call(key, response=response)
                 else:
@@ -294,8 +294,8 @@ class DemoOptions(object):
             DemoOptions: An instance of DemoOptions with a copy of self.cache and self.callbacks.
         """
         new_options = DemoOptions()
-        for option_name, [opts, kw_opts] in self.cache.items():
-            new_options[option_name] = [opts, kw_opts]
+        for key_id, [opts, kw_opts] in self.cache.items():
+            new_options.cache[key_id] = [list(opts), dict(kw_opts)]
         new_options.callbacks.update(self.callbacks)
         return new_options
 

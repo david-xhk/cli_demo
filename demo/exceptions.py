@@ -100,7 +100,9 @@ def catch_exc(*demo_exc):
             obj = demo_exc.pop(i)
             if (inspect.isfunction(obj) or inspect.ismethod(obj)) and not func:
                 func = obj
-    if not demo_exc:
+    if demo_exc:
+        demo_exc = tuple(demo_exc)
+    else:
         demo_exc = DemoException
     def catch_exc_decorator(func):
         @functools.wraps(func)
