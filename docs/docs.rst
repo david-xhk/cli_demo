@@ -34,6 +34,7 @@
     :members:
     :member-order:
     :special-members:
+    :exclude-members: __weakref__
 
 ========================
  :mod:`demo.exceptions`
