@@ -1,65 +1,122 @@
 # -*- coding: utf-8 -*-
 
-"""This module contains DemoOptions, used for the options object in Demo."""
+"""This module contains DemoOptions, the `options` delegate for Demo."""
 
 # For py2.7 compatibility
 from __future__ import print_function
 
 import functools
 import inspect
-from .exceptions import (DemoException, DemoRetry, CallbackError,
-                         CallbackNotLockError, catch_exc)
+from .exceptions import (DemoException, DemoRetry, OptionsNotFoundError,
+                         CallbackError, CallbackNotLockError, catch_exc)
 
 __all__ = ["DemoOptions"]
 
 
 class DemoOptions(object):
+    """Designate options for input functions and forward their registered callbacks dynamically."""
+
     def __init__(self):
         self.demo = None
         self.cache = {}
         self.callbacks = {}
 
     @staticmethod
-    def get_option_name(obj):
-        if inspect.isfunction(obj) or inspect.ismethod(obj):
-            return obj.__name__ + str(id(obj))
-        else:
-            return str(obj)
+    def get_id(key):
+        """Create a unique id for `key`.
+        
+        Args:
+            key: A key for a set of options and keyword options.
 
-    def __contains__(self, option_name):
-        return self.get_option_name(option_name) in self.cache
+        Returns:
+            int: The id of `key`.
+        """
+        return id(key)
 
-    def __getitem__(self, option_name):
-        return self.cache[self.get_option_name(option_name)]
+    def __contains__(self, key):
+        """Check if there are any options set under `key`.
 
-    def __setitem__(self, option_name, opts):
-        option_name = self.get_option_name(option_name)
-        if option_name not in self.cache:
-            self.cache[option_name] = [None, None]
-        for i, expected_type in enumerate([list, dict]):
-            self.cache[option_name][i] = expected_type(opts[i])
+        Args:
+            key: A key for a set of options and keyword options.
 
-    def insert(self, option_name, kw, opt, **kw_opts):
-        option_name = self.get_option_name(option_name)
+        Returns:
+            ``True`` if the id of `key` exists in self.cache, ``False`` otherwise.
+        """
+        return self.get_id(key) in self.cache
+
+    def __getitem__(self, key):
+        """Get the options set under `key`.
+
+        Args:
+            key: A key for a set of options and keyword options.
+
+        Returns:
+            list[list, dict]: The options and keyword options set under `key`.
+
+        Raises:
+            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
+        """
+        try:
+            return self.cache[self.get_id(key)]
+        except KeyError:
+            raise OptionsNotFoundError(key)
+
+    def __setitem__(self, key, opts):
+        """Set options under `key`.
+
+        Args:
+            key: A key for a set of options and keyword options.
+            opts: A list or tuple of argument options and/or/without a dict of keyword options.
+
+        Note:
+            This will override the previously set options and/or keyword options.
+        """
+        key_id = self.get_id(key)
+        if key_id not in self.cache:
+            self.cache[key_id] = [[], {}]
+        if isinstance(opts, (list, tuple)):
+            if (len(opts) == 2
+                    and isinstance(opts[0], (list, tuple))
+                    and isinstance(opts[1], dict)):
+                self.cache[key_id] = [list(opts[0]), dict(opts[1])]
+            else:
+                self.cache[key_id][0] = list(opts)
+        elif isinstance(opts, dict):
+            self.cache[key_id][1] = dict(opts)
+
+    def insert(self, key, kw, opt, **kw_opts):
+        """Insert options under `key`.
+
+        `kw` and `opt` are merged with `kw_opts`, and if a key is an int or a digit, it is treated as an argument option index to insert at, or else it is treated as a keyword option to update.
+
+        Args:
+            key: A key for a set of options and keyword options.
+            kw: An index for argument options or a keyword option.
+            opt (str): The option to insert.
+            **kw_opts: More kw and opt pairs.
+
+        Raises:
+            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
+        """
+        options, keyword_options = self[key]
         for kw, opt in dict(kw_opts, **{kw:opt}).items():
             if isinstance(kw, str) and not kw.isdigit():
-                self.cache[option_name][1][kw] = opt
+                keyword_options[kw] = opt
             else:
-                self.cache[option_name][0].insert(int(kw), opt)
+                options[0].insert(int(kw), opt)
     
     def __call__(self, *opts, **kw_opts):
         retry = kw_opts.pop("retry", "Please try again.")
         key = kw_opts.pop("key", None)
         def options_decorator(input_func):
-            option_name = key or input_func
-            self[option_name] = [opts, kw_opts]
+            self[key or input_func] = [opts, kw_opts]
             @functools.wraps(input_func)
             @catch_exc(DemoRetry)
             def inner(demo, *args, **kwargs):
                 response = input_func(demo, *args, **kwargs)
-                opts, kw_opts = demo.options[option_name]
+                opts, kw_opts = demo.options[key or input_func]
                 if response in opts or response in kw_opts:
-                    callback_name = kw_opts.get(response) or response
+                    callback_key = kw_opts.get(response) or response
                     if not demo.options.has_callback(callback_name):
                         raise CallbackError(response)
                     elif demo.options.is_lock(callback_name):
@@ -76,10 +133,63 @@ class DemoOptions(object):
             return inner
         return options_decorator
 
-    def register(self, callback_name, desc="", **kwargs):
-        newline = kwargs.pop("newline", False)
-        retry = kwargs.pop("retry", False)
-        lock = kwargs.pop("lock", False)
+    def register(self, option, desc="", 
+                 newline=False, retry=False, lock=False):
+        """Register a callback under an option.
+        
+        An option can be an expected user response or a key designated to an input function- if it is the latter, the callback must accept a `response` argument- the user's response to that input function.
+
+        Meanwhile, if a callback is registered as a `lock`, it must accept a `key` argument- the key of the input function that triggered the callback.
+
+        Args:
+            option (str): The option to register a callback under.
+            desc (str, optional): A description of the option, if needed.
+            newline (bool): Whether a new line should be printed before the callback is executed.
+            retry (bool): Whether an input function should be called again once the callback has returned.
+            lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
+
+        Examples:
+            Registering with `option` as an expected user input::
+                @options.register("r", "Restart."):
+                def restart(self):
+                    # Restart demo
+
+            Registering with `option` as an input function key::
+                @options.register("setup"):
+                def setup_callback(self, response):
+                    # Process response.
+
+            Setting newline to True::
+                @options.register("h", "Help." newline=True):
+                def print_help(self):
+                    print("This is the help text.")
+                
+                >>> Enter an input: h
+                
+                This is the help text.  # A gap is inserted beforehand.
+                ...
+
+            Setting retry to True::
+                @options.register("echo", retry=True):
+                def echo_response(self, response):
+                    print("Got:", response)
+
+                >>> Enter an input: hello
+                Got: hello
+                >>> Enter an input:  # The input function is called again.
+
+            Setting lock to True::
+                @options.register("o", lock=True):
+                def print_options(self, key):
+                    if key == "setup":
+                        # Print setup options
+                    elif key == "echo":
+                        # Print echo options
+                    ...
+
+        Returns:
+            register_decorator, which takes a function, creates a callback based on the arguments provided to `register` and stores it in self.callbacks, then returns the function unchanged.
+        """
         def register_decorator(func):
             @functools.wraps(func)
             def callback(demo, *args, **kwargs):
@@ -95,30 +205,94 @@ class DemoOptions(object):
                         demo.retry()
             callback.lock = lock
             callback.desc = desc
-            self.callbacks[callback_name] = callback
+            self.callbacks[option] = callback
             return func
         return register_decorator
 
-    def has_callback(self, callback_name):
-        return callback_name in self.callbacks
+    def has_callback(self, option):
+        """Check if an option is registered.
+        
+        Args:
+            option (str): The option used to register a callback.
+
+        Returns:
+            ``True`` if `option` exists in self.callbacks, ``False`` otherwise.
+        """
+        return option in self.callbacks
     
-    def get_callback(self, callback_name):
-        if not self.has_callback(callback_name):
-            raise CallbackError(callback_name)
-        else:
-            return self.callbacks[callback_name]
+    def get_callback(self, option):
+        """Get the callback registered under an option.
 
-    def is_lock(self, callback_name):
-        return self.get_callback(callback_name).lock is True
+        Args:
+            option (str): The option used to register a callback.
 
-    def call(self, callback_name, *args, **kwargs):
+        Returns:
+            The callback function that was registered under `option`.
+
+        Raises:
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
+        try:
+            return self.callbacks[option]
+        except KeyError:
+            raise CallbackError(option)
+
+    def is_lock(self, option):
+        """Check if the callback registered under an option is a lock.
+
+        Args:
+            option (str): The option used to register a callback.
+
+        Returns:
+            ``True`` if the callback registered under `option` is a lock, ``False`` otherwise.
+
+        Raises:
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
+        return self.get_callback(option).lock is True
+
+    def call(self, option, *args, **kwargs):
+        """Call the callback registered under an option.
+
+        Args:
+            option (str): The option used to register a callback.
+            *args: The arguments to pass to the callback.
+            **kwargs: The keyword arguments to pass to the callback.
+
+        Returns:
+            The return value of the callback.
+
+        Raises:
+            DemoException: If self.demo is not set yet.
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
         if not self.demo:
             raise DemoException("Demo not set yet.")
         else:
-            callback = self.get_callback(callback_name)
-            return callback(self.demo, *args, **kwargs)
+            return self.get_callback(option)(
+                self.demo, *args, **kwargs)
 
     def copy(self):
+        """Initialize a new copy of DemoOptions.
+        
+        When inheriting options from a Demo superclass, either a copy should be made by calling this method, or a new DemoOptions instance should be created. 
+
+        This is to avoid mangling options between superclass and subclasses.
+
+        Examples:
+            Making a copy of the superclass options::
+                class DemoSubclass(Demo):
+                    options = Demo.options.copy()
+                    ...
+            
+            Creating a new instance of DemoOptions::
+                class NewDemo(Demo):
+                    options = DemoOptions()
+                    ...
+
+        Returns:
+            DemoOptions: An instance of DemoOptions with a copy of self.cache and self.callbacks.
+        """
         new_options = DemoOptions()
         for option_name, [opts, kw_opts] in self.cache.items():
             new_options[option_name] = [opts, kw_opts]

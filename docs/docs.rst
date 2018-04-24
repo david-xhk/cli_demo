@@ -33,6 +33,7 @@
 .. automodule:: demo.options
     :members:
     :member-order:
+    :special-members:
 
 ========================
  :mod:`demo.exceptions`

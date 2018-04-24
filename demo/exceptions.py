@@ -9,8 +9,8 @@ import functools
 import inspect
 
 __all__ = ["DemoException", "DemoRestart", "DemoExit", "DemoRetry",
-           "OptionError", "CallbackError", "CallbackNotLockError",
-           "catch_exc"]
+           "OptionError", "OptionsNotFoundError", "CallbackError",
+           "CallbackNotLockError", "catch_exc"]
 
 
 class DemoException(Exception):
@@ -63,6 +63,10 @@ class OptionError(DemoException):
         """
         self.text = self.text.format(option)
 
+
+class OptionsNotFoundError(OptionError):
+    """Raised when a key does not exist in the options cache."""
+    text = "'{}' does not exist in the cache."
 
 class CallbackError(OptionError):
     """Raised when an option has no callback."""
