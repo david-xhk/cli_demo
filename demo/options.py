@@ -167,28 +167,28 @@ class DemoOptions(object):
 
             Setting newline to True:
 
-                ::
+            ::
 
-                    @options.register("h", "Help." newline=True):
-                    def print_help(self):
-                        print("This is the help text.")
+                @options.register("h", "Help." newline=True):
+                def print_help(self):
+                    print("This is the help text.")
                     
-                >>> Enter an input: h
-                        
-                This is the help text.  # A gap is inserted beforehand.
-                ...
+            >>> Enter an input: h
+                    
+            This is the help text.  # A gap is inserted beforehand.
+            ...
 
             Setting retry to True:
 
-                ::
-        
-                    @options.register("echo", retry=True):
-                    def echo_response(self, response):
-                        print("Got:", response)
+            ::
+    
+                @options.register("echo", retry=True):
+                def echo_response(self, response):
+                    print("Got:", response)
 
-                >>> Enter an input: hello
-                Got: hello
-                >>> Enter an input:  # The input function is called again.
+            >>> Enter an input: hello
+            Got: hello
+            >>> Enter an input:  # The input function is called again.
 
             Setting lock to True::
 
