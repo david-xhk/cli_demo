@@ -14,7 +14,13 @@ __all__ = ["DemoOptions"]
 
 
 class DemoOptions(object):
-    """Designate options for input functions and forward their registered callbacks dynamically."""
+    """Designate options for input functions and forward their registered callbacks dynamically.
+
+    Attributes:
+        demo (Demo): The Demo instance that a DemoOptions instance exists in.
+        cache (dict): A cache of key ids and options and keyword options seen.
+        callbacks (dict): A registry of callbacks registered under options.
+    """
 
     def __init__(self):
         self.demo = None
@@ -185,7 +191,7 @@ class DemoOptions(object):
                 >>> Enter an input:  # The input function is called again.
 
             Setting lock to True::
-            
+
                 @options.register("o", lock=True):
                 def print_options(self, key):
                     if key == "setup":

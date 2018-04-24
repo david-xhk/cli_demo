@@ -26,11 +26,11 @@
     :members:
     :member-order:
 
-=====================
- :mod:`demo.options`
-=====================
+===================================
+ :class:`demo.options.DemoOptions`
+===================================
 
-.. automodule:: demo.options
+.. autoclass:: demo.options.DemoOptions
     :members:
     :member-order:
     :special-members:
