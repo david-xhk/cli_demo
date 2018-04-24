@@ -2,35 +2,35 @@
  Documentation
 ***************
 
-====================
- :class:`~demo.Demo`
-====================
+=====================
+ Demo
+=====================
 
 .. autoclass:: demo.Demo
     :members:
     :member-order: bysource
 
-========================
- :class:`~demo.CodeDemo`
-========================
+=========================
+ CodeDemo
+=========================
 
 .. autoclass:: demo.CodeDemo
     :members:
     :member-order: bysource
     :show-inheritance:
 
-===========================
- :class:`~demo.SandboxDemo`
-===========================
+============================
+ SandboxDemo
+============================
 
 .. autoclass:: demo.SandboxDemo
     :members:
     :member-order: bysource
     :show-inheritance:
 
-===========================
- :class:`~demo.DemoOptions`
-===========================
+============================
+ DemoOptions
+============================
 
 .. autoclass:: demo.DemoOptions
     :members:
@@ -39,7 +39,7 @@
     :exclude-members: __weakref__
 
 ========================
- :mod:`demo.exceptions`
+ demo.exceptions
 ========================
 
 .. automodule:: demo.exceptions
