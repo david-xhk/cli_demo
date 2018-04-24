@@ -8,7 +8,7 @@
 
 .. automodule:: demo.demo
     :members:
-    :member-order:
+    :member-order: bysource
 
 ==================
  :mod:`demo.code`
@@ -16,7 +16,8 @@
 
 .. automodule:: demo.code
     :members:
-    :member-order:
+    :member-order: bysource
+    :show-inheritance:
 
 =====================
  :mod:`demo.sandbox`
@@ -24,7 +25,8 @@
 
 .. automodule:: demo.sandbox
     :members:
-    :member-order:
+    :member-order: bysource
+    :show-inheritance:
 
 ===================================
  :class:`demo.options.DemoOptions`
@@ -32,7 +34,7 @@
 
 .. autoclass:: demo.options.DemoOptions
     :members:
-    :member-order:
+    :member-order: bysource
     :special-members:
     :exclude-members: __weakref__
 
@@ -42,6 +44,6 @@
 
 .. automodule:: demo.exceptions
     :members:
-    :member-order:
+    :member-order: bysource
     :special-members: __init__
 
