@@ -173,8 +173,7 @@ class DemoOptions(object):
                 def print_help(self):
                     print("This is the help text.")
                     
-            >>> Enter an input: h
-            \n
+            >>> Enter an input: h\n
             This is the help text.  # A gap is inserted beforehand.
             ...
 
