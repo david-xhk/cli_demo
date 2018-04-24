@@ -3,7 +3,7 @@
 ***************
 
 ====================
- :class:`demo.Demo`
+ :class:`~demo.Demo`
 ====================
 
 .. autoclass:: demo.Demo
@@ -11,7 +11,7 @@
     :member-order: bysource
 
 ========================
- :class:`demo.CodeDemo`
+ :class:`~demo.CodeDemo`
 ========================
 
 .. autoclass:: demo.CodeDemo
@@ -20,7 +20,7 @@
     :show-inheritance:
 
 ===========================
- :class:`demo.SandboxDemo`
+ :class:`~demo.SandboxDemo`
 ===========================
 
 .. autoclass:: demo.SandboxDemo
@@ -29,7 +29,7 @@
     :show-inheritance:
 
 ===========================
- :class:`demo.DemoOptions`
+ :class:`~demo.DemoOptions`
 ===========================
 
 .. autoclass:: demo.DemoOptions
