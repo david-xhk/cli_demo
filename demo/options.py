@@ -147,13 +147,13 @@ class DemoOptions(object):
 
         Args:
             option (str): The option to register a callback under.
-            desc (str, optional): A description of the option, if needed.
+            desc (str, optional): A description of the option, if necessary.
             newline (bool): Whether a new line should be printed before the callback is executed.
             retry (bool): Whether an input function should be called again once the callback has returned.
             lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
 
         Examples:
-            Registering with `option` as an expected user input::
+            Registering with `option` as an expected user response::
             
                 @options.register("r", "Restart."):
                 def restart(self):
@@ -280,7 +280,7 @@ class DemoOptions(object):
             The return value of the callback.
 
         Raises:
-            DemoException: If self.demo is not set yet.
+            DemoException: If self.demo is not set.
             CallbackError: If `option` does not exist in self.callbacks. 
         """
         if not self.demo:
