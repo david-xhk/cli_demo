@@ -141,7 +141,7 @@ class DemoOptions(object):
                  newline=False, retry=False, lock=False):
         """Register a callback under an option.
         
-        An option can be an expected user response or a key designated to an input function- if it is the latter, the callback must accept a `response` argument- the user's response to that input function.
+        An option can be an expected user response or a key designated to an input function. If it is the latter, the callback must accept a `response` argument- the user's response to that input function.
 
         Meanwhile, if a callback is registered as a `lock`, it must accept a `key` argument- the key of the input function that triggered the callback.
 
