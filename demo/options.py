@@ -155,9 +155,9 @@ class DemoOptions(object):
         Examples:
             Registering with `option` as an expected user input:
             
-            @options.register("r", "Restart."):
-            def restart(self):
-                # Restart demo
+                @options.register("r", "Restart."):
+                def restart(self):
+                    # Restart demo
 
             Registering with `option` as an input function key::
 
@@ -166,6 +166,7 @@ class DemoOptions(object):
                     # Process response.
 
             Setting newline to True:
+
                 ::
 
                 @options.register("h", "Help." newline=True):
@@ -178,6 +179,7 @@ class DemoOptions(object):
                 ...
 
             Setting retry to True:
+            
                 ::
     
                 @options.register("echo", retry=True):

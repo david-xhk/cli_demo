@@ -10,7 +10,7 @@
  Demo
 ======
 
-.. autoclass:: demo.Demo
+.. autoclass:: demo.demo.Demo
     :members:
     :member-order: bysource
 
@@ -18,7 +18,7 @@
  CodeDemo
 ==========
 
-.. autoclass:: demo.CodeDemo
+.. autoclass:: demo.code.CodeDemo
     :members:
     :member-order: bysource
     :show-inheritance:
@@ -27,7 +27,7 @@
  SandboxDemo
 =============
 
-.. autoclass:: demo.SandboxDemo
+.. autoclass:: demo.sandbox.SandboxDemo
     :members:
     :member-order: bysource
     :show-inheritance:
@@ -36,7 +36,7 @@
  DemoOptions
 =============
 
-.. autoclass:: demo.DemoOptions
+.. autoclass:: demo.options.DemoOptions
     :members:
     :member-order: bysource
     :special-members:
