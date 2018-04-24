@@ -173,10 +173,10 @@ class DemoOptions(object):
                     def print_help(self):
                         print("This is the help text.")
                     
-                    >>> Enter an input: h
-                            
-                    This is the help text.  # A gap is inserted beforehand.
-                    ...
+                >>> Enter an input: h
+                        
+                This is the help text.  # A gap is inserted beforehand.
+                ...
 
             Setting retry to True:
 
@@ -186,9 +186,9 @@ class DemoOptions(object):
                     def echo_response(self, response):
                         print("Got:", response)
 
-                    >>> Enter an input: hello
-                    Got: hello
-                    >>> Enter an input:  # The input function is called again.
+                >>> Enter an input: hello
+                Got: hello
+                >>> Enter an input:  # The input function is called again.
 
             Setting lock to True::
 
