@@ -14,17 +14,17 @@
 ------
  Demo
 ------
-:class:`~demo.demo.Demo` information here.
+:class:`~demo.Demo` information here.
 
 ----------
  CodeDemo
 ----------
-:class:`~demo.code.CodeDemo` information here.
+:class:`~demo.CodeDemo` information here.
 
 -------------
  SandboxDemo
 -------------
-:class:`~demo.sandbox.SandboxDemo` information here.
+:class:`~demo.SandboxDemo` information here.
 
 =========
  Credits
