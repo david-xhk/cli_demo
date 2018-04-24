@@ -10,8 +10,6 @@ import inspect
 from .exceptions import (DemoException, DemoRetry, OptionsNotFoundError,
                          CallbackError, CallbackNotLockError, catch_exc)
 
-__all__ = ["DemoOptions"]
-
 
 class DemoOptions(object):
     """Designate options for input functions and forward their registered callbacks dynamically.

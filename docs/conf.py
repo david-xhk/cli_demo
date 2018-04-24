@@ -21,11 +21,8 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
+import demo
 import demo.exceptions
-import demo.options
-import demo.demo
-import demo.code
-import demo.sandbox
 
 # -- General configuration ---------------------------------------------
 

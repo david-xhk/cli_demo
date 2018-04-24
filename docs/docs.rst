@@ -2,37 +2,37 @@
  Documentation
 ***************
 
-==================
- :mod:`demo.demo`
-==================
+====================
+ :class:`demo.Demo`
+====================
 
-.. automodule:: demo.demo
+.. autoclass:: demo.Demo
     :members:
     :member-order: bysource
 
-==================
- :mod:`demo.code`
-==================
+========================
+ :class:`demo.CodeDemo`
+========================
 
-.. automodule:: demo.code
-    :members:
-    :member-order: bysource
-    :show-inheritance:
-
-=====================
- :mod:`demo.sandbox`
-=====================
-
-.. automodule:: demo.sandbox
+.. autoclass:: demo.CodeDemo
     :members:
     :member-order: bysource
     :show-inheritance:
 
-===================================
- :class:`demo.options.DemoOptions`
-===================================
+===========================
+ :class:`demo.SandboxDemo`
+===========================
 
-.. autoclass:: demo.options.DemoOptions
+.. autoclass:: demo.SandboxDemo
+    :members:
+    :member-order: bysource
+    :show-inheritance:
+
+===========================
+ :class:`demo.DemoOptions`
+===========================
+
+.. autoclass:: demo.DemoOptions
     :members:
     :member-order: bysource
     :special-members:
