@@ -172,6 +172,7 @@ class DemoOptions(object):
                 @options.register("h", "Help." newline=True):
                 def print_help(self):
                     print("This is the help text.")
+                    ...  # Print the help text
             
             ::
 
@@ -187,10 +188,12 @@ class DemoOptions(object):
                 @options.register("echo", retry=True):
                 def echo_response(self, response):
                     print("Got:", response)
+            
+            ::
 
-            >>> Enter an input: hello
-            Got: hello
-            >>> Enter an input:  # The input function is called again.
+                >>> Enter an input: hello
+                Got: hello
+                >>> Enter an input:  # The input function is called again.
 
             Setting lock to True::
 
