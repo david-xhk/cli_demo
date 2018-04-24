@@ -172,10 +172,13 @@ class DemoOptions(object):
                 @options.register("h", "Help." newline=True):
                 def print_help(self):
                     print("This is the help text.")
-                    
-            >>> Enter an input: h\n
-            This is the help text.  # A gap is inserted beforehand.
-            ...
+            
+            ::
+
+                >>> Enter an input: h
+
+                This is the help text.  # A gap is inserted beforehand.
+                ...
 
             Setting retry to True:
 
