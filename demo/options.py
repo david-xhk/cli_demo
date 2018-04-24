@@ -174,8 +174,8 @@ class DemoOptions(object):
                     print("This is the help text.")
                     
             >>> Enter an input: h
-              # A gap is inserted.
-            This is the help text.  
+            \n
+            This is the help text.  # A gap is inserted beforehand.
             ...
 
             Setting retry to True:
