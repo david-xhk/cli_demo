@@ -13,8 +13,8 @@ from .exceptions import (DemoException, DemoRetry, KeyNotFoundError,
 
 
 class Option(object):
-    __slots__ = ["name", "desc", "_callback", "newline",
-        "retry", "lock", "args", "kwargs"]
+    __slots__ = ["name", "desc", "_callback",
+        "newline", "retry", "lock", "args", "kwargs"]
 
     def __init__(self, **kwargs):
         for attr in ["name", "desc", "callback", 
@@ -46,9 +46,13 @@ class Option(object):
             self._callback = callback
         
     def copy(self):
-        new_option = Option(name=str(self.name), desc=str(self.desc), 
-            newline=bool(self.newline), retry=bool(self.retry), 
-            lock=bool(self.lock), args=tuple(self.args), 
+        new_option = Option(
+            name=str(self.name), 
+            desc=str(self.desc), 
+            newline=bool(self.newline), 
+            retry=bool(self.retry), 
+            lock=bool(self.lock), 
+            args=tuple(self.args), 
             kwargs=dict(self.kwargs))
         if self._callback:
             new_option.callback = self._callback.inner
@@ -122,58 +126,6 @@ class DemoOptions(object):
 
         Returns:
             register_decorator: A decorator which takes a function, uses it to set the callback for the option, and returns the original function.
-        
-        Examples:
-            Registering with an expected user response::
-            
-                @options.register("r", "Restart."):
-                def restart(self):
-                    ...  # Restart demo
-
-            Registering with an input function key::
-
-                @options.register("setup"):
-                def setup_callback(self, response):
-                    ...  # Process response.
-
-            Setting newline to True:
-
-            ::
-
-                @options.register("h", "Help." newline=True):
-                def print_help(self):
-                    print("This is the help text.")
-                    ...  # Print the help text
-            
-            ::
-
-                >>> Enter an input: h
-
-                This is the help text.  # A gap is inserted beforehand.
-                ...
-
-            Setting retry to True:
-
-            ::
-    
-                @options.register("echo", retry=True):
-                def echo_response(self, response):
-                    print("Got:", response)
-            
-            ::
-
-                >>> Enter an input: hello
-                Got: hello
-                >>> Enter an input:  # The input function is called again.
-
-            Setting lock to True::
-
-                @options.register("o", lock=True):
-                def print_options(self, key):
-                    if key == "setup":
-                        ...  # Print setup options
-                    elif key == "echo":
-                        ...  # Print echo options
         """
         self.registry[option] = Option(
             name=option, desc=desc, newline=newline, 
