@@ -290,7 +290,7 @@ class DemoOptions(object):
             raise CallbackError(option)
 
     def is_lock(self, option):
-        """Check if a callback is a lock.
+        """Check if an option was registered as a lock.
 
         Args:
             option (str): The option used to register a callback.
@@ -304,7 +304,7 @@ class DemoOptions(object):
         return self[option].lock is True
 
     def get_desc(self, option):
-        """Get the `desc` attribute of a callback.
+        """Get the description of an option.
 
         Args:
             option (str): The option used to register a callback.
@@ -318,7 +318,7 @@ class DemoOptions(object):
         return self[option].desc
 
     def set_desc(self, option, desc=""):
-        """Set the `desc` attribute of a callback.
+        """Set the description of an option.
 
         Args:
             option (str): The option used to register a callback.
@@ -330,7 +330,7 @@ class DemoOptions(object):
         self[option].desc = desc
 
     def get_args(self, option):
-        """Get the `args` attribute of a callback.
+        """Get the default arguments for an option's callback.
 
         Args:
             option (str): The option used to register a callback.
@@ -344,7 +344,7 @@ class DemoOptions(object):
         return self[option].args
 
     def set_args(self, option, *args):
-        """Set the `args` attribute of a callback.
+        """Set the default arguments for an option's callback.
 
         Args:
             option (str): The option used to register a callback.
@@ -356,7 +356,7 @@ class DemoOptions(object):
         self[option].args = args
 
     def get_kwargs(self, option):
-        """Get the `kwargs` attribute of a callback.
+        """Get the default keyword arguments for an option's callback.
 
         Args:
             option (str): The option used to register a callback.
@@ -370,7 +370,7 @@ class DemoOptions(object):
         return self[option].kwargs
 
     def set_kwargs(self, option, **kwargs):
-        """Set the `kwargs` attribute of a callback.
+        """Set the default keyword arguments for an option's callback.
 
         Args:
             option (str): The option used to register a callback.
@@ -384,21 +384,19 @@ class DemoOptions(object):
     def copy(self):
         """Initialize a new copy of DemoOptions.
         
-        When inheriting options from a Demo superclass, either a copy should be made by calling this method, or a new DemoOptions instance should be created. 
-
-        This is to avoid mangling options between superclass and subclasses.
+        When inheriting options from a Demo superclass, either a new DemoOptions instance should be created, or a copy should be made by calling this method. This is to avoid mangling options between superclass and subclasses.
 
         Examples:
-            Making a copy of the superclass options::
-
-                class DemoSubclass(Demo):
-                    options = Demo.options.copy()
-                    ...
-            
             Creating a new instance of DemoOptions::
 
                 class NewDemo(Demo):
                     options = DemoOptions()
+                    ...
+
+            Making a copy of the superclass options::
+
+                class DemoSubclass(Demo):
+                    options = Demo.options.copy()
                     ...
 
         Returns:
