@@ -79,12 +79,12 @@ Several key features are introduced:
         The following attributes are derived from `help_options`.
         
         Attributes:
-            `symbols` (list): A list of symbols for each level of indentation.
-            `max_width`: The maximum width for a line printed.
-            `indent`: The indentation of the text printed.
-            `border`: The character used for the border of the help text.
-            `title`: The character used for the border of the help title.
-            `subtitle`: The character used for the border of the Demo subtitle.
+            symbols (list): A list of symbols for each level of indentation.
+            max_width: The maximum width for a line printed.
+            indent: The indentation of the text printed.
+            border: The character used for the border of the help text.
+            title: The character used for the border of the help title.
+            subtitle: The character used for the border of the Demo subtitle.
         """
         help_options = self.help_options
         symbols = list(enumerate(help_options["symbols"]))
