@@ -36,15 +36,6 @@ Several key features are introduced:
         Register a callback for some input response.
     `print_options`, a function that prints what responses are allowed."""
 
-    help_options = {
-        "symbols" : [" ", "●", "○", "▸", "▹"],
-        "max_width" : 60,
-        "indent" : 4,
-        "border" : "~",
-        "title" : "=",
-        "subtitle" : "-"
-    }
-
     setup_prompt = "Select an option, or type something random: "
 
     options = DemoOptions()
@@ -68,16 +59,14 @@ Several key features are introduced:
     @classmethod
     def format_help(cls):
         """Format the class help text with whitespace and a title."""
-        return """{title}\n{line}\n\n{text}\n\n""".format(
-            title=cls.__name__, text=cls.help_text.strip(),
-            line=cls.dashes(cls.help_options["subtitle"], len(cls.__name__)))
+        return 
 
     @options.register("h", "Help.", retry=True, newline=True)
-    def print_help(self):
+    def print_help(self, symbols=[" ", "●", "○", "▸", "▹"], width=60, indent=4,
+                   border="~", title="=", subtitle="-", include=True):
         """Format and print the help text.
         
-        The following attributes are derived from :attr:`~Demo.help_options`:
-        
+        The help text for all superclasses will be printed
         Attributes:
             symbols (list): A list of symbols for each level of indentation.
             max_width: The maximum width for a line printed.
@@ -85,20 +74,22 @@ Several key features are introduced:
             border: The character used for the border of the help text.
             title: The character used for the border of the help title.
             subtitle: The character used for the border of the Demo subtitle.
+            include: Whether to include the help text of all superclasses. 
         """
-        help_options = self.help_options
-        symbols = list(enumerate(help_options["symbols"]))
-        border = self.dashes(help_options["border"])
-        line = self.dashes(help_options["title"], 4)
-        width = help_options["max_width"]
-        indent = help_options["indent"]
+        symbols = list(enumerate(symbols))
+        border *= width
+        if include:
+            classes = self.__class__.__mro__[-2::-1]
+        else:
+            classes = (self.__class__,)
         print(border)
-        print(line)
-        print("Help")
-        print(line)
-        print()
-        for cls in self.__class__.__mro__[-2::-1]:
-            for line in cls.format_help().splitlines():
+        print("{line}\nHelp\n{line}\n".format(line=title*4))
+        for cls in classes:
+            text = """{title}\n{line}\n\n{text}\n\n""".format(
+                title=cls.__name__,
+                line=subtitle*len(cls.__name__),
+                text=cls.help_text.strip())
+            for line in text.splitlines():
                 if not line.lstrip():
                     print()
                     continue
@@ -163,21 +154,21 @@ Several key features are introduced:
         """
         print("Options:")
         opt_list = []
-        opts = [(opt, opt) for opt in opts]
+        kw_opts = [(opt, opt) for opt in opts]
         key = key.pop("key", None)
         if key:
             func_name = key + "_options"
             if hasattr(self, func_name):
-                for opt in getattr(self, func_name)():
-                    opt_list.append(opt)
-            if key in self.options:
-                key_opts, kw_opts = self.options[key]
-                opts = (list(kw_opts.items())
-                        + [(opt, opt) for opt in key_opts]
-                        + opts)
-        for opt, name in opts:
-            if self.options.has_callback(name):
-                desc = self.options.get_callback(name).desc
+                for opt, desc in getattr(self, func_name)():
+                    opt_list.append((opt, desc))
+            if self.options.has_options(key):
+                kw_opts = (
+                    list(self.options.get_options(key)[1].items())
+                    + [(opt, opt) for opt in self.options.get_options(key)[0]]
+                    + kw_opts)
+        for name, opt in kw_opts:
+            if opt in self.options:
+                desc = self.options.get_desc(opt)
             else:
                 desc = ""
             opt_list.append((opt, desc))

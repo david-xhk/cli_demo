@@ -7,6 +7,7 @@ from __future__ import print_function
 
 import functools
 import inspect
+import types
 from .exceptions import (DemoException, DemoRetry, OptionsNotFoundError,
                          CallbackError, CallbackNotLockError, catch_exc)
 
@@ -23,16 +24,18 @@ class DemoOptions(object):
     def __call__(self, *opts, **kw_opts):
         retry = kw_opts.pop("retry", "Please try again.")
         key = kw_opts.pop("key", None)
+        key_args = kw_opts.pop("key_args", ())
+        key_kwargs = kw_opts.pop("key_kwargs", {})
         def options_decorator(input_func):
-            self[key or input_func] = [opts, kw_opts]
+            self.set_options(key or input_func, *opts, **kw_opts)
             @functools.wraps(input_func)
             @catch_exc(DemoRetry)
-            def inner(demo, *args, **kwargs):
-                response = input_func(demo, *args, **kwargs)
-                opts, kw_opts = demo.options[key or input_func]
+            def inner(demo):
+                response = input_func(demo)
+                opts, kw_opts = demo.options.get_options(key or input_func)
                 if response in opts or response in kw_opts:
                     option = kw_opts.get(response) or response
-                    if not demo.options.has_callback(option):
+                    if option not in demo.options:
                         raise CallbackError(response)
                     elif demo.options.is_lock(option):
                         try:
@@ -42,14 +45,15 @@ class DemoOptions(object):
                     else:
                         return demo.options.call(option)
                 elif key:
-                    return demo.options.call(key, response=response)
+                    return demo.options.call(key, response=response,
+                        *key_args, **key_kwargs)
                 else:
                     demo.retry(retry)
             return inner
         return options_decorator
 
-    def register(self, option, desc="", 
-                 newline=False, retry=False, lock=False):
+    def register(self, option, desc="", newline=False, retry=False, lock=False,
+                 args=(), kwargs={}):
         """Register a callback under an option.
         
         Args:
@@ -58,6 +62,8 @@ class DemoOptions(object):
             newline (bool): Whether a new line should be printed before the callback is executed.
             retry (bool): Whether an input function should be called again once the callback has returned.
             lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
+            args (tuple): The default arguments when the callback is called.
+            kwargs (dict): The default keyword arguments when the callback is called.
 
         Note:
             * An option can be an expected user response or an input function key.
@@ -126,9 +132,13 @@ class DemoOptions(object):
         def register_decorator(func):
             @functools.wraps(func)
             def callback(demo, *args, **kwargs):
-                did_return = False
+                if not args:
+                    args = callback.args
+                if not kwargs:
+                    kwargs = callback.kwargs
                 if newline:
                     print()
+                did_return = False
                 try:
                     result = func(demo, *args, **kwargs)
                     did_return = True
@@ -138,143 +148,11 @@ class DemoOptions(object):
                         demo.retry()
             callback.lock = lock
             callback.desc = desc
+            callback.args = args
+            callback.kwargs = kwargs
             self.callbacks[option] = callback
             return func
         return register_decorator
-
-    def __init__(self):
-        self.demo = None
-        self.cache = {}
-        self.callbacks = {}
-
-    @staticmethod
-    def get_id(key):
-        """Create a unique id for `key`.
-        
-        Args:
-            key: A key for a set of options and keyword options.
-
-        Returns:
-            int: The id of `key`.
-        """
-        return id(key)
-
-    def __contains__(self, key):
-        """Check if there are any options set under `key`.
-
-        Args:
-            key: A key for a set of options and keyword options.
-
-        Returns:
-            ``True`` if the id of `key` exists in self.cache, ``False`` otherwise.
-        """
-        return self.get_id(key) in self.cache
-
-    def __getitem__(self, key):
-        """Get the options set under `key`.
-
-        Args:
-            key: A key for a set of options and keyword options.
-
-        Returns:
-            list[list, dict]: The options and keyword options set under `key`.
-
-        Raises:
-            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
-        """
-        try:
-            return self.cache[self.get_id(key)]
-        except KeyError:
-            raise OptionsNotFoundError(key)
-
-    def __setitem__(self, key, opts):
-        """Set options under `key`.
-
-        Args:
-            key: A key for a set of options and keyword options.
-            opts: A list or tuple of argument options and/or/without a dict of keyword options.
-
-        Note:
-            This will override the previously set options and/or keyword options.
-        """
-        key_id = self.get_id(key)
-        if key_id not in self.cache:
-            self.cache[key_id] = [[], {}]
-        if isinstance(opts, (list, tuple)):
-            if (len(opts) == 2
-                    and isinstance(opts[0], (list, tuple))
-                    and isinstance(opts[1], dict)):
-                self.cache[key_id] = [list(opts[0]), dict(opts[1])]
-            else:
-                self.cache[key_id][0] = list(opts)
-        elif isinstance(opts, dict):
-            self.cache[key_id][1] = dict(opts)
-
-    def insert(self, key, kw, opt, **kw_opts):
-        """Insert options under `key`.
-
-        If `kw` is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
-
-        Args:
-            key: A key for a set of options and keyword options.
-            kw: An index for argument options or a keyword option.
-            opt (str): The option to insert.
-            **kw_opts: More kw and opt pairs.
-
-        Note:
-            `kw_opts` are are treated similarly as `kw` and `opt`.
-
-        Raises:
-            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
-        """
-        options, keyword_options = self[key]
-        for kw, opt in dict(kw_opts, **{kw:opt}).items():
-            if isinstance(kw, str) and not kw.isdigit():
-                keyword_options[kw] = opt
-            else:
-                options.insert(int(kw), opt)
-
-    def has_callback(self, option):
-        """Check if an option is registered.
-        
-        Args:
-            option (str): The option used to register a callback.
-
-        Returns:
-            ``True`` if `option` exists in self.callbacks, ``False`` otherwise.
-        """
-        return option in self.callbacks
-    
-    def get_callback(self, option):
-        """Get the callback registered under an option.
-
-        Args:
-            option (str): The option used to register a callback.
-
-        Returns:
-            The callback function that was registered under `option`.
-
-        Raises:
-            CallbackError: If `option` does not exist in self.callbacks. 
-        """
-        try:
-            return self.callbacks[option]
-        except KeyError:
-            raise CallbackError(option)
-
-    def is_lock(self, option):
-        """Check if the callback registered under an option is a lock.
-
-        Args:
-            option (str): The option used to register a callback.
-
-        Returns:
-            ``True`` if the callback registered under `option` is a lock, ``False`` otherwise.
-
-        Raises:
-            CallbackError: If `option` does not exist in self.callbacks. 
-        """
-        return self.get_callback(option).lock is True
 
     def call(self, option, *args, **kwargs):
         """Call the callback registered under an option.
@@ -294,8 +172,214 @@ class DemoOptions(object):
         if not self.demo:
             raise DemoException("Demo not set yet.")
         else:
-            return self.get_callback(option)(
+            return self[option](
                 self.demo, *args, **kwargs)
+
+    def __init__(self):
+        self.demo = None
+        self.cache = {}
+        self.callbacks = {}
+
+    @staticmethod
+    def get_id(key):
+        """Create a unique id for `key`.
+        
+        Args:
+            key: A key for a set of options and keyword options.
+
+        Returns:
+            int: The id of `key`.
+        """
+        return id(key)
+
+    def has_options(self, key):
+        """Check if there are any options set under `key`.
+
+        Args:
+            key: A key for a set of options and keyword options.
+
+        Returns:
+            ``True`` if the id of `key` exists in self.cache, ``False`` otherwise.
+        """
+        return self.get_id(key) in self.cache
+
+    def get_options(self, key):
+        """Get the options set under `key`.
+
+        Args:
+            key: A key for a set of options and keyword options.
+
+        Returns:
+            list[list, dict]: The options and keyword options set under `key`.
+
+        Raises:
+            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
+        """
+        try:
+            return self.cache[self.get_id(key)]
+        except KeyError:
+            raise OptionsNotFoundError(key)
+
+    def set_options(self, key, *opts, **kw_opts):
+        """Set options under `key`.
+        
+        If `opts` or `kw_opts` are provided, override the previously set options or keyword options.
+        Args:
+            key: A key for a set of options and keyword options.
+            *opts: Argument options for `key`.
+            **kw_opts: Keyword options for `key`.
+        """
+        key_id = self.get_id(key)
+        if key_id not in self.cache:
+            self.cache[key_id] = [[], {}]
+        if opts:
+            self.cache[key_id][0] = list(opts)
+        if kw_opts:
+            self.cache[key_id][1] = dict(kw_opts)
+
+    def insert(self, key, kw, opt, **kw_opts):
+        """Insert options under `key`.
+
+        If `kw` is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
+
+        Args:
+            key: A key for a set of options and keyword options.
+            kw: An index for argument options or a keyword option.
+            opt (str): The option to insert.
+            **kw_opts: More kw and opt pairs.
+
+        Note:
+            `kw_opts` are are treated similarly as `kw` and `opt`.
+
+        Raises:
+            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
+        """
+        key_id = self.get_id(key)
+        for kw, opt in dict(kw_opts, **{kw:opt}).items():
+            if isinstance(kw, str) and not kw.isdigit():
+                self.cache[key_id][1][kw] = opt
+            else:
+                self.cache[key_id][0].insert(int(kw), opt)
+
+    def __contains__(self, option):
+        """Check if an option is registered.
+        
+        Args:
+            option (str): The option used to register a callback.
+
+        Returns:
+            ``True`` if `option` exists in self.callbacks, ``False`` otherwise.
+        """
+        return option in self.callbacks
+    
+    def __getitem__(self, option):
+        """Get the callback registered under an option.
+
+        Args:
+            option (str): The option used to register a callback.
+
+        Returns:
+            The callback function that was registered under `option`.
+
+        Raises:
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
+        try:
+            return self.callbacks[option]
+        except KeyError:
+            raise CallbackError(option)
+
+    def is_lock(self, option):
+        """Check if a callback is a lock.
+
+        Args:
+            option (str): The option used to register a callback.
+
+        Returns:
+            ``True if the callback was registered as a lock, ``False`` otherwise.
+
+        Raises:
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
+        return self[option].lock is True
+
+    def get_desc(self, option):
+        """Get the `desc` attribute of a callback.
+
+        Args:
+            option (str): The option used to register a callback.
+
+        Returns:
+            str: The `desc` was registered under `option`.
+
+        Raises:
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
+        return self[option].desc
+
+    def set_desc(self, option, desc=""):
+        """Set the `desc` attribute of a callback.
+
+        Args:
+            option (str): The option used to register a callback.
+            desc (str): A description of the option.
+
+        Raises:
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
+        self[option].desc = desc
+
+    def get_args(self, option):
+        """Get the `args` attribute of a callback.
+
+        Args:
+            option (str): The option used to register a callback.
+
+        Returns:
+            tuple: The `args` that was registered under `option`.
+
+        Raises:
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
+        return self[option].args
+
+    def set_args(self, option, *args):
+        """Set the `args` attribute of a callback.
+
+        Args:
+            option (str): The option used to register a callback.
+            *args: The default arguments when the callback is called.
+
+        Raises:
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
+        self[option].args = args
+
+    def get_kwargs(self, option):
+        """Get the `kwargs` attribute of a callback.
+
+        Args:
+            option (str): The option used to register a callback.
+
+        Returns:
+            dict: The `kwargs` that was registered under `option`.
+
+        Raises:
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
+        return self[option].kwargs
+
+    def set_kwargs(self, option, **kwargs):
+        """Set the `kwargs` attribute of a callback.
+
+        Args:
+            option (str): The option used to register a callback.
+            **kwargs: The default keyword arguments when the callback is called.
+
+        Raises:
+            CallbackError: If `option` does not exist in self.callbacks. 
+        """
+        self[option].kwargs = kwargs
 
     def copy(self):
         """Initialize a new copy of DemoOptions.
@@ -323,6 +407,13 @@ class DemoOptions(object):
         new_options = DemoOptions()
         for key_id, [opts, kw_opts] in self.cache.items():
             new_options.cache[key_id] = [list(opts), dict(kw_opts)]
-        new_options.callbacks.update(self.callbacks)
+        for option, callback in self.callbacks.items():
+            new_options.callbacks[option] = types.FunctionType(
+                callback.__code__, callback.__globals__, callback.__name__,
+                callback.__defaults__, callback.__closure__)
+            new_options.callbacks[option].lock = bool(callback.lock)
+            new_options.callbacks[option].desc = str(callback.desc)
+            new_options.callbacks[option].args = tuple(callback.args)
+            new_options.callbacks[option].kwargs = dict(callback.kwargs)
         return new_options
 
