@@ -48,4 +48,5 @@
     :members:
     :member-order: bysource
     :special-members: __init__
+    :show-inheritance:
 
