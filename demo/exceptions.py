@@ -82,14 +82,12 @@ class CallbackNotLockError(OptionError):
 
 def catch_exc(*demo_exc):
     """Catch instances of `demo_exc` raised while running a function.
-    
-    As a shortcut, when a function is passed into catch_exc, the wrapped function is returned directly.
 
     Args:
         *demo_exc: One or a few subclasses of DemoException, and possibly a function to wrap.
 
     Returns:
-        catch_exc_decorator: A decorator that takes a function and returns a wrapped function. If a function was passed into `demo_exc`, the wrapped function is returned instead.
+        catch_exc_decorator: A decorator that takes a function and returns a wrapped function. As a shortcut, if a function was passed into `demo_exc`, the wrapped function is returned instead.
     
     Note:
         * Non-subclasses of DemoException are ignored, unless a function or method is provided. 
