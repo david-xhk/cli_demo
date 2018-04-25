@@ -20,6 +20,125 @@ class DemoOptions(object):
         callbacks (dict): A registry of callbacks registered under options.
     """
 
+    def __call__(self, *opts, **kw_opts):
+        retry = kw_opts.pop("retry", "Please try again.")
+        key = kw_opts.pop("key", None)
+        def options_decorator(input_func):
+            self[key or input_func] = [opts, kw_opts]
+            @functools.wraps(input_func)
+            @catch_exc(DemoRetry)
+            def inner(demo, *args, **kwargs):
+                response = input_func(demo, *args, **kwargs)
+                opts, kw_opts = demo.options[key or input_func]
+                if response in opts or response in kw_opts:
+                    option = kw_opts.get(response) or response
+                    if not demo.options.has_callback(option):
+                        raise CallbackError(response)
+                    elif demo.options.is_lock(option):
+                        try:
+                            return demo.options.call(option, key=key)
+                        except TypeError as exc:
+                            raise CallbackNotLockError(response)
+                    else:
+                        return demo.options.call(option)
+                elif key:
+                    return demo.options.call(key, response=response)
+                else:
+                    demo.retry(retry)
+            return inner
+        return options_decorator
+
+    def register(self, option, desc="", 
+                 newline=False, retry=False, lock=False):
+        """Register a callback under an option.
+
+        Args:
+            option (str): The option to register a callback under.
+            desc (str, optional): A description of the option, if necessary.
+            newline (bool): Whether a new line should be printed before the callback is executed.
+            retry (bool): Whether an input function should be called again once the callback has returned.
+            lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
+
+        Returns:
+            register_decorator
+        
+        An option can be an expected user response or a key designated to an input function. If it is the latter, the callback must accept a `response` argument- the user's response to that input function.
+
+        Meanwhile, if a callback is registered as a `lock`, it must accept a `key` argument- the key of the input function that triggered the callback.
+
+        register_decorator takes a function and creates a callback based on the arguments provided to `register`. The callback is stored in self.callbacks, and the function is returned unchanged.
+
+        Examples:
+            Registering with `option` as an expected user response::
+            
+                @options.register("r", "Restart."):
+                def restart(self):
+                    ...  # Restart demo
+
+            Registering with `option` as an input function key::
+
+                @options.register("setup"):
+                def setup_callback(self, response):
+                    ...  # Process response.
+
+            Setting newline to True:
+
+            ::
+
+                @options.register("h", "Help." newline=True):
+                def print_help(self):
+                    print("This is the help text.")
+                    ...  # Print the help text
+            
+            ::
+
+                >>> Enter an input: h
+
+                This is the help text.  # A gap is inserted beforehand.
+                ...
+
+            Setting retry to True:
+
+            ::
+    
+                @options.register("echo", retry=True):
+                def echo_response(self, response):
+                    print("Got:", response)
+            
+            ::
+
+                >>> Enter an input: hello
+                Got: hello
+                >>> Enter an input:  # The input function is called again.
+
+            Setting lock to True::
+
+                @options.register("o", lock=True):
+                def print_options(self, key):
+                    if key == "setup":
+                        ...  # Print setup options
+                    elif key == "echo":
+                        ...  # Print echo options
+        """
+        def register_decorator(func):
+            @functools.wraps(func)
+            def callback(demo, *args, **kwargs):
+                did_return = False
+                if newline:
+                    print()
+                try:
+                    result = func(demo, *args, **kwargs)
+                    did_return = True
+                    return result
+                finally:
+                    if did_return and retry:
+                        demo.retry()
+            callback.lock = lock
+            callback.desc = desc
+            self.callbacks[option] = callback
+            return func
+        return register_decorator
+
     def __init__(self):
         self.demo = None
         self.cache = {}
@@ -91,7 +210,9 @@ class DemoOptions(object):
     def insert(self, key, kw, opt, **kw_opts):
         """Insert options under `key`.
 
-        `kw` and `opt` are merged with `kw_opts`, and if a key is an int or a digit, it is treated as an argument option index to insert at, or else it is treated as a keyword option to update.
+        `kw` and `opt` are merged with `kw_opts`.
+
+        If a key is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
 
         Args:
             key: A key for a set of options and keyword options.
@@ -108,123 +229,6 @@ class DemoOptions(object):
                 keyword_options[kw] = opt
             else:
                 options.insert(int(kw), opt)
-    
-    def __call__(self, *opts, **kw_opts):
-        retry = kw_opts.pop("retry", "Please try again.")
-        key = kw_opts.pop("key", None)
-        def options_decorator(input_func):
-            self[key or input_func] = [opts, kw_opts]
-            @functools.wraps(input_func)
-            @catch_exc(DemoRetry)
-            def inner(demo, *args, **kwargs):
-                response = input_func(demo, *args, **kwargs)
-                opts, kw_opts = demo.options[key or input_func]
-                if response in opts or response in kw_opts:
-                    option = kw_opts.get(response) or response
-                    if not demo.options.has_callback(option):
-                        raise CallbackError(response)
-                    elif demo.options.is_lock(option):
-                        try:
-                            return demo.options.call(option, key=key)
-                        except TypeError as exc:
-                            raise CallbackNotLockError(response)
-                    else:
-                        return demo.options.call(option)
-                elif key:
-                    return demo.options.call(key, response=response)
-                else:
-                    demo.retry(retry)
-            return inner
-        return options_decorator
-
-    def register(self, option, desc="", 
-                 newline=False, retry=False, lock=False):
-        """Register a callback under an option.
-        
-        An option can be an expected user response or a key designated to an input function. If it is the latter, the callback must accept a `response` argument- the user's response to that input function.
-
-        Meanwhile, if a callback is registered as a `lock`, it must accept a `key` argument- the key of the input function that triggered the callback.
-
-        Args:
-            option (str): The option to register a callback under.
-            desc (str, optional): A description of the option, if necessary.
-            newline (bool): Whether a new line should be printed before the callback is executed.
-            retry (bool): Whether an input function should be called again once the callback has returned.
-            lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
-
-        Examples:
-            Registering with `option` as an expected user response::
-            
-                @options.register("r", "Restart."):
-                def restart(self):
-                    ...  # Restart demo
-
-            Registering with `option` as an input function key::
-
-                @options.register("setup"):
-                def setup_callback(self, response):
-                    ...  # Process response.
-
-            Setting newline to True:
-
-            ::
-
-                @options.register("h", "Help." newline=True):
-                def print_help(self):
-                    print("This is the help text.")
-                    ...  # Print the help text
-            
-            ::
-
-                >>> Enter an input: h
-
-                This is the help text.  # A gap is inserted beforehand.
-                ...
-
-            Setting retry to True:
-
-            ::
-    
-                @options.register("echo", retry=True):
-                def echo_response(self, response):
-                    print("Got:", response)
-            
-            ::
-
-                >>> Enter an input: hello
-                Got: hello
-                >>> Enter an input:  # The input function is called again.
-
-            Setting lock to True::
-
-                @options.register("o", lock=True):
-                def print_options(self, key):
-                    if key == "setup":
-                        ...  # Print setup options
-                    elif key == "echo":
-                        ...  # Print echo options
-
-        Returns:
-            register_decorator, which takes a function, creates a callback based on the arguments provided to `register` and stores it in self.callbacks, then returns the function unchanged.
-        """
-        def register_decorator(func):
-            @functools.wraps(func)
-            def callback(demo, *args, **kwargs):
-                did_return = False
-                if newline:
-                    print()
-                try:
-                    result = func(demo, *args, **kwargs)
-                    did_return = True
-                    return result
-                finally:
-                    if did_return and retry:
-                        demo.retry()
-            callback.lock = lock
-            callback.desc = desc
-            self.callbacks[option] = callback
-            return func
-        return register_decorator
 
     def has_callback(self, option):
         """Check if an option is registered.

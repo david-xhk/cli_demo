@@ -46,7 +46,7 @@ class DemoRetry(DemoException):
 class OptionError(DemoException):
     """Base exception for any error raised when an option is selected.
 
-    Instances of OptionError must be initialized with the name of the erroneous option, which is what the default format string is supposed to be formatted with.
+    Instances of OptionError must be initialized with an option. It will be used to format the class format string.
     
     Attributes:
         text (str): A format string for an option.
@@ -77,14 +77,19 @@ class CallbackNotLockError(OptionError):
 def catch_exc(*demo_exc):
     """Catch instances of `demo_exc` raised while running a function.
     
-    Non-subclasses of DemoException are ignored, unless a function or method is provided (as a shortcut, when a function is passed into catch_exc, the wrapped function is returned directly). DemoException is the default if no subclasses are provided.
-
-    Inside the function wrapper, the function is called at the start of a while loop. An inner try clause catches KeyboardInterrupt and then re-raises DemoExit, while an outer try clause catches any instance of `demo_exc` and prints its text if not blank. DemoExit causes the loop to break and return None, or else the loop restarts. 
-
-    Non-instances of `demo_exc` will not be caught. They should typically be handled by a higher level and more general kind of catch_exc.
+    As a shortcut, when a function is passed into catch_exc, the wrapped function is returned directly.
 
     Args:
         *demo_exc: One or a few subclasses of DemoException, and possibly a function to wrap.
+    
+    Note:
+        * Non-subclasses of DemoException are ignored, unless a function or method is provided. 
+
+        * DemoException is the default if no subclasses are provided.
+    
+        * If a KeyboardInterrupt is raised, it will be re-raised as DemoExit.
+        
+        * Non-instances of `demo_exc` will not be caught. They should typically be handled by a higher level and more general kind of catch_exc.
     """
     func = None
     demo_exc = list(demo_exc)
