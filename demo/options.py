@@ -227,7 +227,7 @@ class DemoOptions(object):
             option (str): The name used to register a option.
 
         Returns:
-            ``True if the callback was registered as a lock, ``False`` otherwise.
+            ``True`` if the callback was registered as a lock, ``False`` otherwise.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
