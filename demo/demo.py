@@ -19,8 +19,8 @@ class Demo(object):
     
     Attributes:
         help_text (str): The help text of a `Demo`.
-        help_options (dict): Formatting options for `print_help`.
-        setup_prompt (str): The input prompt during the setup process.
+        help_options (dict): Formatting options for :func:`~Demo.print_help`.
+        setup_prompt (str): The input prompt for :func:`~Demo.run_setup`.
         options (DemoOptions): Delegate for registering option callbacks and designating options to input functions.
     """
 
@@ -76,7 +76,7 @@ Several key features are introduced:
     def print_help(self):
         """Format and print the help text.
         
-        The following attributes are derived from `help_options`:
+        The following attributes are derived from :attr:`~Demo.help_options`:
         
         Attributes:
             symbols (list): A list of symbols for each level of indentation.
