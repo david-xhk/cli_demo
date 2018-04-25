@@ -87,6 +87,9 @@ def catch_exc(*demo_exc):
 
     Args:
         *demo_exc: One or a few subclasses of DemoException, and possibly a function to wrap.
+
+    Returns:
+        catch_exc_decorator: A decorator that takes a function and returns a wrapped function. If a function was passed into `demo_exc`, the wrapped function is returned instead.
     
     Note:
         * Non-subclasses of DemoException are ignored, unless a function or method is provided. 
