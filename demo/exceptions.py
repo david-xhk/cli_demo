@@ -59,17 +59,21 @@ class OptionError(DemoException):
         """
         self.text = self.text.format(option)
 
-class OptionNotFoundError(OptionError):
-    """Raised when an option is not registered."""
-    text = "'{}' not registered."
 
 class KeyNotFoundError(OptionError):
     """Raised when a key does not exist in the options cache."""
     text = "'{}' does not exist in the cache."
 
+
+class OptionNotFoundError(OptionError):
+    """Raised when an option is not registered."""
+    text = "'{}' not registered."
+
+
 class CallbackNotFoundError(OptionError):
     """Raised when an option has no callback."""
     text = "'{}' callback not registered"
+
 
 class CallbackNotLockError(OptionError):
     """Raised when a callback for an option was flagged as a lock but does not accept a `key` argument."""

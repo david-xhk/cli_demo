@@ -2,8 +2,6 @@
  Documentation
 ***************
 
-.. currentmodule:: demo
-
 .. automodule:: demo
 
 ======
@@ -32,11 +30,11 @@
     :member-order: bysource
     :show-inheritance:
 
-=============
- DemoOptions
-=============
+=========
+ options
+=========
 
-.. autoclass:: demo.options.DemoOptions
+.. automodule:: demo.options
     :members:
     :member-order: bysource
     :special-members:

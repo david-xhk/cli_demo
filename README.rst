@@ -11,14 +11,9 @@
 .. contents:: 
     :local:
 
-------
- Demo
-------
-:class:`~demo.Demo` information here.
-
-
-Registering an option
-^^^^^^^^^^^^^^^^^^^^^
+-----------------------
+ Registering an option
+-----------------------
 
 There are various ways to :func:`~demo.options.DemoOptions.register` an option:
 
@@ -77,12 +72,12 @@ There are various ways to :func:`~demo.options.DemoOptions.register` an option:
 ----------
  CodeDemo
 ----------
-:class:`~demo.CodeDemo` information here.
+:class:`~demo.code.CodeDemo` information here.
 
 -------------
  SandboxDemo
 -------------
-:class:`~demo.SandboxDemo` information here.
+:class:`~demo.sandbox.SandboxDemo` information here.
 
 =========
  Credits

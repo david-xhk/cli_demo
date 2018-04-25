@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""This module contains DemoOptions, the `options` delegate for Demo."""
+"""This module contains DemoOptions, the `options` delegate for Demo, and the Option object."""
 
 # For py2.7 compatibility
 from __future__ import print_function
@@ -13,6 +13,7 @@ from .exceptions import (DemoException, DemoRetry, KeyNotFoundError,
 
 
 class Option(object):
+    """Holds information about a registered option."""
     __slots__ = ["name", "desc", "_callback",
         "newline", "retry", "lock", "args", "kwargs"]
 
@@ -28,6 +29,7 @@ class Option(object):
 
     @callback.setter
     def callback(self, func):
+        """Define a callback based on several attributes in self using func."""
         if func is None:
             self._callback = None
         else:
@@ -60,7 +62,7 @@ class Option(object):
 
 
 class DemoOptions(object):
-    """Designate options for input functions and forward their registered callbacks dynamically.
+    """Designates options for input functions and forwards their registered callbacks dynamically.
 
     Attributes:
         demo (Demo): The Demo instance that a DemoOptions instance exists in.

@@ -16,7 +16,7 @@ Welcome to the documentation page of demo!
 ==========
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     readme
     docs
