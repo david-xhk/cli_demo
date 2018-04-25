@@ -22,24 +22,21 @@ Registering an option
 
 There are various ways to :func:`~demo.options.DemoOptions.register` an option.
 
-Registering with an expected user response
-""""""""""""""""""""""""""""""""""""""""""
+* Registering with an expected user response
 ::
 
     @options.register("r", "Restart."):
     def restart(self):
         ...  # Restart demo
 
-Registering with an input function key
-""""""""""""""""""""""""""""""""""""""
+* Registering with an input function key
 ::
 
     @options.register("setup"):
     def setup_callback(self, response):
         ...  # Process response.
 
-Setting newline to True
-"""""""""""""""""""""""
+* Setting newline to True
 ::
 
     @options.register("h", "Help." newline=True):
@@ -54,8 +51,7 @@ Setting newline to True
     This is the help text.  # A gap is inserted beforehand.
     ...
 
-Setting retry to True
-"""""""""""""""""""""
+* Setting retry to True
 ::
 
     @options.register("echo", retry=True):
@@ -68,8 +64,7 @@ Setting retry to True
     Got: hello
     >>> Enter an input:  # The input function is called again.
 
-Setting lock to True
-""""""""""""""""""""
+* Setting lock to True
 ::
 
     @options.register("o", lock=True):
