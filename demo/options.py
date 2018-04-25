@@ -58,6 +58,11 @@ class Option(object):
             self._callback = callback
         
     def copy(self):
+        """Initialize a new copy of Option.
+        
+        Returns:
+            Option: An instance of Option with a deep copy of all attributes of self.
+        """
         new_option = Option(
             name=str(self.name), 
             desc=str(self.desc), 
@@ -471,7 +476,7 @@ class DemoOptions(object):
         """Initialize a new copy of DemoOptions.
         
         Returns:
-            DemoOptions: An instance of DemoOptions with a copy of self.cache and self.registry.
+            DemoOptions: An instance of DemoOptions with a deep copy of self.cache and self.registry.
         """
         new_options = DemoOptions()
         for key_id, [opts, kw_opts] in self.cache.items():
