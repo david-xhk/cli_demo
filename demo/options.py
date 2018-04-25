@@ -60,9 +60,14 @@ class DemoOptions(object):
 
     Attributes:
         demo (Demo): The Demo instance that a DemoOptions instance exists in.
-        cache (dict): A cache of key ids and options and keyword options seen.
         registry (dict): The options that have been registered. 
+        cache (dict): A cache of key ids and options and keyword options seen.
     """
+
+    def __init__(self):
+        self.demo = None
+        self.registry = {}
+        self.cache = {}
 
     def __call__(self, *opts, **kw_opts):
         retry = kw_opts.pop("retry", "Please try again.")
@@ -178,117 +183,6 @@ class DemoOptions(object):
             return func
         return register_decorator
 
-    def call(self, option, *args, **kwargs):
-        """Call the callback registered under an option.
-
-        Args:
-            option (str): The name used to register a option.
-            *args: The arguments to pass to the callback.
-            **kwargs: The keyword arguments to pass to the callback.
-
-        Returns:
-            The return value of the callback.
-
-        Raises:
-            DemoException: If self.demo is not set.
-            OptionNotFoundError: If `option` does not exist in self.registry. 
-        """
-        if not self.demo:
-            raise DemoException("Demo not set yet.")
-        else:
-            callback = self.get_callback(option)
-            if not args:
-                args = self.get_args(option)
-            if not kwargs:
-                kwargs = self.get_kwargs(option)
-            return callback(self.demo, *args, **kwargs)
-
-    def __init__(self):
-        self.demo = None
-        self.cache = {}
-        self.registry = {}
-
-    @staticmethod
-    def get_id(key):
-        """Create a unique id for `key`.
-        
-        Args:
-            key: A key for a set of options and keyword options.
-
-        Returns:
-            int: The id of `key`.
-        """
-        return id(key)
-
-    def has_options(self, key):
-        """Check if there are any options set under `key`.
-
-        Args:
-            key: A key for a set of options and keyword options.
-
-        Returns:
-            ``True`` if the id of `key` exists in self.cache, ``False`` otherwise.
-        """
-        return self.get_id(key) in self.cache
-
-    def get_options(self, key):
-        """Get the options set under `key`.
-
-        Args:
-            key: A key for a set of options and keyword options.
-
-        Returns:
-            list[list, dict]: The options and keyword options set under `key`.
-
-        Raises:
-            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
-        """
-        try:
-            return self.cache[self.get_id(key)]
-        except KeyError:
-            raise OptionsNotFoundError(key)
-
-    def set_options(self, key, *opts, **kw_opts):
-        """Set options under `key`.
-        
-        If `opts` or `kw_opts` are provided, override the previously set options or keyword options.
-        Args:
-            key: A key for a set of options and keyword options.
-            *opts: Argument options for `key`.
-            **kw_opts: Keyword options for `key`.
-        """
-        key_id = self.get_id(key)
-        if key_id not in self.cache:
-            self.cache[key_id] = [[], {}]
-        if opts:
-            self.cache[key_id][0] = list(opts)
-        if kw_opts:
-            self.cache[key_id][1] = dict(kw_opts)
-
-    def insert(self, key, kw, opt, **kw_opts):
-        """Insert options under `key`.
-
-        If `kw` is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
-
-        Args:
-            key: A key for a set of options and keyword options.
-            kw: An index for argument options or a keyword option.
-            opt (str): The option to insert.
-            **kw_opts: More kw and opt pairs.
-
-        Note:
-            `kw_opts` are are treated similarly as `kw` and `opt`.
-
-        Raises:
-            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
-        """
-        key_id = self.get_id(key)
-        for kw, opt in dict(kw_opts, **{kw:opt}).items():
-            if isinstance(kw, str) and not kw.isdigit():
-                self.cache[key_id][1][kw] = opt
-            else:
-                self.cache[key_id][0].insert(int(kw), opt)
-
     def __contains__(self, option):
         """Check if an option is registered.
         
@@ -317,6 +211,32 @@ class DemoOptions(object):
         except KeyError:
             raise OptionNotFoundError(option)
 
+    def call(self, option, *args, **kwargs):
+        """Call the callback registered under an option.
+
+        Args:
+            option (str): The name used to register a option.
+            *args: The arguments to pass to the callback.
+            **kwargs: The keyword arguments to pass to the callback.
+
+        Returns:
+            The return value of the callback.
+
+        Raises:
+            DemoException: If self.demo is not set.
+            OptionNotFoundError: If `option` does not exist in self.registry.
+            CallbackNotFoundError: If a callback has not been registered under `option`.
+        """
+        if not self.demo:
+            raise DemoException("Demo not set yet.")
+        else:
+            callback = self.get_callback(option)
+            if not args:
+                args = self.get_args(option)
+            if not kwargs:
+                kwargs = self.get_kwargs(option)
+            return callback(self.demo, *args, **kwargs)
+
     def get_callback(self, option):
         """Get the callback registered under an option.
 
@@ -327,7 +247,8 @@ class DemoOptions(object):
             The callback function that was registered under `option`.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in self.registry.
+            CallbackNotFoundError: If a callback has not been registered under `option`.
         """
         callback = self[option].callback
         if callback is None:
@@ -499,6 +420,87 @@ class DemoOptions(object):
             OptionNotFoundError: If `option` does not exist in self.registry. 
         """
         self[option].kwargs = kwargs
+
+    @staticmethod
+    def get_id(key):
+        """Create a unique id for `key`.
+        
+        Args:
+            key: A key for a set of options and keyword options.
+
+        Returns:
+            int: The id of `key`.
+        """
+        return id(key)
+
+    def has_options(self, key):
+        """Check if there are any options set under `key`.
+
+        Args:
+            key: A key for a set of options and keyword options.
+
+        Returns:
+            ``True`` if the id of `key` exists in self.cache, ``False`` otherwise.
+        """
+        return self.get_id(key) in self.cache
+
+    def get_options(self, key):
+        """Get the options set under `key`.
+
+        Args:
+            key: A key for a set of options and keyword options.
+
+        Returns:
+            list[list, dict]: The options and keyword options set under `key`.
+
+        Raises:
+            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
+        """
+        try:
+            return self.cache[self.get_id(key)]
+        except KeyError:
+            raise OptionsNotFoundError(key)
+
+    def set_options(self, key, *opts, **kw_opts):
+        """Set options under `key`.
+        
+        If `opts` or `kw_opts` are provided, override the previously set options or keyword options.
+        Args:
+            key: A key for a set of options and keyword options.
+            *opts: Argument options for `key`.
+            **kw_opts: Keyword options for `key`.
+        """
+        key_id = self.get_id(key)
+        if key_id not in self.cache:
+            self.cache[key_id] = [[], {}]
+        if opts:
+            self.cache[key_id][0] = list(opts)
+        if kw_opts:
+            self.cache[key_id][1] = dict(kw_opts)
+
+    def insert(self, key, kw, opt, **kw_opts):
+        """Insert options under `key`.
+
+        If `kw` is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
+
+        Args:
+            key: A key for a set of options and keyword options.
+            kw: An index for argument options or a keyword option.
+            opt (str): The option to insert.
+            **kw_opts: More kw and opt pairs.
+
+        Note:
+            `kw_opts` are are treated similarly as `kw` and `opt`.
+
+        Raises:
+            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
+        """
+        key_id = self.get_id(key)
+        for kw, opt in dict(kw_opts, **{kw:opt}).items():
+            if isinstance(kw, str) and not kw.isdigit():
+                self.cache[key_id][1][kw] = opt
+            else:
+                self.cache[key_id][0].insert(int(kw), opt)
 
     def copy(self):
         """Initialize a new copy of DemoOptions.
