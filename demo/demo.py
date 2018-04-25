@@ -27,8 +27,8 @@ class Demo(object):
         When inheriting options from a Demo superclass, either a new :class:`~demo.options.DemoOptions` instance should be created::
 
             class NewDemo(Demo):
-                    options = DemoOptions()
-                    ...
+                options = DemoOptions()
+                ...
 
         Or a copy should be made by calling :func:`~demo.options.DemoOptions.copy`::
 
@@ -63,18 +63,6 @@ Several key features are introduced:
         print("Welcome to {}!".format(self.__class__.__name__))
         print()
         self.print_intro = lambda: None
-
-    @classmethod
-    def dashes(cls, dash, num=None):
-        """Return a line of dashes."""
-        if not num:
-            num = cls.help_options["max_width"]
-        return dash * num
-
-    @classmethod
-    def format_help(cls):
-        """Format the class help text with whitespace and a title."""
-        return 
 
     @options.register("h", "Help.", retry=True, newline=True)
     def print_help(self, symbols=[" ", "●", "○", "▸", "▹"], width=60, indent=4,
@@ -197,14 +185,21 @@ Several key features are introduced:
 
     @options.register("setup", retry=True)
     def setup_callback(self, response):
+        """Handle user input to :func:`~demo.demo.Demo.run_setup`.
+
+        Args:
+            response (str): The user input.
+        """
         print("Got: {}".format(response))
         print()
 
     @options("h", "o", "r", "q", key="setup")
     def run_setup(self):
+        """Prompt the user for input for the setup process."""
         return input(self.setup_prompt)
 
     def setup_options(self):
+        """Provide options for setup."""
         yield "*", "Any response."
 
     @catch_exc
@@ -216,15 +211,27 @@ Several key features are introduced:
 
     @options.register("r", "Restart.")
     def restart(self, text=None):
-        """Restart the main run loop."""
+        """Restart the main run loop.
+
+        Args:
+            text (str, optional): The text to print when restarting.
+        """
         raise DemoRestart(text)
 
     @options.register("q", "Quit.")
     def quit(self, text=None):
-        """Break out of the main run loop."""
+        """Break out of the main run loop.
+
+        Args:
+            text (str, optional): The text to print when quitting.
+        """
         raise DemoExit(text)
 
     def retry(self, text=None):
-        """Go back to the last input function."""
+        """Go back to the last input function.
+
+        Args:
+            text (str, optional): The text to print when retrying.
+        """
         raise DemoRetry(text)
 
