@@ -15,17 +15,14 @@ from .exceptions import DemoRetry, DemoExit, DemoRestart, catch_exc
 
 
 class Demo(object):
-    """Demo provides a basic framework for interactive demonstrations in the command-line interface.
-
-    Several key features are introduced:
-    `restart`, `retry`, and `exit`: the main control flow tools.
-    `run`, the main logic of a demo program.
-    `print_help`, a function that prints the help text.
-    `options`, a class object that you can use to:
-        Decorate an input function with the responses allowed.
-        Register a callback for some input response.
-    `print_options`, a function that prints what responses are allowed."""
+    """A basic framework for interactive demonstrations in command-line interface.
     
+    Attributes:
+        help_text (str): The help text of a `Demo`.
+        help_options (dict): Formatting options for `print_help`.
+        setup_prompt (str): The input prompt during the setup process.
+        options (DemoOptions): Delegate for registering option callbacks and designating options to input functions.
+    """
 
     help_text = """
 Demo provides a basic framework for interactive demonstrations in the command-line interface.
@@ -51,58 +48,48 @@ Several key features are introduced:
     setup_prompt = "Select an option, or type something random: "
 
     options = DemoOptions()
-    """options, a class object for managing user input."""
-
-    @options.register("r", "Restart.")
-    def restart(self, text=None):
-        raise DemoRestart(text)
-
-    @options.register("q", "Quit.")
-    def quit(self, text=None):
-        raise DemoExit(text)
-
-    def retry(self, text=None):
-        raise DemoRetry(text)
 
     def print_intro(self):
+        """Print the welcome text once.
+
+        After `print_intro` is called once, calling it again will no longer have any effect.
+        """
         print("Welcome to {}!".format(self.__class__.__name__))
         print()
         self.print_intro = lambda: None
 
     @classmethod
-    def get_dashes(cls, dash, num=None):
+    def dashes(cls, dash, num=None):
+        """Return a line of dashes."""
         if not num:
             num = cls.help_options["max_width"]
         return dash * num
 
     @classmethod
     def format_help(cls):
+        """Format the class help text with whitespace and a title."""
         return """{title}\n{line}\n\n{text}\n\n""".format(
             title=cls.__name__, text=cls.help_text.strip(),
-            line=cls.get_dashes(
-                cls.help_options["subtitle"], len(cls.__name__)))
+            line=cls.dashes(cls.help_options["subtitle"], len(cls.__name__)))
 
     @options.register("h", "Help.", retry=True, newline=True)
     def print_help(self):
         """Format and print the help text.
-
-        The indentation of the text printed is controlled by the class attribute `indent`.
         
-        The length of each line in help_text is limited to a length of the class attribute, `max_width`. Overflow is iteratively printed on a new line.
+        The following attributes are derived from `help_options`.
         
-        help_text is formatted by the following:
-Unindented lines are printed as-is.
-    Indented lines are a sub point.
-        And
-            up to
-                four levels of indentation are supported.
-
-        Sections can be separated with whitespace.
+        Attributes:
+            `symbols` (list): A list of symbols for each level of indentation.
+            `max_width`: The maximum width for a line printed.
+            `indent`: The indentation of the text printed.
+            `border`: The character used for the border of the help text.
+            `title`: The character used for the border of the help title.
+            `subtitle`: The character used for the border of the Demo subtitle.
         """
         help_options = self.help_options
         symbols = list(enumerate(help_options["symbols"]))
-        border = self.get_dashes(help_options["border"])
-        line = self.get_dashes(help_options["title"], 4)
+        border = self.dashes(help_options["border"])
+        line = self.dashes(help_options["title"], 4)
         width = help_options["max_width"]
         indent = help_options["indent"]
         print(border)
@@ -148,26 +135,36 @@ Unindented lines are printed as-is.
         print()
 
     @options.register("o", "Options.", retry=True, lock=True, newline=True)
-    def print_options(self, *opts, **kwargs):
+    def print_options(self, *opts, **key):
         """Print what responses are allowed for an input function.
 
-        If a `key` is provided, print_options will do the following:
-            Retrieve options and descriptions from the function starting with `key` and ending in '_options', if defined.
+        If `key` is provided, print_options will do the following:
+            
+            1. Retrieve options and descriptions from the function starting with `key` and ending in '_options', if defined.
 
-            Check the cache in the options object for the options of the input function that uses `key`.
+            2. Check the cache in the options object for the options of the input function that uses `key`.
 
-        Options are printed in the following order: 
-            Options from defined `key` function
-            Keyword options from options cache
-            Argument options from options cache
-            Argument options passed to `print_options`
+        Attributes:
+            *opts (str): Which options to print.
+            **key: An input function `key`.
+        
+        Note:
+            * Other than those from the `key` function, option descriptions are taken from the `desc` argument registered to an option's callback.
 
-        Besides options defined from the `key` function, descriptions are taken from the `desc` keyword when an option's callback was registered.
+            * Options are printed in the following order: 
+                
+              1. Options from defined `key` function
+                
+              2. Keyword options from options cache
+                
+              3. Argument options from options cache
+                
+              4. Argument options passed to `print_options`
         """
         print("Options:")
         opt_list = []
         opts = [(opt, opt) for opt in opts]
-        key = kwargs.pop("key", None)
+        key = key.pop("key", None)
         if key:
             func_name = key + "_options"
             if hasattr(self, func_name):
@@ -206,7 +203,22 @@ Unindented lines are printed as-is.
 
     @catch_exc
     def run(self):
+        """The main logic of a Demo program."""
         self.print_intro()
         self.print_options(key="setup")
         self.run_setup()
+
+    @options.register("r", "Restart.")
+    def restart(self, text=None):
+        """Restart the main run loop."""
+        raise DemoRestart(text)
+
+    @options.register("q", "Quit.")
+    def quit(self, text=None):
+        """Break out of the main run loop."""
+        raise DemoExit(text)
+
+    def retry(self, text=None):
+        """Go back to the last input function."""
+        raise DemoRetry(text)
 
