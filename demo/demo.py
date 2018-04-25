@@ -64,28 +64,33 @@ Several key features are introduced:
         self.print_intro = lambda: None
 
     @options.register("h", "Help.", retry=True, newline=True)
-    def print_help(self, symbols=[" ", "●", "○", "▸", "▹"], width=60, indent=4,
-                   border="~", title="=", subtitle="-", include=True):
+    def print_help(self, **kwargs):
         """Format and print the help text.
 
         Args:
-            symbols (list): A list of symbols for each level of indentation.
-            width (int): The maximum width for a line printed.
-            indent (int): The number of spaces per indent for the text printed.
-            border (str): The character used for the border of the help text.
-            title (str): The character used for the border of the help title.
-            subtitle (str): The character used for the border of the class subtitle.
-            include (bool): Whether to include the help text of all Demo superclasses. 
+            symbols (list): A list of symbols for each level of indentation. Defaults to [" ", "●", "○", "▸", "▹"].
+            width (int): The maximum width for a line printed. Defaults to 60.
+            indent (int): The number of spaces per indent for the text printed. Defaults to 4.
+            border (str): The character used for the border of the help text. Defaults to "~".
+            title (str): The character used for the border of the help title. Defaults to "=".
+            subtitle (str): The character used for the border of the class subtitle. Defaults to "-".
+            include (bool): Whether to include the help text of all Demo superclasses. Defaults to ``True``.
         """
-        symbols = list(enumerate(symbols))
-        border *= width
-        if include:
+        symbols = list(enumerate(kwargs.get(
+            "symbols", [" ", "●", "○", "▸", "▹"])))
+        width = kwargs.get("width", 60)
+        indent = kwargs.get("indent", 4)
+        border = kwargs.get("border", "~") * width
+        title = "{line}\nHelp\n{line}\n".format(
+            line=kwargs.get("title", "=")*4)
+        subtitle = kwargs.get("subtitle", "-")
+        if kwargs.get("include", True):
             classes = [cls for cls in reversed(self.__class__.__mro__)
                        if issubclass(cls, Demo)]
         else:
             classes = [self.__class__]
         print(border)
-        print("{line}\nHelp\n{line}\n".format(line=title*4))
+        print(title)
         for cls in classes:
             text = """{title}\n{line}\n\n{text}\n\n""".format(
                 title=cls.__name__,
