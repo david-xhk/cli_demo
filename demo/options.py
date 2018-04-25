@@ -252,7 +252,7 @@ class DemoOptions(object):
             option (str): The name used to register a option.
 
         Returns:
-            ``True if the callback was registered to retry, ``False`` otherwise.
+            ``True`` if the callback was registered to retry, ``False`` otherwise.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -277,7 +277,7 @@ class DemoOptions(object):
             option (str): The name used to register a option.
 
         Returns:
-            ``True if the callback was registered to have a newline, ``False`` otherwise.
+            ``True`` if the callback was registered to have a newline, ``False`` otherwise.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
