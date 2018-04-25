@@ -73,9 +73,7 @@ class DemoOptions(object):
             * If a callback is registered as a `lock`, it must accept a `key` argument- the key of the input function that triggered the callback.
 
         Returns:
-            `register_decorator`
-
-        `register_decorator` takes a function and creates a callback based on the arguments provided to `register`. The callback is stored in self.callbacks, and the function is returned unchanged.
+            register_decorator: A decorator which takes a function and creates a callback based on the arguments provided to `register`. The callback is stored in self.callbacks, and the original function is returned.
         
         Examples:
             Registering with an expected user response::
