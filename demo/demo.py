@@ -76,7 +76,7 @@ Several key features are introduced:
     def print_help(self):
         """Format and print the help text.
         
-        The following attributes are derived from `help_options`.
+        The following attributes are derived from `help_options`:
         
         Attributes:
             symbols (list): A list of symbols for each level of indentation.
