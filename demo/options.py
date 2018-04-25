@@ -321,7 +321,7 @@ class DemoOptions(object):
         """
         return self[option].desc
 
-    def set_desc(self, option, desc=""):
+    def set_desc(self, option, desc):
         """Set the description of an option.
 
         Args:
@@ -331,7 +331,7 @@ class DemoOptions(object):
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
         """
-        self[option].desc = desc
+        self[option].desc = str(desc)
 
     def get_args(self, option):
         """Get the default arguments for an option's callback.
@@ -357,7 +357,7 @@ class DemoOptions(object):
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
         """
-        self[option].args = args
+        self[option].args = tuple(args)
 
     def get_kwargs(self, option):
         """Get the default keyword arguments for an option's callback.
@@ -383,7 +383,7 @@ class DemoOptions(object):
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
         """
-        self[option].kwargs = kwargs
+        self[option].kwargs = dict(kwargs)
 
     @staticmethod
     def get_id(key):
@@ -428,7 +428,7 @@ class DemoOptions(object):
     def set_options(self, key, *opts, **kw_opts):
         """Change the options that were set with `key`.
         
-        If `opts` or `kw_opts` are provided, override the previously set options or keyword options.
+        If `opts` or `kw_opts` are provided, the previously set options or keyword options will be overridden.
 
         Args:
             key: A key for a set of options and keyword options.

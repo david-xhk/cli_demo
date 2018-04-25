@@ -75,14 +75,15 @@ Several key features are introduced:
             border (str): The character used for the border of the help text.
             title (str): The character used for the border of the help title.
             subtitle (str): The character used for the border of the class subtitle.
-            include (bool): Whether to include the help text of all superclasses. 
+            include (bool): Whether to include the help text of all Demo superclasses. 
         """
         symbols = list(enumerate(symbols))
         border *= width
         if include:
-            classes = self.__class__.__mro__[-2::-1]
+            classes = [cls for cls in reversed(self.__class__.__mro__)
+                       if issubclass(cls, Demo)]
         else:
-            classes = (self.__class__,)
+            classes = [self.__class__]
         print(border)
         print("{line}\nHelp\n{line}\n".format(line=title*4))
         for cls in classes:
@@ -141,8 +142,6 @@ Several key features are introduced:
 
               2. Get options from :func:`~demo.options.DemoOptions.get_options` using `key`.
 
-            * Other than the options from the `key` function, option descriptions are taken from the :attr:`~demo.options.Option.desc` registered under an option.
-
             * Options are printed in the following order: 
                 
               1. Options from the `key` function
@@ -152,6 +151,8 @@ Several key features are introduced:
               3. Argument options from get_options()
                 
               4. Argument options passed to `print_options`
+
+            * Other than the options from the `key` function, option descriptions are taken from the :attr:`~demo.options.Option.desc` registered under an option.
         """
         print("Options:")
         opt_list = []
