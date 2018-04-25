@@ -24,7 +24,7 @@ class Demo(object):
         options (DemoOptions): Delegate for registering option callbacks and designating options to input functions.
 
     Warning:
-        When inheriting options from a Demo superclass, either a new :class:`~demo.options.DemoOptions` instance should be created::
+        When inheriting :attr:`~demo.demo.Demo.options` from a Demo superclass, either a new :class:`~demo.options.DemoOptions` instance should be created::
 
             class NewDemo(Demo):
                 options = DemoOptions()
