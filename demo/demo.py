@@ -19,7 +19,6 @@ class Demo(object):
     
     Attributes:
         help_text (str): The help text of a `Demo`.
-        help_options (dict): Formatting options for :func:`~Demo.print_help`.
         setup_prompt (str): The input prompt for :func:`~Demo.run_setup`.
         options (DemoOptions): Delegate for registering option callbacks and designating options to input functions.
 
