@@ -13,7 +13,18 @@ from .exceptions import (DemoException, DemoRetry, KeyNotFoundError,
 
 
 class Option(object):
-    """Holds information about a registered option."""
+    """Holds information about a registered option.
+
+    Attributes:
+        name (str): The name of the option.
+        desc (str): A description of the option.
+        callback (function): The callback of the option.
+        newline (bool): Whether a new line should be printed before the callback is executed.
+        retry (bool): Whether an input function should be called again once the callback has returned.
+        lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
+        args (tuple): The default arguments when the callback is called.
+        kwargs (dict): The default keyword arguments when the callback is called.
+    """
     __slots__ = ["name", "desc", "_callback",
         "newline", "retry", "lock", "args", "kwargs"]
 
@@ -29,7 +40,6 @@ class Option(object):
 
     @callback.setter
     def callback(self, func):
-        """Define a callback based on several attributes in self using func."""
         if func is None:
             self._callback = None
         else:
@@ -67,7 +77,7 @@ class DemoOptions(object):
     Attributes:
         demo (Demo): The Demo instance that a DemoOptions instance exists in.
         registry (dict): The options that have been registered. 
-        cache (dict): A cache of key ids and options and keyword options seen.
+        cache (dict): A cache of the key ids and their options and keyword options that have been seen.
     """
 
     def __init__(self):
@@ -111,7 +121,7 @@ class DemoOptions(object):
         """Register a callback under an option.
         
         Args:
-            option (str): The option to register a callback under.
+            option (str): The name of the option.
             desc (str, optional): A description of the option, if necessary.
             newline (bool): Whether a new line should be printed before the callback is executed.
             retry (bool): Whether an input function should be called again once the callback has returned.
@@ -119,15 +129,15 @@ class DemoOptions(object):
             args (tuple): The default arguments when the callback is called.
             kwargs (dict): The default keyword arguments when the callback is called.
 
+        Returns:
+            register_decorator: A decorator which takes a function, uses it to set the callback for the option, and returns the original function.
+
         Note:
             * An option can be an expected user response or an input function key.
 
             * If a callback is registered under an input function key, the callback must accept a `response` argument- the user's response to that input function.
 
             * If a callback is registered as a `lock`, it must accept a `key` argument- the key of the input function that triggered the callback.
-
-        Returns:
-            register_decorator: A decorator which takes a function, uses it to set the callback for the option, and returns the original function.
         """
         self.registry[option] = Option(
             name=option, desc=desc, newline=newline, 
@@ -388,7 +398,7 @@ class DemoOptions(object):
         return id(key)
 
     def has_options(self, key):
-        """Check if there are any options set under `key`.
+        """Check if there are any options set with `key`.
 
         Args:
             key: A key for a set of options and keyword options.
@@ -399,7 +409,7 @@ class DemoOptions(object):
         return self.get_id(key) in self.cache
 
     def get_options(self, key):
-        """Get the options set under `key`.
+        """Get the options that were set with `key`.
 
         Args:
             key: A key for a set of options and keyword options.
@@ -416,7 +426,7 @@ class DemoOptions(object):
             raise KeyNotFoundError(key)
 
     def set_options(self, key, *opts, **kw_opts):
-        """Set options under `key`.
+        """Change the options that were set with `key`.
         
         If `opts` or `kw_opts` are provided, override the previously set options or keyword options.
 
@@ -434,7 +444,7 @@ class DemoOptions(object):
             self.cache[key_id][1] = dict(kw_opts)
 
     def insert(self, key, kw, opt, **kw_opts):
-        """Insert options under `key`.
+        """Insert an option into the options that were set with `key`.
 
         If `kw` is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
 
@@ -450,12 +460,12 @@ class DemoOptions(object):
         Raises:
             KeyNotFoundError: If the id of `key` does not exist in self.cache.
         """
-        key_id = self.get_id(key)
+        options = self.get_options(key)
         for kw, opt in dict(kw_opts, **{kw:opt}).items():
             if isinstance(kw, str) and not kw.isdigit():
-                self.cache[key_id][1][kw] = opt
+                options[1][kw] = opt
             else:
-                self.cache[key_id][0].insert(int(kw), opt)
+                options[0].insert(int(kw), opt)
 
     def copy(self):
         """Initialize a new copy of DemoOptions.

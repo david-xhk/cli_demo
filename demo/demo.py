@@ -15,12 +15,12 @@ from .exceptions import DemoRetry, DemoExit, DemoRestart, catch_exc
 
 
 class Demo(object):
-    """A basic framework for interactive demonstrations in command-line interface.
+    """A basic framework for interactive demonstrations in a command line interface.
     
     Attributes:
         help_text (str): The help text of a `Demo`.
         setup_prompt (str): The input prompt for :func:`~Demo.run_setup`.
-        options (DemoOptions): Delegate for registering option callbacks and designating options to input functions.
+        options (DemoOptions): A delegate for registering option callbacks and designating options to input functions.
 
     Warning:
         When inheriting :attr:`~demo.demo.Demo.options` from a Demo superclass, either a new :class:`~demo.options.DemoOptions` instance should be created::
@@ -68,13 +68,13 @@ Several key features are introduced:
                    border="~", title="=", subtitle="-", include=True):
         """Format and print the help text.
 
-        Attributes:
+        Args:
             symbols (list): A list of symbols for each level of indentation.
             width (int): The maximum width for a line printed.
-            indent (int): The indentation of the text printed.
+            indent (int): The number of spaces per indent for the text printed.
             border (str): The character used for the border of the help text.
             title (str): The character used for the border of the help title.
-            subtitle (str): The character used for the border of the Demo subtitle.
+            subtitle (str): The character used for the border of the class subtitle.
             include (bool): Whether to include the help text of all superclasses. 
         """
         symbols = list(enumerate(symbols))
@@ -130,27 +130,28 @@ Several key features are introduced:
     def print_options(self, *opts, **key):
         """Print what responses are allowed for an input function.
 
-        Attributes:
+        Args:
             *opts (str): Which options to print.
             **key (str): An input function key.
-
-        * If `key` is provided, print_options will do the following:
         
-          1. Retrieve options and descriptions from the `key` function- a function that starts with `key` and ending in '_options'- if it is defined.
+        Note:
+            * If `key` is provided, print_options will do the following:
+            
+              1. Retrieve options and descriptions from the `key` function- a function that starts with `key` and ends in '_options'- if it is defined.
 
-          2. Get options from :func:`~demo.options.DemoOptions.get_options` using `key`.
+              2. Get options from :func:`~demo.options.DemoOptions.get_options` using `key`.
 
-        * Other than the options from the `key` function, option descriptions are taken from the :attr:`~demo.options.DemoOptions.desc` registered under an option.
+            * Other than the options from the `key` function, option descriptions are taken from the :attr:`~demo.options.Option.desc` registered under an option.
 
-        * Options are printed in the following order: 
-            
-          1. Options from `key` function
-            
-          2. Keyword options from get_options()
-            
-          3. Argument options from get_options()
-            
-          4. Argument options passed to `print_options`
+            * Options are printed in the following order: 
+                
+              1. Options from the `key` function
+                
+              2. Keyword options from get_options()
+                
+              3. Argument options from get_options()
+                
+              4. Argument options passed to `print_options`
         """
         print("Options:")
         opt_list = []
