@@ -51,11 +51,7 @@ class DemoOptions(object):
     def register(self, option, desc="", 
                  newline=False, retry=False, lock=False):
         """Register a callback under an option.
-
-        An option can be an expected user response or a key designated to an input function. 
         
-        register_decorator takes a function and creates a callback based on the arguments provided to `register`. The callback is stored in self.callbacks, and the function is returned unchanged.
-
         Args:
             option (str): The option to register a callback under.
             desc (str, optional): A description of the option, if necessary.
@@ -63,22 +59,26 @@ class DemoOptions(object):
             retry (bool): Whether an input function should be called again once the callback has returned.
             lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
 
-        Returns:
-            register_decorator
-        
         Note:
-            * If a callback is registered under a key, the callback must accept a `response` argument- the user's response to that input function.
+            * An option can be an expected user response or an input function key.
+
+            * If a callback is registered under an input function key, the callback must accept a `response` argument- the user's response to that input function.
 
             * If a callback is registered as a `lock`, it must accept a `key` argument- the key of the input function that triggered the callback.
 
+        Returns:
+            `register_decorator`
+
+        `register_decorator` takes a function and creates a callback based on the arguments provided to `register`. The callback is stored in self.callbacks, and the function is returned unchanged.
+        
         Examples:
-            Registering with `option` as an expected user response::
+            Registering with an expected user response::
             
                 @options.register("r", "Restart."):
                 def restart(self):
                     ...  # Restart demo
 
-            Registering with `option` as an input function key::
+            Registering with an input function key::
 
                 @options.register("setup"):
                 def setup_callback(self, response):
