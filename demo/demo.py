@@ -22,6 +22,21 @@ class Demo(object):
         help_options (dict): Formatting options for :func:`~Demo.print_help`.
         setup_prompt (str): The input prompt for :func:`~Demo.run_setup`.
         options (DemoOptions): Delegate for registering option callbacks and designating options to input functions.
+
+    Warning:
+        When inheriting options from a Demo superclass, either a new :class:`~demo.options.DemoOptions` instance should be created::
+
+            class NewDemo(Demo):
+                    options = DemoOptions()
+                    ...
+
+        Or a copy should be made by calling :func:`~demo.options.DemoOptions.copy`::
+
+            class DemoSubclass(Demo):
+                options = Demo.options.copy()
+                ...
+
+        This is to avoid mangling options between superclass and subclasses.
     """
 
     help_text = """

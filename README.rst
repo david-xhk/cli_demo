@@ -20,7 +20,7 @@
 Registering an option
 ^^^^^^^^^^^^^^^^^^^^^
 
-There are various ways to :func:`~demo.options.DemoOptions.register` an option.
+There are various ways to :func:`~demo.options.DemoOptions.register` an option:
 
 * Registering with an expected user response
 ::

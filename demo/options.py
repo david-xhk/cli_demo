@@ -406,17 +406,18 @@ class DemoOptions(object):
             list[list, dict]: The options and keyword options set under `key`.
 
         Raises:
-            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
+            KeyNotFoundError: If the id of `key` does not exist in self.cache.
         """
         try:
             return self.cache[self.get_id(key)]
         except KeyError:
-            raise OptionsNotFoundError(key)
+            raise KeyNotFoundError(key)
 
     def set_options(self, key, *opts, **kw_opts):
         """Set options under `key`.
         
         If `opts` or `kw_opts` are provided, override the previously set options or keyword options.
+
         Args:
             key: A key for a set of options and keyword options.
             *opts: Argument options for `key`.
@@ -445,7 +446,7 @@ class DemoOptions(object):
             `kw_opts` are are treated similarly as `kw` and `opt`.
 
         Raises:
-            OptionsNotFoundError: If the id of `key` does not exist in self.cache.
+            KeyNotFoundError: If the id of `key` does not exist in self.cache.
         """
         key_id = self.get_id(key)
         for kw, opt in dict(kw_opts, **{kw:opt}).items():
@@ -457,21 +458,6 @@ class DemoOptions(object):
     def copy(self):
         """Initialize a new copy of DemoOptions.
         
-        When inheriting options from a Demo superclass, either a new DemoOptions instance should be created, or a copy should be made by calling this method. This is to avoid mangling options between superclass and subclasses.
-
-        Examples:
-            Creating a new instance of DemoOptions::
-
-                class NewDemo(Demo):
-                    options = DemoOptions()
-                    ...
-
-            Making a copy of the superclass options::
-
-                class DemoSubclass(Demo):
-                    options = Demo.options.copy()
-                    ...
-
         Returns:
             DemoOptions: An instance of DemoOptions with a copy of self.cache and self.registry.
         """
