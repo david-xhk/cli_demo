@@ -52,6 +52,10 @@ class DemoOptions(object):
                  newline=False, retry=False, lock=False):
         """Register a callback under an option.
 
+        An option can be an expected user response or a key designated to an input function. 
+        
+        register_decorator takes a function and creates a callback based on the arguments provided to `register`. The callback is stored in self.callbacks, and the function is returned unchanged.
+
         Args:
             option (str): The option to register a callback under.
             desc (str, optional): A description of the option, if necessary.
@@ -62,11 +66,10 @@ class DemoOptions(object):
         Returns:
             register_decorator
         
-        An option can be an expected user response or a key designated to an input function. If it is the latter, the callback must accept a `response` argument- the user's response to that input function.
+        Note:
+            * If a callback is registered under a key, the callback must accept a `response` argument- the user's response to that input function.
 
-        Meanwhile, if a callback is registered as a `lock`, it must accept a `key` argument- the key of the input function that triggered the callback.
-
-        register_decorator takes a function and creates a callback based on the arguments provided to `register`. The callback is stored in self.callbacks, and the function is returned unchanged.
+            * If a callback is registered as a `lock`, it must accept a `key` argument- the key of the input function that triggered the callback.
 
         Examples:
             Registering with `option` as an expected user response::
@@ -210,15 +213,16 @@ class DemoOptions(object):
     def insert(self, key, kw, opt, **kw_opts):
         """Insert options under `key`.
 
-        `kw` and `opt` are merged with `kw_opts`.
-
-        If a key is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
+        If `kw` is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
 
         Args:
             key: A key for a set of options and keyword options.
             kw: An index for argument options or a keyword option.
             opt (str): The option to insert.
             **kw_opts: More kw and opt pairs.
+
+        Note:
+            `kw_opts` are are treated similarly as `kw` and `opt`.
 
         Raises:
             OptionsNotFoundError: If the id of `key` does not exist in self.cache.
