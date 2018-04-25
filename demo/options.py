@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""This module contains DemoOptions, the `options` delegate for Demo, and the Option object."""
+"""This module contains DemoOptions- the `options` delegate for Demo, and Option- a class that holds information about a registered option."""
 
 # For py2.7 compatibility
 from __future__ import print_function
