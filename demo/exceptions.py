@@ -59,15 +59,17 @@ class OptionError(DemoException):
         """
         self.text = self.text.format(option)
 
+class OptionNotFoundError(OptionError):
+    """Raised when an option is not registered."""
+    text = "'{}' not registered."
 
-class OptionsNotFoundError(OptionError):
+class KeyNotFoundError(OptionError):
     """Raised when a key does not exist in the options cache."""
     text = "'{}' does not exist in the cache."
 
-class CallbackError(OptionError):
+class CallbackNotFoundError(OptionError):
     """Raised when an option has no callback."""
     text = "'{}' callback not registered"
-
 
 class CallbackNotLockError(OptionError):
     """Raised when a callback for an option was flagged as a lock but does not accept a `key` argument."""
@@ -88,7 +90,7 @@ def catch_exc(*demo_exc):
         * DemoException is the default if no subclasses are provided.
     
         * If a KeyboardInterrupt is raised, it will be re-raised as DemoExit.
-        
+
         * Non-instances of `demo_exc` will not be caught. They should typically be handled by a higher level and more general kind of catch_exc.
     """
     func = None
