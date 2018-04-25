@@ -68,8 +68,7 @@ Several key features are introduced:
     def print_help(self, symbols=[" ", "●", "○", "▸", "▹"], width=60, indent=4,
                    border="~", title="=", subtitle="-", include=True):
         """Format and print the help text.
-        
-        The help text for all superclasses will be printed
+
         Attributes:
             symbols (list): A list of symbols for each level of indentation.
             max_width: The maximum width for a line printed.
