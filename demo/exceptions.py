@@ -90,13 +90,13 @@ def catch_exc(*demo_exc):
         catch_exc_decorator: A decorator that takes a function and returns a wrapped function. As a shortcut, if a function was passed into `demo_exc`, the wrapped function is returned instead.
     
     Note:
-        * Non-subclasses of DemoException are ignored, unless a function or method is provided. 
+        * Non-subclasses of DemoException are ignored, aside from a function or method.
 
         * DemoException is the default if no subclasses are provided.
-    
-        * If a KeyboardInterrupt is raised, it will be re-raised as DemoExit.
 
         * Non-instances of `demo_exc` will not be caught. They should typically be handled by a higher level and more general kind of catch_exc.
+
+        * If a KeyboardInterrupt is raised while running the function, it will be caught and DemoExit will be re-raised.
     """
     func = None
     demo_exc = list(demo_exc)
