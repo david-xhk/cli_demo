@@ -18,12 +18,12 @@ class Demo(object):
     """A basic framework for interactive demonstrations in a command line interface.
     
     Attributes:
-        help_text (str): The help text of a `Demo`.
+        help_text (str): The help text used in :func:`~Demo.print_help`.
         setup_prompt (str): The input prompt for :func:`~Demo.run_setup`.
         options (DemoOptions): A delegate for registering option callbacks and designating options to input functions.
 
     Warning:
-        When inheriting :attr:`~demo.demo.Demo.options` from a Demo superclass, either a new :class:`~demo.options.DemoOptions` instance should be created::
+        When inheriting :attr:`~demo.demo.Demo.options` from a :class:`~demo.demo.Demo` superclass, either a new :class:`~demo.options.DemoOptions` instance should be created::
 
             class NewDemo(Demo):
                 options = DemoOptions()
@@ -72,7 +72,7 @@ Several key features are introduced:
             @options.register("h", "Help.", retry=True, newline=True)
             def print_help(self, **kwargs):
                 ...
-        
+
         Args:
             symbols (list): A list of symbols for each level of indentation. Defaults to [" ", "●", "○", "▸", "▹"].
             width (int): The maximum width for a line printed. Defaults to 60.
