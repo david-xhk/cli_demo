@@ -419,7 +419,7 @@ class DemoOptions(object):
             key: A key for a set of options and keyword options.
 
         Returns:
-            ``True`` if the id of `key` exists in self.cache, ``False`` otherwise.
+            ``True`` if the id of `key` exists in :attr:`~demo.options.DemoOptions.cache`, ``False`` otherwise.
         """
         return self.get_id(key) in self.cache
 
@@ -433,7 +433,7 @@ class DemoOptions(object):
             list[list, dict]: The options and keyword options set under `key`.
 
         Raises:
-            KeyNotFoundError: If the id of `key` does not exist in self.cache.
+            KeyNotFoundError: If the id of `key` does not exist in :attr:`~demo.options.DemoOptions.cache`.
         """
         try:
             return self.cache[self.get_id(key)]
@@ -470,7 +470,7 @@ class DemoOptions(object):
             **kw_opts: More kw and opt pairs.
 
         Raises:
-            KeyNotFoundError: If the id of `key` does not exist in self.cache.
+            KeyNotFoundError: If the id of `key` does not exist in :attr:`~demo.options.DemoOptions.cache`.
 
         Note:
             `kw_opts` are are treated similarly as `kw` and `opt`.
@@ -483,7 +483,7 @@ class DemoOptions(object):
                 options[0].insert(int(kw), opt)
 
     def copy(self):
-        """Initialize a new copy of DemoOptions.
+        """Initialize a new copy of :class:`~demo.options.DemoOptions`.
         
         Returns:
             An instance of :class:`~demo.options.DemoOptions` with a deep copy of self.cache and self.registry.

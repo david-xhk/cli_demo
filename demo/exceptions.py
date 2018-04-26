@@ -94,7 +94,7 @@ def catch_exc(*demo_exc):
 
         * :class:`~demo.exceptions.DemoException` is the default if no subclasses are provided.
 
-        * Non-instances of `demo_exc` will not be caught. They should typically be handled by a higher level and more general kind of catch_exc.
+        * Non-instances of `demo_exc` will not be caught. They should typically be handled by a higher level and more general kind of :func:`~demo.exceptions.catch_exc`.
 
         * If a :class:`KeyboardInterrupt` is raised while running the function, it will be caught and :class:`~demo.exceptions.DemoExit` will be re-raised.
     """
