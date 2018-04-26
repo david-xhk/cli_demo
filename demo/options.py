@@ -134,11 +134,11 @@ class DemoOptions(object):
         Args:
             option (str): The name of the option.
             desc (str, optional): A description of the option. Defaults to "".
-            newline (bool): Whether a new line should be printed before the callback is executed. Defaults to ``False``.
+            newline (bool): Whether an empty line should be printed before calling the callback. Defaults to ``False``.
             retry (bool): Whether an input function should be called again once the callback has returned. Defaults to ``False``.
             lock (bool): Whether the `key` of a trigerring input function should be received by the callback. Defaults to ``False``.
-            args (tuple): The default arguments when the callback is called. Defaults to ().
-            kwargs (dict): The default keyword arguments when the callback is called. Defaults to {}.
+            args (tuple): The default arguments to use when calling the callback. Defaults to ().
+            kwargs (dict): The default keyword arguments to use when calling the callback. Defaults to {}.
 
         Returns:
             register_decorator: A decorator which takes a function, uses it to set the callback for the option, and returns the original function.
@@ -182,7 +182,7 @@ class DemoOptions(object):
             Option: The Option object registered under `option`.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         try:
             return self.registry[option]
@@ -201,9 +201,9 @@ class DemoOptions(object):
             The return value of the callback.
 
         Raises:
-            DemoException: If self.demo is not set.
-            OptionNotFoundError: If `option` does not exist in self.registry.
-            CallbackNotFoundError: If a callback has not been registered under `option`.
+            DemoException: If :attr:`~demo.options.DemoOptions.demo` is not set.
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`.
+            CallbackNotFoundError: If :attr:`demo.options.Option.callback` has not been set in the Option object.
         """
         if not self.demo:
             raise DemoException("Demo not set yet.")
@@ -218,11 +218,11 @@ class DemoOptions(object):
             option (str): The name used to register the Option object.
 
         Returns:
-            The :func:`~demo.options.Option.call` function of the Option object, which wraps the original callback function that was registered.
+            The :func:`~demo.options.Option.call` function of the Option object, which wraps the :attr:`demo.options.Option.callback` that was set.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry.
-            CallbackNotFoundError: If a callback has not been registered under `option`.
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`.
+            CallbackNotFoundError: If :attr:`demo.options.Option.callback` has not been set in the Option object.
         """
         option_obj = self[option]
         if option_obj.callback is None:
@@ -235,10 +235,10 @@ class DemoOptions(object):
 
         Args:
             option (str): The name used to register the Option object.
-            callback: The callback function to register under option.
+            callback: The callback function to set.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         self[option].callback = callback                 
 
@@ -249,10 +249,10 @@ class DemoOptions(object):
             option (str): The name used to register the Option object.
 
         Returns:
-            ``True`` if the Option was registered as a lock, ``False`` otherwise.
+            ``True`` if the Option object was registered as a lock, ``False`` otherwise.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         return self[option].lock is True
 
@@ -261,10 +261,10 @@ class DemoOptions(object):
 
         Args:
             option (str): The name used to register the Option object.
-            lock (bool): Whether the `key` of a trigerring input function should be received by the registered callback.
+            lock (bool): Whether the `key` of a trigerring input function should be received by :attr:`demo.options.Option.callback`.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         self[option].lock = bool(lock)
 
@@ -278,7 +278,7 @@ class DemoOptions(object):
             ``True`` if the Option object was registered to retry, ``False`` otherwise.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         return self[option].retry is True
 
@@ -287,10 +287,10 @@ class DemoOptions(object):
 
         Args:
             option (str): The name used to register the Option object.
-            retry (bool): Whether an input function should be called again once the registered callback has returned.
+            retry (bool): Whether an input function should be called again once :attr:`demo.options.Option.callback` has returned.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         self[option].retry = bool(retry)
 
@@ -304,7 +304,7 @@ class DemoOptions(object):
             ``True`` if the Option object was registered to have a newline, ``False`` otherwise.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         return self[option].newline is True
 
@@ -313,10 +313,10 @@ class DemoOptions(object):
 
         Args:
             option (str): The name used to register the Option object.
-            newline (bool): Whether a new line should be printed before the registered callback is executed.
+            newline (bool): Whether an empty line should be printed before calling :attr:`demo.options.Option.callback`.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         self[option].newline = bool(newline)
 
@@ -330,7 +330,7 @@ class DemoOptions(object):
             str: The registered :attr:`~demo.options.Option.desc`.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         return self[option].desc
 
@@ -342,7 +342,7 @@ class DemoOptions(object):
             desc (str): A description of the option.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         self[option].desc = str(desc)
 
@@ -356,7 +356,7 @@ class DemoOptions(object):
             tuple: The registered :attr:`~demo.options.Option.args`.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         return self[option].args
 
@@ -365,10 +365,10 @@ class DemoOptions(object):
 
         Args:
             option (str): The name used to register the Option object.
-            *args: The default arguments to use when calling the registered callback.
+            *args: The default arguments to use when calling :attr:`demo.options.Option.callback`.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         self[option].args = tuple(args)
 
@@ -382,7 +382,7 @@ class DemoOptions(object):
             dict: The registered :attr:`~demo.options.Option.kwargs`.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         return self[option].kwargs
 
@@ -391,10 +391,10 @@ class DemoOptions(object):
 
         Args:
             option (str): The name used to register the Option object.
-            **kwargs: The default keyword arguments to use when calling the registered callback.
+            **kwargs: The default keyword arguments to use when calling :attr:`demo.options.Option.callback`.
 
         Raises:
-            OptionNotFoundError: If `option` does not exist in self.registry. 
+            OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
         self[option].kwargs = dict(kwargs)
 
