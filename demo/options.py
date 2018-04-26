@@ -141,14 +141,14 @@ class DemoOptions(object):
             kwargs (dict, optional): The default keyword arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object in its :func:`~demo.options.Option.call` function. Defaults to {}.
 
         Returns:
-            register_decorator: A decorator which takes a function, sets the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object, and returns the original function.
+            :func:`register_decorator`: A decorator which takes a function, sets the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object, and returns the original function.
 
         Note:
             * `option` can be an expected user response or an input function key.
 
-            * If `option` is an input function key, the :attr:`~demo.options.Option.callback` that is registered must accept a `response` argument- the user's response to that input function.
+            * If `option` is an input function key, the :attr:`~demo.options.Option.callback` that is set must accept a `response` argument- the user's response to that input function.
 
-            * If `lock` is ``True``, the :attr:`~demo.options.Option.callback` that is registered must accept a `key` argument- the key of the input function that triggered it.
+            * If `lock` is ``True``, the :attr:`~demo.options.Option.callback` that is set must accept a `key` argument- the key of the input function that triggered it.
         """
         self.registry[option] = Option(name=option, desc=desc,
             newline=kwargs.get("newline", False), 
@@ -180,7 +180,7 @@ class DemoOptions(object):
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
 
         Returns:
-            Option: The :class:`~demo.options.Option` object registered under `option`.
+            The :class:`~demo.options.Option` object registered under `option`.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
@@ -192,20 +192,20 @@ class DemoOptions(object):
             
 
     def call(self, option, *args, **kwargs):
-        """Forward a call to the :func:`~demo.options.Option.call` function of the registered :class:`~demo.options.Option` object.
+        """Forward a call to the :func:`~demo.options.Option.call` function of the :class:`~demo.options.Option` object.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
-            *args: The arguments to use when calling :attr:`demo.options.Option.callback`.
-            **kwargs: The keyword arguments to use when calling :attr:`demo.options.Option.callback`.
+            *args: The arguments to use when calling :attr:`~demo.options.Option.callback`.
+            **kwargs: The keyword arguments to use when calling :attr:`~demo.options.Option.callback`.
 
         Returns:
-            The return value of :attr:`demo.options.Option.callback`.
+            The return value of :attr:`~demo.options.Option.callback`.
 
         Raises:
             DemoException: If :attr:`~demo.options.DemoOptions.demo` is not set.
             OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`.
-            CallbackNotFoundError: If :attr:`demo.options.Option.callback` has not been set in the :class:`~demo.options.Option` object.
+            CallbackNotFoundError: If :attr:`~demo.options.Option.callback` has not been set in the :class:`~demo.options.Option` object.
         """
         if not self.demo:
             raise DemoException("Demo not set yet.")
@@ -220,11 +220,11 @@ class DemoOptions(object):
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
 
         Returns:
-            The :func:`~demo.options.Option.call` function of the :class:`~demo.options.Option` object, which wraps the :attr:`demo.options.Option.callback` that was set.
+            The :func:`~demo.options.Option.call` function of the :class:`~demo.options.Option` object, which wraps the :attr:`~demo.options.Option.callback` that was set.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`.
-            CallbackNotFoundError: If :attr:`demo.options.Option.callback` has not been set in the :class:`~demo.options.Option` object.
+            CallbackNotFoundError: If :attr:`~demo.options.Option.callback` has not been set in the :class:`~demo.options.Option` object.
         """
         option_obj = self[option]
         if option_obj.callback is None:
@@ -245,7 +245,7 @@ class DemoOptions(object):
         self[option].callback = callback                 
 
     def is_lock(self, option):
-        """Check if the `key` of a trigerring input function will be received by the :attr:`demo.options.Option.callback` of the :class:`~demo.options.Option` object.
+        """Check if the `key` of a trigerring input function will be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
@@ -259,11 +259,11 @@ class DemoOptions(object):
         return self[option].lock is True
 
     def set_lock(self, option, lock):
-        """Set whether the `key` of a trigerring input function should be received by the :attr:`demo.options.Option.callback` of the :class:`~demo.options.Option` object.
+        """Set whether the `key` of a trigerring input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
-            lock (bool): Whether the `key` of a trigerring input function should be received by the :attr:`demo.options.Option.callback` of the :class:`~demo.options.Option` object.
+            lock (bool): Whether the `key` of a trigerring input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
@@ -271,7 +271,7 @@ class DemoOptions(object):
         self[option].lock = bool(lock)
 
     def will_retry(self, option):
-        """Check if an input function will be called again once the :attr:`demo.options.Option.callback` of the :class:`~demo.options.Option` object has returned.
+        """Check if an input function will be called again once the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object has returned.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
@@ -285,11 +285,11 @@ class DemoOptions(object):
         return self[option].retry is True
 
     def set_retry(self, option, retry):
-        """Set whether an input function should be called again once the :attr:`demo.options.Option.callback` of the :class:`~demo.options.Option` object has returned.
+        """Set whether an input function should be called again once the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object has returned.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
-            retry (bool): Whether an input function should be called again once the :attr:`demo.options.Option.callback` of the :class:`~demo.options.Option` object has returned.
+            retry (bool): Whether an input function should be called again once the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object has returned.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
@@ -297,7 +297,7 @@ class DemoOptions(object):
         self[option].retry = bool(retry)
 
     def has_newline(self, option):
-        """Check if an empty line will be printed before the :attr:`demo.options.Option.callback` of the  :class:`~demo.options.Option` object is called.
+        """Check if an empty line will be printed before the :attr:`~demo.options.Option.callback` of the  :class:`~demo.options.Option` object is called.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
@@ -311,11 +311,11 @@ class DemoOptions(object):
         return self[option].newline is True
 
     def set_newline(self, option, newline):
-        """Set whether an empty line should be printed before the :attr:`demo.options.Option.callback` of the  :class:`~demo.options.Option` object is called.
+        """Set whether an empty line should be printed before the :attr:`~demo.options.Option.callback` of the  :class:`~demo.options.Option` object is called.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
-            newline (bool): Whether an empty line should be printed before the :attr:`demo.options.Option.callback` of the  :class:`~demo.options.Option` object is called.
+            newline (bool): Whether an empty line should be printed before the :attr:`~demo.options.Option.callback` of the  :class:`~demo.options.Option` object is called.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 

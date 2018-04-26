@@ -87,7 +87,7 @@ def catch_exc(*demo_exc):
         *demo_exc: One or a few subclasses of :class:`~demo.exceptions.DemoException`, and possibly a function to wrap.
 
     Returns:
-        catch_exc_decorator: A decorator that takes a function and returns a wrapped function. As a shortcut, if a function was passed into `demo_exc`, the wrapped function is returned instead.
+        :func:`catch_exc_decorator`: A decorator that takes a function and returns a wrapped function. As a shortcut, if a function was passed into `demo_exc`, the wrapped function is returned instead.
     
     Note:
         * Non-subclasses of :class:`~demo.exceptions.DemoException` are ignored, aside from a function or method.
