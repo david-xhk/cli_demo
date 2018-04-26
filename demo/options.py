@@ -43,10 +43,10 @@ class Option(object):
             **kwargs: The keyword arguments passed to the callback.
 
         Note:
-            * self.args is used if `args` is empty.
-            * self.kwargs is used if `kwargs` is empty.
-            * A newline is printed beforehand if self.newline is ``True``.
-            * DemoRetry will be raised if self.retry is ``True`` and the callback successfully returned.
+            * :attr:`~demo.options.Option.args` is used if `args` is empty.
+            * :attr:`~demo.options.Option.kwargs` is used if `kwargs` is empty.
+            * A newline is printed beforehand if :attr:`~demo.options.Option.newline` is ``True``.
+            * DemoRetry will be raised if :attr:`~demo.options.Option.retry` is ``True`` and the callback successfully returned.
         """
         if not args:
             args = self.args
