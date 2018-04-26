@@ -15,7 +15,7 @@ class DemoException(Exception):
     Initializing an instance of :class:`~demo.exceptions.DemoException` with some text will override the default text defined in the class.
     
     Attributes:
-        text (str): The text to print when an instance is caught.
+        text (str): The text to print when a :class:`~demo.exceptions.DemoException` instance is caught.
     """
     text = None
     def __init__(self, text=None):
