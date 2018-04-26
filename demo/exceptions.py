@@ -10,16 +10,16 @@ import inspect
 
 
 class DemoException(Exception):
-    """Base exception for any error raised in a Demo.
+    """Base exception for any error raised in a :class:`~demo.demo.Demo`.
 
-    Initializing an instance of DemoException with some text will override the default text defined in the class.
+    Initializing an instance of :class:`~demo.exceptions.DemoException` with some text will override the default text defined in the class.
     
     Attributes:
         text (str): The text to print when an instance is caught.
     """
     text = None
     def __init__(self, text=None):
-        """Override the default class text if `text` is given.
+        """Override the default :attr:`~demo.exceptions.DemoException.text` if `text` is given.
 
         Args:
             text (str, optional): A custom error text.
@@ -29,30 +29,30 @@ class DemoException(Exception):
 
 
 class DemoRestart(DemoException):
-    """Raised when user restarts a demo."""
+    """Raised when user wants to restarts a :class:`~demo.demo.Demo`."""
     text = "Restarting."
 
 
 class DemoExit(DemoException):
-    """Raised when user quits a demo."""
+    """Raised when user wants to quit a :class:`~demo.demo.Demo`."""
     text = "Goodbye!"
 
 
 class DemoRetry(DemoException):
-    """Raised when an input function should be called again."""
+    """Raised when an input function in a :class:`~demo.demo.Demo` should be called again."""
     text = ""
 
 
 class OptionError(DemoException):
     """Base exception for any error raised when an option is selected.
 
-    Instances of OptionError must be initialized with an option. It will be used to format the class format string.
+    Instances of :class:`~demo.exceptions.OptionError` must be initialized with an option name. It will be used to format the default :attr:`~demo.exceptions.OptionError.text`.
     
     Attributes:
         text (str): A format string for an option.
     """
     def __init__(self, option):
-        """Format the class text with an option name.
+        """Format the default :attr:`~demo.exceptions.OptionError.text` with an option name.
         
         Args:
             option (str): The option name.
