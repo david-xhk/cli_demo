@@ -133,12 +133,12 @@ class DemoOptions(object):
         
         Args:
             option (str): The name of the option.
-            desc (str, optional): A description of the option. Defaults to "".
-            newline (bool): Whether an empty line should be printed before calling :attr:`~demo.options.Option.callback`. Defaults to ``False``.
-            retry (bool): Whether an input function should be called again once :attr:`~demo.options.Option.callback` has returned. Defaults to ``False``.
-            lock (bool): Whether the `key` of a trigerring input function should be received by :attr:`~demo.options.Option.callback`. Defaults to ``False``.
-            args (tuple): The default arguments to use when calling :attr:`~demo.options.Option.callback`. Defaults to ().
-            kwargs (dict): The default keyword arguments to use when calling :attr:`~demo.options.Option.callback`. Defaults to {}.
+            desc (str, optional): The description of the option that should be printed in :func:`~demo.demo.Demo.print_options`. Defaults to "".
+            newline (bool, optional): Whether an empty line should be printed before the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object is called in its :func:`~demo.options.Option.call` function. Defaults to ``False``.
+            retry (bool, optional): Whether an input function should be called again once the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object has returned. Defaults to ``False``.
+            lock (bool, optional): Whether the `key` of a trigerring input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object. Defaults to ``False``.
+            args (tuple, optional): The default arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object in its :func:`~demo.options.Option.call` function. Defaults to ().
+            kwargs (dict, optional): The default keyword arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object in its :func:`~demo.options.Option.call` function. Defaults to {}.
 
         Returns:
             register_decorator: A decorator which takes a function, sets the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object, and returns the original function.
