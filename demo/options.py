@@ -459,11 +459,11 @@ class DemoOptions(object):
             opt (str): The option to insert.
             **kw_opts: More kw and opt pairs.
 
-        Note:
-            `kw_opts` are are treated similarly as `kw` and `opt`.
-
         Raises:
             KeyNotFoundError: If the id of `key` does not exist in self.cache.
+
+        Note:
+            `kw_opts` are are treated similarly as `kw` and `opt`.
         """
         options = self.get_options(key)
         for kw, opt in dict(kw_opts, **{kw:opt}).items():

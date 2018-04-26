@@ -75,6 +75,13 @@ Several key features are introduced:
             title (str): The character used for the border of the help title. Defaults to "=".
             subtitle (str): The character used for the border of the class subtitle. Defaults to "-".
             include (bool): Whether to include the help text of all Demo superclasses. Defaults to ``True``.
+
+        Note:
+            `print_help` is decorated with::
+
+                @options.register("h", "Help.", retry=True, newline=True)
+                def print_help(self, **kwargs):
+                    ...
         """
         symbols = list(enumerate(kwargs.get(
             "symbols", [" ", "●", "○", "▸", "▹"])))
@@ -158,6 +165,12 @@ Several key features are introduced:
               4. Argument options passed to `print_options`
 
             * Other than the options from the `key` function, option descriptions are taken from the :attr:`~demo.options.Option.desc` registered under an option.
+
+            * `print_options` is decorated with::
+
+                @options.register("o", "Options", retry=True, lock=True, newline=True)
+                def print_options(self, *opts, **key):
+                    ...
         """
         print("Options:")
         opt_list = []
@@ -193,13 +206,28 @@ Several key features are introduced:
 
         Args:
             response (str): The user input.
+
+        Note:
+            `setup_callback` is decorated with::
+
+                @options.register("setup", retry=True)
+                def setup_callback(self, response):
+                    ...
         """
         print("Got: {}".format(response))
         print()
 
     @options("h", "o", "r", "q", key="setup")
     def run_setup(self):
-        """Prompt the user for input for the setup process."""
+        """Prompt the user for input for the setup process.
+
+        Note:
+            `run_setup` is decorated with::
+
+                @options("h", "o", "r", "q", key="setup")
+                def run_setup(self):
+                    ...
+        """
         return input(self.setup_prompt)
 
     def setup_options(self):
@@ -208,7 +236,15 @@ Several key features are introduced:
 
     @catch_exc
     def run(self):
-        """The main logic of a Demo program."""
+        """The main logic of a Demo program.
+
+        Note:
+            `run` is decorated with::
+
+                @catch_exc
+                def run(self):
+                    ...
+        """
         self.print_intro()
         self.print_options(key="setup")
         self.run_setup()
@@ -219,6 +255,13 @@ Several key features are introduced:
 
         Args:
             text (str, optional): The text to print when restarting.
+
+        Note:
+            `restart` is decorated with::
+
+                @options.register("r", "Restart.")
+                def restart(self, text=None):
+                    ...
         """
         raise DemoRestart(text)
 
@@ -228,6 +271,13 @@ Several key features are introduced:
 
         Args:
             text (str, optional): The text to print when quitting.
+
+        Note:
+            `quit` is decorated with::
+
+                @options.register("q", "Quit.")
+                def quit(self, text=None):
+                    ...
         """
         raise DemoExit(text)
 
