@@ -251,7 +251,7 @@ class DemoOptions(object):
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
 
         Returns:
-            ``True`` if the :attr:`~demo.options.Option.newline` attribute of the :class:`~demo.options.Option` object is ``True``, ``False`` otherwise.
+            ``True`` if the :attr:`~demo.options.Option.lock` attribute of the :class:`~demo.options.Option` object is ``True``, ``False`` otherwise.
 
         Raises:
             :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` object. 
@@ -329,7 +329,7 @@ class DemoOptions(object):
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
 
         Returns:
-            str: The :attr:`~demo.options.Option.desc` of the :class:`~demo.options.Option` object.
+            str: The :attr:`~demo.options.Option.desc` attribute of the :class:`~demo.options.Option` object.
 
         Raises:
             :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` object. 
@@ -355,7 +355,7 @@ class DemoOptions(object):
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
 
         Returns:
-            tuple: The :attr:`~demo.options.Option.args` of the :class:`~demo.options.Option` object.
+            tuple: The :attr:`~demo.options.Option.args` attribute of the :class:`~demo.options.Option` object.
 
         Raises:
             :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` object. 
@@ -381,7 +381,7 @@ class DemoOptions(object):
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
 
         Returns:
-            dict: The :attr:`~demo.options.Option.kwargs` of the :class:`~demo.options.Option` object.
+            dict: The :attr:`~demo.options.Option.kwargs` attribute of the :class:`~demo.options.Option` object.
 
         Raises:
             :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` object. 
