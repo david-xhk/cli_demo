@@ -57,7 +57,7 @@ Several key features are introduced:
     def print_intro(self):
         """Print the welcome text once.
 
-        After `print_intro` is called once, calling it again will no longer have any effect.
+        After :func:`~demo.demo.Demo.print_intro` is called once, calling it again will no longer have any effect.
         """
         print("Welcome to {}!".format(self.__class__.__name__))
         print()
@@ -67,7 +67,7 @@ Several key features are introduced:
     def print_help(self, **kwargs):
         """Format and print the :attr:`~demo.demo.Demo.help_text`.
 
-        `print_help` is decorated with::
+        :func:`~demo.demo.Demo.print_help` is decorated with::
 
             @options.register("h", "Help.", retry=True, newline=True)
             def print_help(self, **kwargs):
@@ -142,7 +142,7 @@ Several key features are introduced:
     def print_options(self, *opts, **key):
         """Print what responses are allowed for an input function.
 
-        `print_options` is decorated with::
+        :func:`~demo.demo.Demo.print_options` is decorated with::
 
             @options.register("o", "Options", retry=True, lock=True, newline=True)
             def print_options(self, *opts, **key):
@@ -153,23 +153,23 @@ Several key features are introduced:
             **key (str): An input function key.
         
         Note:
-            * If an input function `key` is provided, print_options will do the following:
+            * If an input function `key` is provided, :func:`~demo.demo.Demo.print_options` will do the following:
             
-              1. Retrieve options and descriptions from the `key` function- a function that starts with `key` and ends in '_options'- if it is defined.
+              1. Retrieve options and descriptions from :func:`key_options`- a function that starts with `key` and ends in '_options'- if it is defined.
 
               2. Get options from :func:`~demo.options.DemoOptions.get_options` using the input function `key`.
 
             * Options are printed in the following order: 
                 
-              1. Options from the `key` function
+              1. Options from :func:`key_options`
                 
               2. Keyword options from :func:`~demo.options.DemoOptions.get_options`
                 
               3. Argument options from :func:`~demo.options.DemoOptions.get_options`
                 
-              4. Argument options passed to `print_options`
+              4. Argument options passed to :func:`~demo.demo.Demo.print_options`
 
-            * Other than the options from the `key` function, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the registered :class:`~demo.options.Option` object.
+            * Other than the options from :func:`key_options`, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the registered :class:`~demo.options.Option` object.
         """
         print("Options:")
         opt_list = []
@@ -203,7 +203,7 @@ Several key features are introduced:
     def setup_callback(self, response):
         """Handle user input to :func:`~demo.demo.Demo.run_setup`.
 
-        `setup_callback` is decorated with::
+        :func:`~demo.demo.Demo.setup_callback` is decorated with::
 
             @options.register("setup", retry=True)
             def setup_callback(self, response):
@@ -219,7 +219,7 @@ Several key features are introduced:
     def run_setup(self):
         """Prompt the user for input for the setup process.
 
-        `run_setup` is decorated with::
+        :func:`~demo.demo.Demo.run_setup` is decorated with::
 
             @options("h", "o", "r", "q", key="setup")
             def run_setup(self):
@@ -235,7 +235,7 @@ Several key features are introduced:
     def run(self):
         """The main logic of a :class:`~demo.demo.Demo` program.
 
-        `run` is decorated with::
+        :func:`~demo.demo.Demo.run` is decorated with::
 
             @catch_exc
             def run(self):
@@ -249,7 +249,7 @@ Several key features are introduced:
     def restart(self, text=None):
         """Restart the main :func:`~demo.demo.Demo.run` loop.
         
-        `restart` is decorated with::
+        :func:`~demo.demo.Demo.restart` is decorated with::
 
             @options.register("r", "Restart.")
             def restart(self, text=None):
@@ -264,7 +264,7 @@ Several key features are introduced:
     def quit(self, text=None):
         """Break out of the main :func:`~demo.demo.Demo.run` loop.
 
-        `quit` is decorated with::
+        :func:`~demo.demo.Demo.quit` is decorated with::
 
             @options.register("q", "Quit.")
             def quit(self, text=None):
