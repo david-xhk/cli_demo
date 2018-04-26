@@ -21,7 +21,7 @@ class Option(object):
         callback (function): The function that the :func:`~demo.options.Option.call` function should wrap.
         newline (bool): Whether an empty line should be printed before :attr:`~demo.options.Option.callback` is called in the :func:`~demo.options.Option.call` function.
         retry (bool): Whether an input function should be called again once :attr:`~demo.options.Option.callback` has returned.
-        lock (bool): Whether the `key` of a trigerring input function should be received by :attr:`~demo.options.Option.callback`.
+        lock (bool): Whether the `key` of a triggering input function should be received by :attr:`~demo.options.Option.callback`.
         args (tuple): The default arguments that should be used to call :attr:`~demo.options.Option.callback` in the :func:`~demo.options.Option.call` function.
         kwargs (dict): The default keyword arguments that should be used to call :attr:`~demo.options.Option.callback` in the :func:`~demo.options.Option.call` function.
     """
@@ -136,7 +136,7 @@ class DemoOptions(object):
             desc (str, optional): The description of the option that should be printed in :func:`~demo.demo.Demo.print_options`. Defaults to "".
             newline (bool, optional): Whether an empty line should be printed before the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object is called in its :func:`~demo.options.Option.call` function. Defaults to ``False``.
             retry (bool, optional): Whether an input function should be called again once the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object has returned. Defaults to ``False``.
-            lock (bool, optional): Whether the `key` of a trigerring input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object. Defaults to ``False``.
+            lock (bool, optional): Whether the `key` of a triggering input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object. Defaults to ``False``.
             args (tuple, optional): The default arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object in its :func:`~demo.options.Option.call` function. Defaults to ().
             kwargs (dict, optional): The default keyword arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object in its :func:`~demo.options.Option.call` function. Defaults to {}.
 
@@ -245,7 +245,7 @@ class DemoOptions(object):
         self[option].callback = callback                 
 
     def is_lock(self, option):
-        """Check if the `key` of a trigerring input function will be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
+        """Check if the `key` of a triggering input function will be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
@@ -259,11 +259,11 @@ class DemoOptions(object):
         return self[option].lock is True
 
     def set_lock(self, option, lock):
-        """Set whether the `key` of a trigerring input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
+        """Set whether the `key` of a triggering input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
-            lock (bool): Whether the `key` of a trigerring input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
+            lock (bool): Whether the `key` of a triggering input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
 
         Raises:
             :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` object. 
