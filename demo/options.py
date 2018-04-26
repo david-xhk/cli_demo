@@ -141,7 +141,7 @@ class DemoOptions(object):
             kwargs (dict): The default keyword arguments to use when calling :attr:`~demo.options.Option.callback`. Defaults to {}.
 
         Returns:
-            register_decorator: A decorator which takes a function, uses it to set the callback for the Option object, and returns the original function.
+            register_decorator: A decorator which takes a function, sets the :attr:`~demo.options.Option.callback` of the Option object, and returns the original function.
 
         Note:
             * `option` can be an expected user response or an input function key.
