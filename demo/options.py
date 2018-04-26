@@ -129,7 +129,7 @@ class DemoOptions(object):
     def register(self, option, desc="", **kwargs):
         """Register an option.
 
-        An Option object will be created based on the arguments and keyword arguments provided and stored in :attr:`~demo.options.Option.registry`.
+        An Option object will be created based on the arguments and keyword arguments provided and then stored in :attr:`~demo.options.DemoOptions.registry`.
         
         Args:
             option (str): The name of the option.
