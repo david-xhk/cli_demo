@@ -38,9 +38,9 @@ class Option(object):
         """Call the registered :attr:`~demo.options.Option.callback`.
 
         Args:
-            demo (Demo): The :class:`~demo.demo.Demo` instance passed to :attr:`~demo.options.Option.callback`.
-            *args: The arguments passed to :attr:`~demo.options.Option.callback`.
-            **kwargs: The keyword arguments passed to :attr:`~demo.options.Option.callback`.
+            demo (Demo): The :class:`~demo.demo.Demo` instance that should be passed to :attr:`~demo.options.Option.callback`.
+            *args: The arguments that should be passed to :attr:`~demo.options.Option.callback`.
+            **kwargs: The keyword arguments that should be passed to :attr:`~demo.options.Option.callback`.
 
         Note:
             * :attr:`~demo.options.Option.args` is used if `args` is empty.
