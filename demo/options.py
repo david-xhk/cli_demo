@@ -196,11 +196,11 @@ class DemoOptions(object):
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
-            *args: The arguments to use when calling :attr:`~demo.options.Option.callback`.
-            **kwargs: The keyword arguments to use when calling :attr:`~demo.options.Option.callback`.
+            *args: The arguments to use when calling the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
+            **kwargs: The keyword arguments to use when calling the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
 
         Returns:
-            The return value of :attr:`~demo.options.Option.callback`.
+            The return value of the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` object.
 
         Raises:
             DemoException: If :attr:`~demo.options.DemoOptions.demo` is not set.
