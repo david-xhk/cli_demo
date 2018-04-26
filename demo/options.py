@@ -25,37 +25,43 @@ class Option(object):
         args (tuple): The default arguments when the callback is called.
         kwargs (dict): The default keyword arguments when the callback is called.
     """
-    __slots__ = ["name", "desc", "_callback",
-        "newline", "retry", "lock", "args", "kwargs"]
+    __slots__ = ["name", "desc", "callback", "newline",
+                 "retry", "lock", "args", "kwargs"]
 
     def __init__(self, **kwargs):
-        for attr in ["name", "desc", "callback", 
-                "newline", "retry", "lock", "args", "kwargs"]:
+        for attr in ["name", "desc", "callback", "newline", 
+                     "retry", "lock", "args", "kwargs"]:
             value = kwargs.get(attr, None)
             setattr(self, attr, value)
 
-    @property
-    def callback(self):
-        return self._callback
+    def call(self, demo, *args, **kwargs):
+        """Call the registered callback.
 
-    @callback.setter
-    def callback(self, func):
-        if func is None:
-            self._callback = None
-        else:
-            def callback(demo, *args, **kwargs):
-                if self.newline:
-                    print()
-                did_return = False
-                try:
-                    result = callback.inner(demo, *args, **kwargs)
-                    did_return = True
-                    return result
-                finally:
-                    if did_return and self.retry:
-                        demo.retry()
-            callback.inner = func
-            self._callback = callback
+        Args:
+            demo (Demo): The demo instance passed to the callback.
+            *args: The arguments passed to the callback.
+            **kwargs: The keyword arguments passed to the callback.
+
+        Note:
+            * self.args is used if `args` is empty.
+            * self.kwargs is used if `kwargs` is empty.
+            * A newline is printed beforehand if self.newline is ``True``.
+            * DemoRetry will be raised if self.retry is ``True`` and the callback successfully returned.
+        """
+        if not args:
+            args = self.args
+        if not kwargs:
+            kwargs = self.kwargs
+        if self.newline:
+            print()
+        did_return = False
+        try:
+            result = self.callback(demo, *args, **kwargs)
+            did_return = True
+            return result
+        finally:
+            if did_return and self.retry:
+                demo.retry()
         
     def copy(self):
         """Initialize a new copy of Option.
@@ -65,14 +71,13 @@ class Option(object):
         """
         new_option = Option(
             name=str(self.name), 
-            desc=str(self.desc), 
+            desc=str(self.desc),
+            callback=self.callback,
             newline=bool(self.newline), 
             retry=bool(self.retry), 
             lock=bool(self.lock), 
             args=tuple(self.args), 
             kwargs=dict(self.kwargs))
-        if self._callback:
-            new_option.callback = self._callback.inner
         return new_option
 
 
@@ -200,10 +205,6 @@ class DemoOptions(object):
             raise DemoException("Demo not set yet.")
         else:
             callback = self.get_callback(option)
-            if not args:
-                args = self.get_args(option)
-            if not kwargs:
-                kwargs = self.get_kwargs(option)
             return callback(self.demo, *args, **kwargs)
 
     def get_callback(self, option):
@@ -219,11 +220,10 @@ class DemoOptions(object):
             OptionNotFoundError: If `option` does not exist in self.registry.
             CallbackNotFoundError: If a callback has not been registered under `option`.
         """
-        callback = self[option].callback
-        if callback is None:
+        if self[option].callback is None:
             raise CallbackNotFoundError(option)
         else:
-            return callback
+            return self[option].call
 
     def set_callback(self, option, callback):
         """Set the callback registered under an option.
