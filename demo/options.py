@@ -214,13 +214,13 @@ class DemoOptions(object):
             return callback(self.demo, *args, **kwargs)
 
     def get_callback(self, option):
-        """Get the :func:`~demo.options.Option.call` function from the :class:`~demo.options.Option` object.
+        """Get the :func:`~demo.options.Option.call` function of the :class:`~demo.options.Option` object.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
 
         Returns:
-            The :func:`~demo.options.Option.call` function of the :class:`~demo.options.Option` object, which wraps the :attr:`~demo.options.Option.callback` that was set.
+            The :func:`~demo.options.Option.call` function of the :class:`~demo.options.Option` object, which wraps its :attr:`~demo.options.Option.callback`.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` object.
