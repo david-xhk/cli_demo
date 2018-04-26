@@ -329,7 +329,7 @@ class DemoOptions(object):
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
 
         Returns:
-            str: The :attr:`~demo.options.Option.desc` of the :class:`~demo.options.Option` object that was set.
+            str: The :attr:`~demo.options.Option.desc` of the :class:`~demo.options.Option` object.
 
         Raises:
             :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` object. 
@@ -355,7 +355,7 @@ class DemoOptions(object):
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
 
         Returns:
-            tuple: The :attr:`~demo.options.Option.args` of the :class:`~demo.options.Option` object that was set.
+            tuple: The :attr:`~demo.options.Option.args` of the :class:`~demo.options.Option` object.
 
         Raises:
             :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` object. 
@@ -381,7 +381,7 @@ class DemoOptions(object):
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` object.
 
         Returns:
-            dict: The :attr:`~demo.options.Option.kwargs` of the :class:`~demo.options.Option` object that was set.
+            dict: The :attr:`~demo.options.Option.kwargs` of the :class:`~demo.options.Option` object.
 
         Raises:
             :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` object. 
