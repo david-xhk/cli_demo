@@ -35,18 +35,18 @@ class Option(object):
             setattr(self, attr, value)
 
     def call(self, demo, *args, **kwargs):
-        """Call the registered callback.
+        """Call the registered :attr:`~demo.options.Option.callback`.
 
         Args:
-            demo (Demo): The demo instance passed to the callback.
-            *args: The arguments passed to the callback.
-            **kwargs: The keyword arguments passed to the callback.
+            demo (Demo): The :class:`~demo.demo.Demo` instance passed to :attr:`~demo.options.Option.callback`.
+            *args: The arguments passed to :attr:`~demo.options.Option.callback`.
+            **kwargs: The keyword arguments passed to :attr:`~demo.options.Option.callback`.
 
         Note:
             * :attr:`~demo.options.Option.args` is used if `args` is empty.
             * :attr:`~demo.options.Option.kwargs` is used if `kwargs` is empty.
-            * An empty line is printed before the callback is called if :attr:`~demo.options.Option.newline` is ``True``.
-            * DemoRetry will be raised if :attr:`~demo.options.Option.retry` is ``True`` and the callback successfully returned.
+            * An empty line is printed before :attr:`~demo.options.Option.callback` is called if :attr:`~demo.options.Option.newline` is ``True``.
+            * DemoRetry will be raised if :attr:`~demo.options.Option.retry` is ``True`` and :attr:`~demo.options.Option.callback` successfully returned.
         """
         if not args:
             args = self.args
@@ -64,7 +64,7 @@ class Option(object):
                 demo.retry()
         
     def copy(self):
-        """Initialize a new copy of Option.
+        """Initialize a new copy of :class:`~demo.options.Option`.
         
         Returns:
             An instance of :class:`~demo.options.Option` with a deep copy of all attributes of self.
@@ -162,7 +162,7 @@ class DemoOptions(object):
         return register_decorator
 
     def __contains__(self, option):
-        """Check if an option is registered.
+        """Check if an :class:`~demo.options.Option` object is registered.
         
         Args:
             option (str): The name used to register the :class:`~demo.options.Option` object.
@@ -170,7 +170,8 @@ class DemoOptions(object):
         Returns:
             ``True`` if `option` exists in self.registry, ``False`` otherwise.
         """
-        return option in self.registry
+        return (option in self.registry 
+                and isinstance(self.registry[option], Option))
     
     def __getitem__(self, option):
         """Get the registered :class:`~demo.options.Option` object.
@@ -184,10 +185,11 @@ class DemoOptions(object):
         Raises:
             OptionNotFoundError: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`. 
         """
-        try:
-            return self.registry[option]
-        except KeyError:
+        if option not in self:
             raise OptionNotFoundError(option)
+        else:
+            return self.registry[option]
+            
 
     def call(self, option, *args, **kwargs):
         """Forward a call to the :func:`~demo.options.Option.call` function of the registered :class:`~demo.options.Option`:class:`~demo.options.Option` object.

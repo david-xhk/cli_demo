@@ -61,42 +61,42 @@ class OptionError(DemoException):
 
 
 class KeyNotFoundError(OptionError):
-    """Raised when a key does not exist in the options cache."""
-    text = "'{}' does not exist in the cache."
+    """Raised when a key id does not exist in a :attr:`~demo.options.DemoOptions.cache`."""
+    text = "'{}' id does not exist in the cache."
 
 
 class OptionNotFoundError(OptionError):
-    """Raised when an option is not registered."""
-    text = "'{}' not registered."
+    """Raised when an :class:`~demo.options.Option` object is not registered."""
+    text = "Option object for '{}' not registered."
 
 
 class CallbackNotFoundError(OptionError):
-    """Raised when an option has no callback."""
+    """Raised when the :attr:`~demo.options.Option.callback` of an :class:`~demo.options.Option` object has not been set."""
     text = "'{}' callback not registered"
 
 
 class CallbackNotLockError(OptionError):
-    """Raised when a callback for an option was flagged as a lock but does not accept a `key` argument."""
-    text = "'{}' callback not lock, key rejected"
+    """Raised when the :attr:`~demo.options.Option.lock` of an :class:`~demo.options.Option` object is ``True`` but its :attr:`~demo.options.Option.callback` does not accept a `key` argument."""
+    text = "'{}' callback does not accept `key` argument."
 
 
 def catch_exc(*demo_exc):
     """Catch instances of `demo_exc` raised while running a function.
 
     Args:
-        *demo_exc: One or a few subclasses of DemoException, and possibly a function to wrap.
+        *demo_exc: One or a few subclasses of :class:`~demo.exceptions.DemoException`, and possibly a function to wrap.
 
     Returns:
         catch_exc_decorator: A decorator that takes a function and returns a wrapped function. As a shortcut, if a function was passed into `demo_exc`, the wrapped function is returned instead.
     
     Note:
-        * Non-subclasses of DemoException are ignored, aside from a function or method.
+        * Non-subclasses of :class:`~demo.exceptions.DemoException` are ignored, aside from a function or method.
 
-        * DemoException is the default if no subclasses are provided.
+        * :class:`~demo.exceptions.DemoException` is the default if no subclasses are provided.
 
         * Non-instances of `demo_exc` will not be caught. They should typically be handled by a higher level and more general kind of catch_exc.
 
-        * If a KeyboardInterrupt is raised while running the function, it will be caught and DemoExit will be re-raised.
+        * If a :class:`KeyboardInterrupt` is raised while running the function, it will be caught and :class:`~demo.exceptions.DemoExit` will be re-raised.
     """
     func = None
     demo_exc = list(demo_exc)
