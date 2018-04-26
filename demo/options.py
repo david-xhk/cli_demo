@@ -216,7 +216,7 @@ class DemoOptions(object):
             option (str): The name used to register a option.
 
         Returns:
-            The callback function that was registered under `option`.
+            The callback function registered under `option` wrapped in :func:`~demo.options.Option.call`.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry.
