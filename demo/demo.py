@@ -77,10 +77,10 @@ Several key features are introduced:
             symbols (list): A list of symbols for each level of indentation. Defaults to [" ", "●", "○", "▸", "▹"].
             width (int): The maximum width for a line printed. Defaults to 60.
             indent (int): The number of spaces per indent for the text printed. Defaults to 4.
-            border (str): The character used for the border of the :attr:`~demo.demo.Demo.help_text`. Defaults to "~".
-            title (str): The character used for the border of the "Help" title. Defaults to "=".
-            subtitle (str): The character used for the border of the class subtitle. Defaults to "-".
-            include (bool): Whether to include the help text of all :class:`~demo.demo.Demo` superclasses. Defaults to ``True``.
+            border (str): The character used for the border for :attr:`~demo.demo.Demo.help_text`. Defaults to "~".
+            title (str): The character used for the border for the "Help" title. Defaults to "=".
+            subtitle (str): The character used for the border for the name of each :class:`~demo.demo.Demo` subclass. Defaults to "-".
+            include (bool): Whether to include the :attr:`~demo.demo.Demo.help_text` of all superclasses that are subclasses of :class:`~demo.demo.Demo`. Defaults to ``True``.
         """
         symbols = list(enumerate(kwargs.get(
             "symbols", [" ", "●", "○", "▸", "▹"])))
