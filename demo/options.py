@@ -127,7 +127,7 @@ class DemoOptions(object):
         return options_decorator
 
     def register(self, option, desc="", **kwargs):
-        """Register a callback under an option.
+        """Register an Option object.
         
         Args:
             option (str): The name of the option.
