@@ -163,7 +163,7 @@ class DemoOptions(object):
         """Check if an option is registered.
         
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
 
         Returns:
             ``True`` if `option` exists in self.registry, ``False`` otherwise.
@@ -174,7 +174,7 @@ class DemoOptions(object):
         """Get the registered Option object.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
 
         Returns:
             Option: The Option object registered under `option`.
@@ -188,10 +188,10 @@ class DemoOptions(object):
             raise OptionNotFoundError(option)
 
     def call(self, option, *args, **kwargs):
-        """Call the callback registered under an option.
+        """Forward a call to the :func:`~demo.options.Option.call` function of the registered Option object.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
             *args: The arguments to pass to the callback.
             **kwargs: The keyword arguments to pass to the callback.
 
@@ -210,13 +210,13 @@ class DemoOptions(object):
             return callback(self.demo, *args, **kwargs)
 
     def get_callback(self, option):
-        """Get the callback registered under an option.
+        """Get the :func:`~demo.options.Option.call` function from the registered Option object.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
 
         Returns:
-            The callback function registered under `option` wrapped in :func:`~demo.options.Option.call`.
+            The :func:`~demo.options.Option.call` function of the Option object, which wraps the original callback function that was registered.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry.
@@ -229,10 +229,10 @@ class DemoOptions(object):
             return option_obj.call
 
     def set_callback(self, option, callback):
-        """Set the callback registered under an option.
+        """Set the callback of the registered Option object.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
             callback: The callback function to register under option.
 
         Raises:
@@ -241,13 +241,13 @@ class DemoOptions(object):
         self[option].callback = callback                 
 
     def is_lock(self, option):
-        """Check if an option was registered as a lock.
+        """Check if the Option object was registered as a lock.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
 
         Returns:
-            ``True`` if the callback was registered as a lock, ``False`` otherwise.
+            ``True`` if the Option was registered as a lock, ``False`` otherwise.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -255,11 +255,11 @@ class DemoOptions(object):
         return self[option].lock is True
 
     def set_lock(self, option, lock):
-        """Set whether an option is a lock.
+        """Set whether the Option object is a lock.
 
         Args:
-            option (str): The name used to register a option.
-            lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
+            option (str): The name used to register the Option object.
+            lock (bool): Whether the `key` of a trigerring input function should be received by the registered callback.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -267,13 +267,13 @@ class DemoOptions(object):
         self[option].lock = bool(lock)
 
     def will_retry(self, option):
-        """Check if an option was registered to retry.
+        """Check if the Option object was registered to retry.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
 
         Returns:
-            ``True`` if the callback was registered to retry, ``False`` otherwise.
+            ``True`` if the Option object was registered to retry, ``False`` otherwise.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -281,11 +281,11 @@ class DemoOptions(object):
         return self[option].retry is True
 
     def set_retry(self, option, retry):
-        """Set whether an option will retry.
+        """Set whether an Option object will retry.
 
         Args:
-            option (str): The name used to register a option.
-            retry (bool): Whether an input function should be called again once the callback has returned.
+            option (str): The name used to register the Option object.
+            retry (bool): Whether an input function should be called again once the registered callback has returned.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -293,13 +293,13 @@ class DemoOptions(object):
         self[option].retry = bool(retry)
 
     def has_newline(self, option):
-        """Check if an option was registered to have a newline.
+        """Check if the Option object was registered to have a newline.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
 
         Returns:
-            ``True`` if the callback was registered to have a newline, ``False`` otherwise.
+            ``True`` if the Option object was registered to have a newline, ``False`` otherwise.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -307,11 +307,11 @@ class DemoOptions(object):
         return self[option].newline is True
 
     def set_newline(self, option, newline):
-        """Set whether an option will have a newline.
+        """Set whether the Option object will have a newline.
 
         Args:
-            option (str): The name used to register a option.
-            newline (bool): Whether a new line should be printed before the callback is executed.
+            option (str): The name used to register the Option object.
+            newline (bool): Whether a new line should be printed before the registered callback is executed.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -319,13 +319,13 @@ class DemoOptions(object):
         self[option].newline = bool(newline)
 
     def get_desc(self, option):
-        """Get the description of an option.
+        """Get the description of the Option object.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
 
         Returns:
-            str: The `desc` was registered under `option`.
+            str: The registered :attr:`~demo.options.Option.desc`.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -333,10 +333,10 @@ class DemoOptions(object):
         return self[option].desc
 
     def set_desc(self, option, desc):
-        """Set the description of an option.
+        """Set the description of the Option object.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
             desc (str): A description of the option.
 
         Raises:
@@ -345,13 +345,13 @@ class DemoOptions(object):
         self[option].desc = str(desc)
 
     def get_args(self, option):
-        """Get the default arguments for an option's callback.
+        """Get the registered default arguments of the Option object.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
 
         Returns:
-            tuple: The `args` that was registered under `option`.
+            tuple: The registered :attr:`~demo.options.Option.args`.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -359,11 +359,11 @@ class DemoOptions(object):
         return self[option].args
 
     def set_args(self, option, *args):
-        """Set the default arguments for an option's callback.
+        """Set the default arguments of the Option object.
 
         Args:
-            option (str): The name used to register a option.
-            *args: The default arguments when the callback is called.
+            option (str): The name used to register the Option object.
+            *args: The default arguments to use when calling the registered callback.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -371,13 +371,13 @@ class DemoOptions(object):
         self[option].args = tuple(args)
 
     def get_kwargs(self, option):
-        """Get the default keyword arguments for an option's callback.
+        """Get the registered default keyword arguments of the Option object.
 
         Args:
-            option (str): The name used to register a option.
+            option (str): The name used to register the Option object.
 
         Returns:
-            dict: The `kwargs` that was registered under `option`.
+            dict: The registered :attr:`~demo.options.Option.kwargs`.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -385,11 +385,11 @@ class DemoOptions(object):
         return self[option].kwargs
 
     def set_kwargs(self, option, **kwargs):
-        """Set the default keyword arguments for an option's callback.
+        """Set the default keyword arguments of the Option object.
 
         Args:
-            option (str): The name used to register a option.
-            **kwargs: The default keyword arguments when the callback is called.
+            option (str): The name used to register the Option object.
+            **kwargs: The default keyword arguments to use when calling the registered callback.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
