@@ -45,7 +45,7 @@ class Option(object):
         Note:
             * :attr:`~demo.options.Option.args` is used if `args` is empty.
             * :attr:`~demo.options.Option.kwargs` is used if `kwargs` is empty.
-            * A newline is printed beforehand if :attr:`~demo.options.Option.newline` is ``True``.
+            * An empty line is printed before the callback is called if :attr:`~demo.options.Option.newline` is ``True``.
             * DemoRetry will be raised if :attr:`~demo.options.Option.retry` is ``True`` and the callback successfully returned.
         """
         if not args:
