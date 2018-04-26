@@ -86,8 +86,8 @@ class DemoOptions(object):
 
     Attributes:
         demo (Demo): The Demo instance that a DemoOptions instance exists in.
-        registry (dict): The options that have been registered. 
-        cache (dict): A cache of the key ids and the options and keyword options designated to them.
+        registry (dict): The options and their Option objects that have been registered.
+        cache (dict): A cache of input function key ids and the options and keyword options designated to them.
     """
 
     def __init__(self):
@@ -134,21 +134,21 @@ class DemoOptions(object):
         Args:
             option (str): The name of the option.
             desc (str, optional): A description of the option. Defaults to "".
-            newline (bool): Whether an empty line should be printed before calling :attr:`demo.options.Option.callback`. Defaults to ``False``.
-            retry (bool): Whether an input function should be called again once :attr:`demo.options.Option.callback` has returned. Defaults to ``False``.
-            lock (bool): Whether the `key` of a trigerring input function should be received by :attr:`demo.options.Option.callback`. Defaults to ``False``.
-            args (tuple): The default arguments to use when calling :attr:`demo.options.Option.callback`. Defaults to ().
-            kwargs (dict): The default keyword arguments to use when calling :attr:`demo.options.Option.callback`. Defaults to {}.
+            newline (bool): Whether an empty line should be printed before calling :attr:`~demo.options.Option.callback`. Defaults to ``False``.
+            retry (bool): Whether an input function should be called again once :attr:`~demo.options.Option.callback` has returned. Defaults to ``False``.
+            lock (bool): Whether the `key` of a trigerring input function should be received by :attr:`~demo.options.Option.callback`. Defaults to ``False``.
+            args (tuple): The default arguments to use when calling :attr:`~demo.options.Option.callback`. Defaults to ().
+            kwargs (dict): The default keyword arguments to use when calling :attr:`~demo.options.Option.callback`. Defaults to {}.
 
         Returns:
             register_decorator: A decorator which takes a function, uses it to set the callback for the Option object, and returns the original function.
 
         Note:
-            * The :attr:`demo.options.Option.name` of an Option object can be an expected user response or an input function key.
+            * The :attr:`~demo.options.Option.name` of an Option object can be an expected user response or an input function key.
 
-            * If the :attr:`demo.options.Option.name` of an Option object is an input function key, :attr:`demo.options.Option.callback` must accept a `response` argument- the user's response to that input function.
+            * If the :attr:`~demo.options.Option.name` of an Option object is an input function key, :attr:`~demo.options.Option.callback` must accept a `response` argument- the user's response to that input function.
 
-            * If an Option object is registered as a `lock`, :attr:`demo.options.Option.callback` must accept a `key` argument- the key of the input function that triggered it.
+            * If an Option object is registered as a `lock`, :attr:`~demo.options.Option.callback` must accept a `key` argument- the key of the input function that triggered it.
         """
         self.registry[option] = Option(name=option, desc=desc,
             newline=kwargs.get("newline", False), 
