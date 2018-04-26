@@ -65,7 +65,7 @@ Several key features are introduced:
 
     @options.register("h", "Help.", retry=True, newline=True)
     def print_help(self, **kwargs):
-        """Format and print the help text.
+        """Format and print the :attr:`~demo.demo.Demo.help_text`.
 
         `print_help` is decorated with::
 
