@@ -126,18 +126,17 @@ class DemoOptions(object):
             return inner
         return options_decorator
 
-    def register(self, option, desc="", newline=False, retry=False, lock=False,
-                 args=(), kwargs={}):
+    def register(self, option, desc="", **kwargs):
         """Register a callback under an option.
         
         Args:
             option (str): The name of the option.
-            desc (str, optional): A description of the option, if necessary.
-            newline (bool): Whether a new line should be printed before the callback is executed.
-            retry (bool): Whether an input function should be called again once the callback has returned.
-            lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
-            args (tuple): The default arguments when the callback is called.
-            kwargs (dict): The default keyword arguments when the callback is called.
+            desc (str, optional): A description of the option. Defaults to "".
+            newline (bool): Whether a new line should be printed before the callback is executed. Defaults to ``False``.
+            retry (bool): Whether an input function should be called again once the callback has returned. Defaults to ``False``.
+            lock (bool): Whether the `key` of a trigerring input function should be received by the callback. Defaults to ``False``.
+            args (tuple): The default arguments when the callback is called. Defaults to ().
+            kwargs (dict): The default keyword arguments when the callback is called. Defaults to {}.
 
         Returns:
             register_decorator: A decorator which takes a function, uses it to set the callback for the option, and returns the original function.
@@ -149,9 +148,12 @@ class DemoOptions(object):
 
             * If a callback is registered as a `lock`, it must accept a `key` argument- the key of the input function that triggered the callback.
         """
-        self.registry[option] = Option(
-            name=option, desc=desc, newline=newline, 
-            retry=retry, lock=lock, args=args, kwargs=kwargs)
+        self.registry[option] = Option(name=option, desc=desc,
+            newline=kwargs.get("newline", False), 
+            retry=kwargs.get("retry", False),
+            lock=kwargs.get("lock", False),
+            args=kwargs.get("args", ()),
+            kwargs=kwargs.get("kwargs", {}))
         def register_decorator(func):
             self.set_callback(option, func)
             return func
@@ -169,13 +171,13 @@ class DemoOptions(object):
         return option in self.registry
     
     def __getitem__(self, option):
-        """Get the registered option.
+        """Get the registered Option object.
 
         Args:
             option (str): The name used to register a option.
 
         Returns:
-            The callback function that was registered under `option`.
+            Option: The Option object registered under `option`.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
@@ -220,10 +222,11 @@ class DemoOptions(object):
             OptionNotFoundError: If `option` does not exist in self.registry.
             CallbackNotFoundError: If a callback has not been registered under `option`.
         """
-        if self[option].callback is None:
+        option_obj = self[option]
+        if option_obj.callback is None:
             raise CallbackNotFoundError(option)
         else:
-            return self[option].call
+            return option_obj.call
 
     def set_callback(self, option, callback):
         """Set the callback registered under an option.
@@ -251,16 +254,17 @@ class DemoOptions(object):
         """
         return self[option].lock is True
 
-    def toggle_lock(self, option):
-        """Switch between whether an option is a lock.
+    def set_lock(self, option, lock):
+        """Set whether an option is a lock.
 
         Args:
             option (str): The name used to register a option.
+            lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
         """
-        self[option].lock = not self[option].lock 
+        self[option].lock = bool(lock)
 
     def will_retry(self, option):
         """Check if an option was registered to retry.
@@ -276,16 +280,17 @@ class DemoOptions(object):
         """
         return self[option].retry is True
 
-    def toggle_retry(self, option):
-        """Switch between whether an option will retry.
+    def set_retry(self, option, retry):
+        """Set whether an option will retry.
 
         Args:
             option (str): The name used to register a option.
+            retry (bool): Whether an input function should be called again once the callback has returned.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
         """
-        self[option].retry = not self[option].retry 
+        self[option].retry = bool(retry)
 
     def has_newline(self, option):
         """Check if an option was registered to have a newline.
@@ -301,16 +306,17 @@ class DemoOptions(object):
         """
         return self[option].newline is True
 
-    def toggle_newline(self, option):
-        """Switch between whether an option will have a newline.
+    def set_newline(self, option, newline):
+        """Set whether an option will have a newline.
 
         Args:
             option (str): The name used to register a option.
+            newline (bool): Whether a new line should be printed before the callback is executed.
 
         Raises:
             OptionNotFoundError: If `option` does not exist in self.registry. 
         """
-        self[option].newline = not self[option].newline 
+        self[option].newline = bool(newline)
 
     def get_desc(self, option):
         """Get the description of an option.
