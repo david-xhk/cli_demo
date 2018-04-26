@@ -144,11 +144,11 @@ class DemoOptions(object):
             register_decorator: A decorator which takes a function, uses it to set the callback for the Option object, and returns the original function.
 
         Note:
-            * The :attr:`~demo.options.Option.name` of an Option object can be an expected user response or an input function key.
+            * `option` can be an expected user response or an input function key.
 
-            * If the :attr:`~demo.options.Option.name` of an Option object is an input function key, :attr:`~demo.options.Option.callback` must accept a `response` argument- the user's response to that input function.
+            * If `option` is an input function key, the :attr:`~demo.options.Option.callback` that is registered must accept a `response` argument- the user's response to that input function.
 
-            * If an Option object is registered as a `lock`, :attr:`~demo.options.Option.callback` must accept a `key` argument- the key of the input function that triggered it.
+            * If `lock` is ``True``, the :attr:`~demo.options.Option.callback` that is registered must accept a `key` argument- the key of the input function that triggered it.
         """
         self.registry[option] = Option(name=option, desc=desc,
             newline=kwargs.get("newline", False), 
