@@ -77,10 +77,10 @@ Several key features are introduced:
             symbols (list): A list of symbols for each level of indentation. Defaults to [" ", "●", "○", "▸", "▹"].
             width (int): The maximum width for a line printed. Defaults to 60.
             indent (int): The number of spaces per indent for the text printed. Defaults to 4.
-            border (str): The character used for the border of the help text. Defaults to "~".
-            title (str): The character used for the border of the help title. Defaults to "=".
+            border (str): The character used for the border of the :attr:`~demo.demo.Demo.help_text`. Defaults to "~".
+            title (str): The character used for the border of the "Help" title. Defaults to "=".
             subtitle (str): The character used for the border of the class subtitle. Defaults to "-".
-            include (bool): Whether to include the help text of all Demo superclasses. Defaults to ``True``.
+            include (bool): Whether to include the help text of all :class:`~demo.demo.Demo` superclasses. Defaults to ``True``.
         """
         symbols = list(enumerate(kwargs.get(
             "symbols", [" ", "●", "○", "▸", "▹"])))
@@ -153,23 +153,23 @@ Several key features are introduced:
             **key (str): An input function key.
         
         Note:
-            * If `key` is provided, print_options will do the following:
+            * If an input function `key` is provided, print_options will do the following:
             
               1. Retrieve options and descriptions from the `key` function- a function that starts with `key` and ends in '_options'- if it is defined.
 
-              2. Get options from :func:`~demo.options.DemoOptions.get_options` using `key`.
+              2. Get options from :func:`~demo.options.DemoOptions.get_options` using the input function `key`.
 
             * Options are printed in the following order: 
                 
               1. Options from the `key` function
                 
-              2. Keyword options from get_options()
+              2. Keyword options from :func:`~demo.options.DemoOptions.get_options`
                 
-              3. Argument options from get_options()
+              3. Argument options from :func:`~demo.options.DemoOptions.get_options`
                 
               4. Argument options passed to `print_options`
 
-            * Other than the options from the `key` function, option descriptions are taken from the :attr:`~demo.options.Option.desc` registered under an option.
+            * Other than the options from the `key` function, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the registered :class:`~demo.options.Option` object.
         """
         print("Options:")
         opt_list = []
@@ -233,7 +233,7 @@ Several key features are introduced:
 
     @catch_exc
     def run(self):
-        """The main logic of a Demo program.
+        """The main logic of a :class:`~demo.demo.Demo` program.
 
         `run` is decorated with::
 
@@ -247,7 +247,7 @@ Several key features are introduced:
 
     @options.register("r", "Restart.")
     def restart(self, text=None):
-        """Restart the main run loop.
+        """Restart the main :func:`~demo.demo.Demo.run` loop.
         
         `restart` is decorated with::
 
@@ -262,7 +262,7 @@ Several key features are introduced:
 
     @options.register("q", "Quit.")
     def quit(self, text=None):
-        """Break out of the main run loop.
+        """Break out of the main :func:`~demo.demo.Demo.run` loop.
 
         `quit` is decorated with::
 
