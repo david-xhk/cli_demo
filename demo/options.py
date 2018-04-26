@@ -19,11 +19,11 @@ class Option(object):
         name (str): The name of the option.
         desc (str): The description of the option that should be printed in :func:`~demo.demo.Demo.print_options`.
         callback (function): The function that the :func:`~demo.options.Option.call` function should wrap.
-        newline (bool): Whether an empty line should be printed before the callback is executed.
-        retry (bool): Whether an input function should be called again once the callback has returned.
-        lock (bool): Whether the `key` of a trigerring input function should be received by the callback.
-        args (tuple): The default arguments that should be used to call the callback in the :func:`~demo.options.Option.call` function.
-        kwargs (dict): The default keyword arguments that should be used to call the callback in the :func:`~demo.options.Option.call` function.
+        newline (bool): Whether an empty line should be printed before :attr:`~demo.options.Option.callback` is executed.
+        retry (bool): Whether an input function should be called again once :attr:`~demo.options.Option.callback` has returned.
+        lock (bool): Whether the `key` of a trigerring input function should be received by :attr:`~demo.options.Option.callback`.
+        args (tuple): The default arguments that should be used to call :attr:`~demo.options.Option.callback` in the :func:`~demo.options.Option.call` function.
+        kwargs (dict): The default keyword arguments that should be used to call :attr:`~demo.options.Option.callback` in the :func:`~demo.options.Option.call` function.
     """
     __slots__ = ["name", "desc", "callback", "newline",
                  "retry", "lock", "args", "kwargs"]
