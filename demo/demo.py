@@ -155,13 +155,13 @@ Several key features are introduced:
         Note:
             * If an input function `key` is provided, :func:`~demo.demo.Demo.print_options` will do the following:
             
-              1. Retrieve options and descriptions from :func:`key_options`- a function that starts with `key` and ends in '_options'- if it is defined.
+              1. Retrieve options and descriptions from ``key_options()``- a function that starts with `key` and ends in '_options'- if it is defined.
 
               2. Get options from :func:`~demo.options.DemoOptions.get_options` using the input function `key`.
 
             * Options are printed in the following order: 
                 
-              1. Options from :func:`key_options`
+              1. Options from ``key_options()``
                 
               2. Keyword options from :func:`~demo.options.DemoOptions.get_options`
                 
@@ -169,7 +169,7 @@ Several key features are introduced:
                 
               4. Argument options passed to :func:`~demo.demo.Demo.print_options`
 
-            * Other than the options from :func:`key_options`, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the registered :class:`~demo.options.Option` object.
+            * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the registered :class:`~demo.options.Option` object.
         """
         print("Options:")
         opt_list = []
