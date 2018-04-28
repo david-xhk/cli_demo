@@ -169,7 +169,7 @@ Several key features are introduced:
                 
               4. Argument options passed to :func:`~demo.demo.Demo.print_options`
 
-            * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the registered :class:`~demo.options.Option` object.
+            * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the registered :class:`~demo.options.Option` instance.
         """
         print("Options:")
         opt_list = []
