@@ -67,7 +67,7 @@ class Option(object):
         """Initialize a new copy of :class:`~demo.options.Option`.
         
         Returns:
-            An instance of :class:`~demo.options.Option` with a deep copy of all attributes belonging to `self`.
+            An instance of :class:`~demo.options.Option` with a deep copy of all attributes belonging to ``self``.
         """
         new_option = Option(
             name=str(self.name), 
@@ -486,7 +486,7 @@ class DemoOptions(object):
         """Initialize a new copy of :class:`~demo.options.DemoOptions`.
         
         Returns:
-            An instance of :class:`~demo.options.DemoOptions` with a deep copy of the :attr:`~demo.options.DemoOptions.cache` and :attr:`~demo.options.DemoOptions.registry` belonging to `self`.
+            An instance of :class:`~demo.options.DemoOptions` with a deep copy of the :attr:`~demo.options.DemoOptions.cache` and :attr:`~demo.options.DemoOptions.registry` belonging to ``self``.
         """
         new_options = DemoOptions()
         for key_id, [opts, kw_opts] in self.cache.items():
