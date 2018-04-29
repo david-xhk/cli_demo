@@ -15,14 +15,14 @@ from .exceptions import catch_exc
 
 
 class CodeDemo(Demo):
-    """CodeDemo improves Demo by introducing a feature called :attr:`~demo.code.CodeDemo.commands`, which allows the user to select from a set of code snippets and view the result of it being ``exec``-ed.
+    """CodeDemo improves Demo by introducing a feature called :attr:`~demo.code.CodeDemo.commands`, which allows the user to select from a set of code snippets and view the result of it being passed into :meth:`~demo.code.CodeDemo.execute`.
     
     Attributes:
-        setup_code (str): The code to ``exec`` in :meth:`~demo.code.CodeDemo.setup_callback`.
+        setup_code (str): The code to run in :meth:`~demo.code.CodeDemo.setup_callback`.
         command_prompt (str): The input prompt for :meth:`~demo.code.CodeDemo.get_commands`.
-        commands (list[str]): The code snippets to ``exec`` for the user to choose from in :meth:`~demo.code.CodeDemo.get_commands`.
-        locals (dict): The local namespace for ``exec`` populated in :meth:`~demo.code.CodeDemo.setup_callback`.
-        globals (dict): The global namespace for ``exec`` populated in :meth:`~demo.code.CodeDemo.setup_callback`.
+        commands (list[str]): The code snippets for the user to choose from in :meth:`~demo.code.CodeDemo.get_commands`.
+        locals (dict): The local namespace populated in :meth:`~demo.code.CodeDemo.setup_callback`.
+        globals (dict): The global namespace populated in :meth:`~demo.code.CodeDemo.setup_callback`.
     """
     
     help_text = """CodeDemo improves Demo by introducing a feature called `commands`, which allows the user to select from a set of code snippets and view the result of it being executed."""
@@ -49,7 +49,7 @@ spam = 14"""
     def run(self):
         """The main logic of a :class:`~demo.code.CodeDemo` program.
         
-        :meth:`~demo.code.CodeDemo.run` first calls :meth:`~demo.demo.Demo.print_intro`, then prints the options for :meth:`~demo.demo.Demo.run_setup` via :meth:`~demo.demo.Demo.print_options` before calling it, followed by the same process for :meth:`~demo.code.CodeDemo.get_commands`.
+        First, :meth:`~demo.demo.Demo.print_intro` is called, then the options for :meth:`~demo.demo.Demo.run_setup` is printed via :meth:`~demo.demo.Demo.print_options` before it is called, followed by the same process for :meth:`~demo.code.CodeDemo.get_commands`.
 
         :meth:`~demo.demo.Demo.run` is decorated with::
 

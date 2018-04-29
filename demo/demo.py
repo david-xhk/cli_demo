@@ -58,7 +58,7 @@ Several key features are introduced:
     def run(self):
         """The main logic of a :class:`~demo.demo.Demo` program.
         
-        :meth:`~demo.demo.Demo.run` first calls :meth:`~demo.demo.Demo.print_intro`, then prints the options for :meth:`~demo.demo.Demo.run_setup` via :meth:`~demo.demo.Demo.print_options` before calling it.
+        First, :meth:`~demo.demo.Demo.print_intro` is called, then the options for :meth:`~demo.demo.Demo.run_setup` is printed via :meth:`~demo.demo.Demo.print_options` before it is called.
 
         :meth:`~demo.demo.Demo.run` is decorated with::
 
@@ -69,7 +69,7 @@ Several key features are introduced:
         self.print_intro()
         self.print_options(key="setup")
         self.run_setup()
-    
+
     def print_intro(self):
         """Print the welcome text once.
 
