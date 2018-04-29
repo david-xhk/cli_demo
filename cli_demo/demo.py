@@ -54,6 +54,9 @@ Several key features are introduced:
 
     options = DemoOptions()
 
+    def __init__(self):
+        self.options.demo = self
+    
     @catch_exc
     def run(self):
         """The main logic of a :class:`~cli_demo.demo.Demo` program.
@@ -78,6 +81,64 @@ Several key features are introduced:
         print("Welcome to {}!".format(self.__class__.__name__))
         print()
         self.print_intro = lambda: None
+
+    @options.register("o", "Options.", retry=True, lock=True, newline=True)
+    def print_options(self, *opts, **key):
+        """Print what responses are allowed for an input function.
+
+        :meth:`~cli_demo.demo.Demo.print_options` is decorated with::
+
+            @options.register("o", "Options", retry=True, lock=True, newline=True)
+            def print_options(self, *opts, **key):
+                ...
+
+        Args:
+            *opts (str): Which options to print.
+            **key (str): An input function key.
+        
+        Note:
+            * If an input function `key` is provided, :meth:`~cli_demo.demo.Demo.print_options` will do the following:
+            
+              1. Retrieve options and descriptions (in a tuple) from ``key_options()``- a function that starts with `key` and ends in '_options'- if it is defined.
+
+              2. Get options from :func:`~cli_demo.options.DemoOptions.get_options` using the input function `key`.
+
+            * Options are printed in the following order: 
+                
+              1. Options from ``key_options()``
+                
+              2. Keyword options from :func:`~cli_demo.options.DemoOptions.get_options`
+                
+              3. Argument options from :func:`~cli_demo.options.DemoOptions.get_options`
+                
+              4. Argument options passed into :meth:`~cli_demo.demo.Demo.print_options`
+
+            * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~cli_demo.options.Option.desc` of the :class:`~cli_demo.options.Option` instance.
+        """
+        print("Options:")
+        opt_list = []
+        kw_opts = [(opt, opt) for opt in opts]
+        key = key.pop("key", None)
+        if key:
+            func_name = key + "_options"
+            if hasattr(self, func_name):
+                for opt, desc in getattr(self, func_name)():
+                    opt_list.append((opt, desc))
+            if self.options.has_options(key):
+                kw_opts = (
+                    list(self.options.get_options(key)[1].items())
+                    + [(opt, opt) for opt in self.options.get_options(key)[0]]
+                    + kw_opts)
+        for name, opt in kw_opts:
+            if opt in self.options:
+                desc = self.options.get_desc(opt)
+            else:
+                desc = ""
+            opt_list.append((opt, desc))
+        opt_width = (max(len(opt) for opt, desc in opt_list)-3)//4*4+6
+        for opt, desc in opt_list:
+            print("{}: {}".format(opt.rjust(opt_width), desc))
+        print()
 
     @options.register("h", "Help.", retry=True, newline=True)
     def print_help(self, **kwargs):
@@ -153,67 +214,6 @@ Several key features are introduced:
                     break
         print(border)
         print()
-
-    @options.register("o", "Options.", retry=True, lock=True, newline=True)
-    def print_options(self, *opts, **key):
-        """Print what responses are allowed for an input function.
-
-        :meth:`~cli_demo.demo.Demo.print_options` is decorated with::
-
-            @options.register("o", "Options", retry=True, lock=True, newline=True)
-            def print_options(self, *opts, **key):
-                ...
-
-        Args:
-            *opts (str): Which options to print.
-            **key (str): An input function key.
-        
-        Note:
-            * If an input function `key` is provided, :meth:`~cli_demo.demo.Demo.print_options` will do the following:
-            
-              1. Retrieve options and descriptions (in a tuple) from ``key_options()``- a function that starts with `key` and ends in '_options'- if it is defined.
-
-              2. Get options from :func:`~cli_demo.options.DemoOptions.get_options` using the input function `key`.
-
-            * Options are printed in the following order: 
-                
-              1. Options from ``key_options()``
-                
-              2. Keyword options from :func:`~cli_demo.options.DemoOptions.get_options`
-                
-              3. Argument options from :func:`~cli_demo.options.DemoOptions.get_options`
-                
-              4. Argument options passed into :meth:`~cli_demo.demo.Demo.print_options`
-
-            * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~cli_demo.options.Option.desc` of the :class:`~cli_demo.options.Option` instance.
-        """
-        print("Options:")
-        opt_list = []
-        kw_opts = [(opt, opt) for opt in opts]
-        key = key.pop("key", None)
-        if key:
-            func_name = key + "_options"
-            if hasattr(self, func_name):
-                for opt, desc in getattr(self, func_name)():
-                    opt_list.append((opt, desc))
-            if self.options.has_options(key):
-                kw_opts = (
-                    list(self.options.get_options(key)[1].items())
-                    + [(opt, opt) for opt in self.options.get_options(key)[0]]
-                    + kw_opts)
-        for name, opt in kw_opts:
-            if opt in self.options:
-                desc = self.options.get_desc(opt)
-            else:
-                desc = ""
-            opt_list.append((opt, desc))
-        opt_width = (max(len(opt) for opt, desc in opt_list)-3)//4*4+6
-        for opt, desc in opt_list:
-            print("{}: {}".format(opt.rjust(opt_width), desc))
-        print()
-
-    def __init__(self):
-        self.options.demo = self
 
     @options.register("setup", retry=True)
     def setup_callback(self, response):
