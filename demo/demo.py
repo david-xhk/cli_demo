@@ -167,7 +167,7 @@ Several key features are introduced:
                 
               3. Argument options from :func:`~demo.options.DemoOptions.get_options`
                 
-              4. Argument options passed to :meth:`~demo.demo.Demo.print_options`
+              4. Argument options passed into :meth:`~demo.demo.Demo.print_options`
 
             * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the :class:`~demo.options.Option` instance.
         """

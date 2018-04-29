@@ -38,9 +38,9 @@ class Option(object):
         """Call the registered :attr:`~demo.options.Option.callback`.
 
         Args:
-            demo: The :class:`~demo.demo.Demo` instance that should be passed to :attr:`~demo.options.Option.callback`.
-            *args: The arguments that should be passed to :attr:`~demo.options.Option.callback`.
-            **kwargs: The keyword arguments that should be passed to :attr:`~demo.options.Option.callback`.
+            demo: The :class:`~demo.demo.Demo` instance that should be passed into :attr:`~demo.options.Option.callback`.
+            *args: The arguments that should be passed into :attr:`~demo.options.Option.callback`.
+            **kwargs: The keyword arguments that should be passed into :attr:`~demo.options.Option.callback`.
 
         Note:
             * :attr:`~demo.options.Option.args` is used if `args` is empty.
@@ -103,17 +103,17 @@ class DemoOptions(object):
         Args:
             retry (str): The text to print before the input function is called again when the user response is invalid. Defaults to ``"Please try again"``.
             key (str, optional): The key of the input function.
-            key_args (tuple): The arguments that should be passed to :attr:`~demo.options.Option.callback`. Defaults to ``()``.
-            key_kwargs (dict): The keyword arguments that should be passed to :attr:`~demo.options.Option.callback`. Defaults to ``{}``.
+            key_args (tuple): The arguments that should be passed into :attr:`~demo.options.Option.callback`. Defaults to ``()``.
+            key_kwargs (dict): The keyword arguments that should be passed into :attr:`~demo.options.Option.callback`. Defaults to ``{}``.
             *opts: The user responses that should be accepted.
             **kw_opts: The user responses that should be redirected.
 
         Note:
             If `key` is defined:
 
-                * `key` can be passed to :meth:`~demo.demo.Demo.print_options` to print the options for the input function.
-
                 * `key` will be used to store a record of `opts` and `kw_opts` in :attr:`~demo.options.DemoOptions.cache`.
+                
+                * To reference the options stored in :attr:`~demo.options.DemoOptions.cache` when calling :meth:`~demo.demo.Demo.print_options`, you can pass in `key` as the `key` argument.
 
                 * If a user input does not fall within the designated options, the response will be forwarded to the :meth:`~demo.options.DemoOptions.call` method of the :class:`~demo.options.Option` instance registered under `key`.
 
@@ -121,7 +121,7 @@ class DemoOptions(object):
                 
                 * The input function itself will be used to store a record of `opts` and `kw_opts` in :attr:`~demo.options.DemoOptions.cache`.
 
-                * :meth:`~demo.demo.Demo.print_options` will not have access to the options stored in :attr:`~demo.options.DemoOptions.cache`.
+                * To reference the options stored in :attr:`~demo.options.DemoOptions.cache` when calling :meth:`~demo.demo.Demo.print_options`, you need to pass in the input function itself as the `key` argument.
 
                 * If a user input does not fall within the designated options, :class:`~demo.exceptions.DemoRetry` will be raised and `retry` will be printed.
 
