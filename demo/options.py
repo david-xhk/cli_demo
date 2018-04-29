@@ -240,7 +240,7 @@ class DemoOptions(object):
             
 
     def call(self, option, *args, **kwargs):
-        """Call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance via its :meth:`~demo.options.Option.call` method.
+        """Invoke the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance via its :meth:`~demo.options.Option.call` method.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
