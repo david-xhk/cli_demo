@@ -103,8 +103,8 @@ class DemoOptions(object):
         Args:
             retry (str): The text to print before the input function is called again when the user response is invalid. Defaults to ``"Please try again"``.
             key (str, optional): The key of the input function.
-            key_args (tuple): The arguments that should be passed into :attr:`~demo.options.Option.callback`. Defaults to ``()``.
-            key_kwargs (dict): The keyword arguments that should be passed into :attr:`~demo.options.Option.callback`. Defaults to ``{}``.
+            args (tuple): The arguments that should be passed into the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance registered under `key`. Defaults to ``()``.
+            kwargs (dict): The keyword arguments that should be passed into :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance registered under `key`. Defaults to ``{}``.
             *opts: The user responses that should be accepted.
             **kw_opts: The user responses that should be redirected.
 
@@ -139,8 +139,8 @@ class DemoOptions(object):
         """
         retry = kw_opts.pop("retry", "Please try again.")
         key = kw_opts.pop("key", None)
-        key_args = kw_opts.pop("key_args", ())
-        key_kwargs = kw_opts.pop("key_kwargs", {})
+        args = kw_opts.pop("args", ())
+        kwargs = kw_opts.pop("kwargs", {})
         def options_decorator(input_func):
             self.set_options(key or input_func, *opts, **kw_opts)
             @functools.wraps(input_func)
@@ -162,7 +162,7 @@ class DemoOptions(object):
                 elif key:
                     try:
                         return demo.options.call(key, response=response,
-                            *key_args, **key_kwargs)
+                            *args, **kwargs)
                     except TypeError as exc:
                         raise CallbackResponseError(response)
                 else:
