@@ -20,7 +20,7 @@ class CodeDemo(Demo):
     Attributes:
         setup_code (str): The code to ``exec`` in :meth:`~demo.code.CodeDemo.setup_callback`.
         command_prompt (str): The input prompt for :meth:`~demo.code.CodeDemo.get_commands`.
-        commands (list[str]): The code snippets to ``exec`` that the user can choose from in :meth:`~demo.code.CodeDemo.get_commands`.
+        commands (list[str]): The code snippets to ``exec`` for the user to choose from in :meth:`~demo.code.CodeDemo.get_commands`.
         locals (dict): The local namespace for ``exec`` populated in :meth:`~demo.code.CodeDemo.setup_callback`.
         globals (dict): The global namespace for ``exec`` populated in :meth:`~demo.code.CodeDemo.setup_callback`.
     """
