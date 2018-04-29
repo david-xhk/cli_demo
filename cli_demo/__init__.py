@@ -20,10 +20,10 @@ Examples:
         spam = 42'''
 
             commands = [
-                "eggs  # are good for you",
-                "spam  # is the meaning of life",
-                "spam % eggs  # go perfect together",
-                "scramble(eggs)  # yum yum",
+                "eggs + spam  # yum yum",
+                "bacon = spam % eggs",
+                "eggs // bacon",
+                "scramble(eggs)",
                 "response + ' was your response!'"
             ]
 
@@ -63,11 +63,11 @@ Examples:
         >>> spam = 42
 
         Options:
-         0: eggs  # is good for you
-         1: spam  # is the meaning of life
-         2: spam % eggs  # go perfect together
-         3: scramble(eggs)  # yum yum
-         4: response + 'was your response!'
+         0: "eggs + spam  # yum yum"
+         1: "bacon = spam % eggs"
+         2: "eggs // bacon"
+         3: "scramble(eggs)"
+         4: "response + ' was your response!'"
          a: Execute all of the above.
          c: Setup code.
          o: Options.
@@ -75,16 +75,17 @@ Examples:
          q: Quit.
 
         Choose a command: a
-        >>> eggs  # are good for you
-        6
+        >>> eggs + spam  # yum yum
+        48
 
-        >>> spam  # is the meaning of life
-        42
-
-        >>> spam % eggs  # go perfect together
+        >>> bacon = spam % eggs
+        >>> bacon
         0
 
-        >>> scramble(eggs)  # yum yum
+        >>> eggs // bacon
+        ZeroDivisionError: integer division or modulo by zero
+
+        >>> scramble(eggs)
         'SCRAMBLE SCRAMBLE SCRAMBLE SCRAMBLE SCRAMBLE SCRAMBLE '
 
         >>> response + ' was your response!'
