@@ -100,6 +100,18 @@ spam = 14"""
         print()
         self.print_setup()
 
+    @options("c", "o", "r", "q", key="commands")
+    def get_commands(self):
+        """Prompt the user to select a command from :attr:`~cli_demo.code.CodeDemo.commands`.
+
+        :meth:`~cli_demo.demo.Demo.get_commands` is decorated with::
+
+            @options("c", "o", "r", "q", key="commands")
+            def get_commands(self):
+                ...
+        """
+        return input(self.command_prompt)
+    
     @options.register("commands", retry=True)
     def commands_callback(self, response):
         """Handle user input to :meth:`~cli_demo.code.CodeDemo.get_commands`.
@@ -124,18 +136,6 @@ spam = 14"""
             self.execute(commands)
         else:
             self.retry("Invalid index. Please try again.")
-
-    @options("c", "o", "r", "q", key="commands")
-    def get_commands(self):
-        """Prompt the user to select a command from :attr:`~cli_demo.code.CodeDemo.commands`.
-
-        :meth:`~cli_demo.demo.Demo.get_commands` is decorated with::
-
-            @options("c", "o", "r", "q", key="commands")
-            def get_commands(self):
-                ...
-        """
-        return input(self.command_prompt)
 
     def commands_options(self):
         """Provide options for :meth:`~cli_demo.demo.Demo.get_commands`.
