@@ -49,7 +49,7 @@ spam = 14"""
     def run(self):
         """The main logic of a :class:`~demo.code.CodeDemo` program.
         
-        First, :meth:`~demo.demo.Demo.print_intro` is called, then the options for :meth:`~demo.demo.Demo.run_setup` is printed via :meth:`~demo.demo.Demo.print_options` before it is called, followed by the same process for :meth:`~demo.code.CodeDemo.get_commands`.
+        First, :meth:`~demo.demo.Demo.print_intro` is called, then the options for :meth:`~demo.demo.Demo.run_setup` is printed via :meth:`~demo.demo.Demo.print_options` before :meth:`~demo.demo.Demo.run_setup` itself is called, followed by the same process for :meth:`~demo.code.CodeDemo.get_commands`.
 
         :meth:`~demo.demo.Demo.run` is decorated with::
 

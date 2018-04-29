@@ -58,7 +58,7 @@ Several key features are introduced:
     def run(self):
         """The main logic of a :class:`~demo.demo.Demo` program.
         
-        First, :meth:`~demo.demo.Demo.print_intro` is called, then the options for :meth:`~demo.demo.Demo.run_setup` is printed via :meth:`~demo.demo.Demo.print_options` before it is called.
+        First, :meth:`~demo.demo.Demo.print_intro` is called, then the options for :meth:`~demo.demo.Demo.run_setup` is printed via :meth:`~demo.demo.Demo.print_options` before :meth:`~demo.demo.Demo.run_setup` itself is called.
 
         :meth:`~demo.demo.Demo.run` is decorated with::
 
