@@ -151,8 +151,8 @@ Setting the options for an input function
 
 .. automethod:: cli_demo.options.DemoOptions.insert
 
-Inheriting options
-------------------
+Inheriting options from a Demo base class
+-----------------------------------------
 .. automethod:: cli_demo.options.DemoOptions.copy
 
 .. automethod:: cli_demo.options.Option.copy
