@@ -119,7 +119,7 @@ class DemoOptions(object):
 
             If `key` is not provided:
                 
-                * **The input function itself** will be used to store a record of `opts` and `kw_opts` in :attr:`~cli_demo.options.DemoOptions.cache`.
+                * The **input function** itself will be used to store a record of `opts` and `kw_opts` in :attr:`~cli_demo.options.DemoOptions.cache`.
 
                 * To reference the options stored in :attr:`~cli_demo.options.DemoOptions.cache` when calling :meth:`~cli_demo.demo.Demo.print_options`, you need to pass in the input function itself as the `key` argument.
 
