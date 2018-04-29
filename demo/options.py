@@ -18,12 +18,12 @@ class Option(object):
     Attributes:
         name (str): The name of the option.
         desc (str): The description of the option that should be printed in :func:`~demo.demo.Demo.print_options`.
-        callback (function): The function that :func:`~demo.options.Option.call` should wrap.
-        newline (bool): Whether an empty line should be printed before :attr:`~demo.options.Option.callback` is called in :func:`~demo.options.Option.call`.
+        callback (function): The function that :meth:`~demo.options.Option.call` should wrap.
+        newline (bool): Whether an empty line should be printed before :attr:`~demo.options.Option.callback` is called in :meth:`~demo.options.Option.call`.
         retry (bool): Whether an input function should be called again once :attr:`~demo.options.Option.callback` has returned.
         lock (bool): Whether the `key` of a triggering input function should be received by :attr:`~demo.options.Option.callback`.
-        args (tuple): The default arguments that should be used to call :attr:`~demo.options.Option.callback` in :func:`~demo.options.Option.call`.
-        kwargs (dict): The default keyword arguments that should be used to call :attr:`~demo.options.Option.callback` in :func:`~demo.options.Option.call`.
+        args (tuple): The default arguments that should be used to call :attr:`~demo.options.Option.callback` in :meth:`~demo.options.Option.call`.
+        kwargs (dict): The default keyword arguments that should be used to call :attr:`~demo.options.Option.callback` in :meth:`~demo.options.Option.call`.
     """
     __slots__ = ["name", "desc", "callback", "newline",
                  "retry", "lock", "args", "kwargs"]
@@ -85,7 +85,7 @@ class DemoOptions(object):
     """Designates options for input functions and forwards their registered callbacks dynamically.
 
     Attributes:
-        demo: The :class:`~demo.demo.Demo` instance that a :class:`~demo.options.DemoOptions` instance exists in.
+        demo: The parent :class:`~demo.demo.Demo` instance.
         registry (dict): The options and their :class:`~demo.options.Option` instances that have been registered.
         cache (dict): A cache of input function key ids and their options and keyword options that have been captured.
     """
@@ -134,11 +134,11 @@ class DemoOptions(object):
         Args:
             option (str): The name of the option.
             desc (str, optional): The description of the option that should be printed in :func:`~demo.demo.Demo.print_options`. Defaults to "".
-            newline (bool, optional): Whether an empty line should be printed before the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance is called in its :func:`~demo.options.Option.call` function. Defaults to ``False``.
+            newline (bool, optional): Whether an empty line should be printed before the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance is called. Defaults to ``False``.
             retry (bool, optional): Whether an input function should be called again once the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance has returned. Defaults to ``False``.
             lock (bool, optional): Whether the `key` of a triggering input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance. Defaults to ``False``.
-            args (tuple, optional): The default arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance in its :func:`~demo.options.Option.call` function. Defaults to ().
-            kwargs (dict, optional): The default keyword arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance in its :func:`~demo.options.Option.call` function. Defaults to {}.
+            args (tuple, optional): The default arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance. Defaults to ().
+            kwargs (dict, optional): The default keyword arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance. Defaults to {}.
 
         Returns:
             :func:`register_decorator`: A decorator which takes a function, sets the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance, and returns the original function.
@@ -168,7 +168,7 @@ class DemoOptions(object):
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
 
         Returns:
-            ``True`` if `option` exists in :attr:`~demo.options.DemoOptions.registry` and its value is an :class:`~demo.options.Option` instance, ``False`` otherwise.
+            ``True`` if `option` exists in :attr:`~demo.options.DemoOptions.registry` and its value is an instance of :class:`~demo.options.Option`, ``False`` otherwise.
         """
         return (option in self.registry 
                 and isinstance(self.registry[option], Option))
@@ -183,7 +183,7 @@ class DemoOptions(object):
             The :class:`~demo.options.Option` instance registered under `option`.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance.
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`.
         """
         if option not in self:
             raise OptionNotFoundError(option)
@@ -192,19 +192,19 @@ class DemoOptions(object):
             
 
     def call(self, option, *args, **kwargs):
-        """Forward a call to :func:`~demo.options.Option.call` of the :class:`~demo.options.Option` instance.
+        """Call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance via its :meth:`~demo.options.Option.call` method.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
-            *args: The arguments to use when calling the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance.
-            **kwargs: The keyword arguments to use when calling the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance.
+            *args: The arguments to use when calling :attr:`~demo.options.Option.callback`.
+            **kwargs: The keyword arguments to use when calling :attr:`~demo.options.Option.callback`.
 
         Returns:
-            The return value of the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance.
+            The return value of the :attr:`~demo.options.Option.callback`.
 
         Raises:
             :class:`~demo.exceptions.DemoException`: If :attr:`~demo.options.DemoOptions.demo` is not set.
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance.
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`.
             :class:`~demo.exceptions.CallbackNotFoundError`: If :attr:`~demo.options.Option.callback` has not been set in the :class:`~demo.options.Option` instance.
         """
         if not self.demo:
@@ -214,16 +214,16 @@ class DemoOptions(object):
             return callback(self.demo, *args, **kwargs)
 
     def get_callback(self, option):
-        """Get :func:`~demo.options.Option.call` of the :class:`~demo.options.Option` instance.
+        """Get the :meth:`~demo.options.Option.call` method of the :class:`~demo.options.Option` instance.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
 
         Returns:
-            :func:`~demo.options.Option.call` of the :class:`~demo.options.Option` instance, which wraps its :attr:`~demo.options.Option.callback`.
+            The :meth:`~demo.options.Option.call` method of the :class:`~demo.options.Option` instance, which wraps its :attr:`~demo.options.Option.callback`.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance.
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`.
             :class:`~demo.exceptions.CallbackNotFoundError`: If :attr:`~demo.options.Option.callback` has not been set in the :class:`~demo.options.Option` instance.
         """
         option_obj = self[option]
@@ -233,14 +233,14 @@ class DemoOptions(object):
             return option_obj.call
 
     def set_callback(self, option, callback):
-        """Set the function that :func:`~demo.options.Option.call` of the :class:`~demo.options.Option` instance should wrap.
+        """Set the function that the :meth:`~demo.options.Option.call` method of the :class:`~demo.options.Option` instance should wrap.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
-            callback: The function that :func:`~demo.options.Option.call` of the :class:`~demo.options.Option` instance should wrap.
+            callback: The function that :meth:`~demo.options.Option.call` should wrap.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance :class:`~demo.options.Option`. 
         """
         self[option].callback = callback                 
 
@@ -254,7 +254,7 @@ class DemoOptions(object):
             ``True`` if the :attr:`~demo.options.Option.lock` attribute of the :class:`~demo.options.Option` instance is ``True``, ``False`` otherwise.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         return self[option].lock is True
 
@@ -263,10 +263,10 @@ class DemoOptions(object):
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
-            lock (bool): Whether the `key` of a triggering input function should be received by the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance.
+            lock (bool): Whether the `key` of a triggering input function should be received by :attr:`~demo.options.Option.callback`.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         self[option].lock = bool(lock)
 
@@ -280,7 +280,7 @@ class DemoOptions(object):
             ``True`` if the :attr:`~demo.options.Option.retry` attribute of the :class:`~demo.options.Option` instance is ``True``, ``False`` otherwise.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         return self[option].retry is True
 
@@ -289,10 +289,10 @@ class DemoOptions(object):
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
-            retry (bool): Whether an input function should be called again once the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance has returned.
+            retry (bool): Whether an input function should be called again once :attr:`~demo.options.Option.callback` has returned.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         self[option].retry = bool(retry)
 
@@ -306,7 +306,7 @@ class DemoOptions(object):
             ``True`` if the :attr:`~demo.options.Option.newline` attribute of the :class:`~demo.options.Option` instance is ``True``, ``False`` otherwise.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         return self[option].newline is True
 
@@ -315,15 +315,15 @@ class DemoOptions(object):
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
-            newline (bool): Whether an empty line should be printed before the :attr:`~demo.options.Option.callback` of the  :class:`~demo.options.Option` instance is called.
+            newline (bool): Whether an empty line should be printed before :attr:`~demo.options.Option.callback` is called.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         self[option].newline = bool(newline)
 
     def get_desc(self, option):
-        """Get the description of the :class:`~demo.options.Option` instance that will be printed in :func:`~demo.demo.Demo.print_options`.
+        """Get the description of the :class:`~demo.options.Option` instance.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
@@ -332,24 +332,24 @@ class DemoOptions(object):
             str: The :attr:`~demo.options.Option.desc` attribute of the :class:`~demo.options.Option` instance.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         return self[option].desc
 
     def set_desc(self, option, desc):
-        """Set the description of the :class:`~demo.options.Option` instance that should be printed in :func:`~demo.demo.Demo.print_options`.
+        """Set the description of the :class:`~demo.options.Option` instance.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
-            desc (str): The description of the :class:`~demo.options.Option` instance that should be printed in :func:`~demo.demo.Demo.print_options`.
+            desc (str): The description that should be printed in :func:`~demo.demo.Demo.print_options`.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         self[option].desc = str(desc)
 
     def get_args(self, option):
-        """Get the default arguments that will be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance in its :func:`~demo.options.Option.call` function.
+        """Get the default arguments that will be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
@@ -358,24 +358,24 @@ class DemoOptions(object):
             tuple: The :attr:`~demo.options.Option.args` attribute of the :class:`~demo.options.Option` instance.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         return self[option].args
 
     def set_args(self, option, *args):
-        """Set the default arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance in its :func:`~demo.options.Option.call` function.
+        """Set the default arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
-            *args: The default arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance in its :func:`~demo.options.Option.call` function.
+            *args: The default arguments that should be used to call :attr:`~demo.options.Option.callback` in :meth:`~demo.options.Option.call`.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         self[option].args = tuple(args)
 
     def get_kwargs(self, option):
-        """Get the default keyword arguments that will be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance in its :func:`~demo.options.Option.call` function.
+        """Get the default keyword arguments that will be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
@@ -384,19 +384,19 @@ class DemoOptions(object):
             dict: The :attr:`~demo.options.Option.kwargs` attribute of the :class:`~demo.options.Option` instance.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         return self[option].kwargs
 
     def set_kwargs(self, option, **kwargs):
-        """Set the default keyword arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance in its :func:`~demo.options.Option.call` function.
+        """Set the default keyword arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance.
 
         Args:
             option (str): The :attr:`~demo.options.Option.name` used to register the :class:`~demo.options.Option` instance.
-            **kwargs: The default keyword arguments that should be used to call the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance in its :func:`~demo.options.Option.call` function.
+            **kwargs: The default keyword arguments that should be used to call :attr:`~demo.options.Option.callback` in :meth:`~demo.options.Option.call`.
 
         Raises:
-            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an :class:`~demo.options.Option` instance. 
+            :class:`~demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`. 
         """
         self[option].kwargs = dict(kwargs)
 
@@ -443,7 +443,7 @@ class DemoOptions(object):
     def set_options(self, key, *opts, **kw_opts):
         """Change the options that were set with `key`.
         
-        If `opts` or `kw_opts` are provided, the previously set options or keyword options will be overridden.
+        If `opts` or `kw_opts` are provided, the options or keyword options that were recorded previously will be overridden.
 
         Args:
             key: A key for a set of options and keyword options.
