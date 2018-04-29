@@ -90,6 +90,24 @@ Commands process of a SandboxDemo instance
 
 .. autoclass:: cli_demo.options.DemoOptions
 
+Designating options for an input function
+-----------------------------------------
+.. automethod:: cli_demo.options.DemoOptions.__call__
+
+Getting the options for an input function
+-----------------------------------------
+.. automethod:: cli_demo.options.DemoOptions.get_options
+
+.. automethod:: cli_demo.options.DemoOptions.has_options
+
+.. automethod:: cli_demo.options.DemoOptions.get_id
+
+Setting the options for an input function
+-----------------------------------------
+.. automethod:: cli_demo.options.DemoOptions.set_options
+
+.. automethod:: cli_demo.options.DemoOptions.insert
+
 Registering an Option instance
 ------------------------------
 .. automethod:: cli_demo.options.DemoOptions.register
@@ -137,24 +155,6 @@ Setting attributes of an Option instance
 .. automethod:: cli_demo.options.DemoOptions.set_args
 
 .. automethod:: cli_demo.options.DemoOptions.set_kwargs
-
-Designating options for an input function
------------------------------------------
-.. automethod:: cli_demo.options.DemoOptions.__call__
-
-Getting the options for an input function
------------------------------------------
-.. automethod:: cli_demo.options.DemoOptions.get_options
-
-.. automethod:: cli_demo.options.DemoOptions.has_options
-
-.. automethod:: cli_demo.options.DemoOptions.get_id
-
-Setting the options for an input function
------------------------------------------
-.. automethod:: cli_demo.options.DemoOptions.set_options
-
-.. automethod:: cli_demo.options.DemoOptions.insert
 
 Inheriting options from a Demo base class
 -----------------------------------------
