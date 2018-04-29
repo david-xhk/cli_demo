@@ -152,6 +152,7 @@ spam = 14"""
         :meth:`~cli_demo.code.CodeDemo.print_in` the command if necessary, then strip any comments, and then compile the command if there are multiple lines or assignments before ``exec``-ing it. :meth:`~cli_demo.code.CodeDemo.print_out` the result or catch and print any errors. If there are any assignments in the command, :meth:`~cli_demo.code.CodeDemo.execute` their assigned names.
 
         Args:
+            commands (list): The code snippets to ``exec``.
             print_in (bool): Whether to :meth:`~cli_demo.code.CodeDemo.print_in` a command before ``exec``-ing it.
         """
         for command in commands:
