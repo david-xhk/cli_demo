@@ -101,8 +101,8 @@ Calling a callback
 
 .. autoclass:: cli_demo.options.Option.call
 
-Inheriting a DemoOptions instance
----------------------------------
+Inheriting options
+------------------
 .. automethod:: cli_demo.options.DemoOptions.copy
 
 .. automethod:: cli_demo.options.Option.copy
