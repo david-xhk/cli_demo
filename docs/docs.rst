@@ -18,7 +18,6 @@
 
 .. autoclass:: demo.code.CodeDemo
     :members:
-    :show-inheritance:
     :member-order: bysource
 
 =============
@@ -27,7 +26,6 @@
 
 .. autoclass:: demo.sandbox.SandboxDemo
     :members:
-    :show-inheritance:
     :member-order: bysource
 
 =========
