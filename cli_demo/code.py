@@ -193,7 +193,7 @@ spam = 14"""
                 print()
 
     def print_in(self, text):
-        """Print each line in `text` starting with ">>>" or "..."."""
+        """Print each line in `text` starting with ``">>>"`` or ``"..."``."""
         for line in text.splitlines():
             if line.startswith("    "):
                 print("... " + line)
@@ -201,7 +201,7 @@ spam = 14"""
                 print(">>> " + line)
 
     def print_out(self, *args):
-        """Pretty-print or print `args`."""
+        """``pprint()`` or ``print()`` `args`."""
         if args:
             try:
                 pprint.pprint(*args)
