@@ -8,18 +8,22 @@ Examples:
         
         # spam.py
         from cli_demo import CodeDemo
+        
+        def scramble(num):
+            return "SCRAMBLE " * num
 
         class SpamDemo(CodeDemo):
             help_text = "An eggs and bacon bonanza."
 
             setup_code = '''\\
-        spam = 6
-        eggs = 42'''
+        eggs = 6
+        spam = 42'''
 
             commands = [
-                "spam  # is good for you",
-                "eggs  # is the meaning of life",
-                "eggs % spam  # go perfect together",
+                "eggs  # are good for you",
+                "spam  # is the meaning of life",
+                "spam % eggs  # go perfect together",
+                "scramble(eggs)  # yum yum",
                 "response + ' was your response!'"
             ]
 
@@ -55,14 +59,15 @@ Examples:
         Select an option, or type something random: noodles
 
         Setup:
-        >>> spam = 6
-        >>> eggs = 42
+        >>> eggs = 6
+        >>> spam = 42
 
         Options:
-         0: spam  # is good for you
-         1: eggs  # is the meaning of life
-         2: eggs % spam  # go perfect together
-         3: response + 'was your response!'
+         0: eggs  # is good for you
+         1: spam  # is the meaning of life
+         2: spam % eggs  # go perfect together
+         3: scramble(eggs)  # yum yum
+         4: response + 'was your response!'
          a: Execute all of the above.
          c: Setup code.
          o: Options.
@@ -70,14 +75,17 @@ Examples:
          q: Quit.
 
         Choose a command: a
-        >>> spam  # is good for you
+        >>> eggs  # are good for you
         6
 
-        >>> eggs  # is the meaning of life
+        >>> spam  # is the meaning of life
         42
 
-        >>> eggs % spam  # go perfect together
+        >>> spam % eggs  # go perfect together
         0
+
+        >>> scramble(eggs)  # yum yum
+        'SCRAMBLE SCRAMBLE SCRAMBLE SCRAMBLE SCRAMBLE SCRAMBLE '
 
         >>> response + ' was your response!'
         'noodles was your response!'
