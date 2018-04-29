@@ -157,7 +157,7 @@ Several key features are introduced:
             border (str): The character used for the border for :attr:`~cli_demo.demo.Demo.help_text`. Defaults to ``"~"``.
             title (str): The character used for the border for the "Help" title. Defaults to ``"="``.
             subtitle (str): The character used for the border for the name of each :class:`~cli_demo.demo.Demo` subclass. Defaults to ``"-"``.
-            include (bool): Whether to include the :attr:`~cli_demo.demo.Demo.help_text` of all superclasses that are subclasses of :class:`~cli_demo.demo.Demo`. Defaults to ``True``.
+            include (bool): Whether to include the :attr:`~cli_demo.demo.Demo.help_text` of all superclasses that are subclasses of :class:`~cli_demo.demo.Demo`. Defaults to ``False``.
         """
         symbols = list(enumerate(kwargs.get(
             "symbols", [" ", "●", "○", "▸", "▹"])))
@@ -167,7 +167,7 @@ Several key features are introduced:
         title = "{line}\nHelp\n{line}\n".format(
             line=kwargs.get("title", "=")*4)
         subtitle = kwargs.get("subtitle", "-")
-        if kwargs.get("include", True):
+        if kwargs.get("include", False):
             classes = [cls for cls in reversed(self.__class__.__mro__)
                        if issubclass(cls, Demo)]
         else:
