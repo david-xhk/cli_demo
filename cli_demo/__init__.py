@@ -81,6 +81,12 @@ Examples:
 
                 >>> response + ' was your response!'
                 'noodles was your response!'
+                
+                Choose a command: c
+
+                Setup:
+                >>> spam = 6
+                >>> eggs = 42
 
                 Choose a command: q
                 Goodbye!
