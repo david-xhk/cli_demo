@@ -21,10 +21,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath('..'))
-import demo
-
-sys.path.insert(1, os.path.abspath('../demo'))
-
+from demo import demo, code, sandbox, options, exceptions
 
 # -- General configuration ---------------------------------------------
 
