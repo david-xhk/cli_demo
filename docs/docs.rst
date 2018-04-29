@@ -16,7 +16,7 @@
  CodeDemo
 ==========
 
-.. automodule:: cli_demo.code
+.. autoclass:: cli_demo.code.CodeDemo
     :members:
     :member-order: bysource
     :show-inheritance:
