@@ -10,8 +10,12 @@ if sys.version_info < (3,3):
 
 import inspect
 import pprint
-from .demo import Demo
-from .exceptions import catch_exc
+try:
+    from demo import Demo
+    from exceptions import catch_exc
+except ImportError:
+    from .demo import Demo
+    from .exceptions import catch_exc
 
 
 class CodeDemo(Demo):

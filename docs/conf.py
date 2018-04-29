@@ -23,9 +23,6 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 import cli_demo
 
-sys.path.insert(0, os.path.abspath('../cli_demo'))
-
-
 # -- General configuration ---------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
