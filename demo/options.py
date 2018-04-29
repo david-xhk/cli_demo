@@ -194,7 +194,7 @@ class DemoOptions(object):
 
               * The :attr:`~demo.options.Option.callback` that is set must accept a `response` argument- the user's response to that input function.
 
-              * Any response to that input function which does not fall within its designated options will be forwarded to :attr:`~demo.options.Option.callback` via  :meth:`~demo.options.DemoOptions.call` for further processing.
+              * Any response to that input function which does not fall within its designated options will be forwarded to :attr:`~demo.options.Option.callback` via  :meth:`~demo.options.Option.call` for further processing.
 
             * If `lock` is ``True``, the :attr:`~demo.options.Option.callback` that is set must accept a `key` argument- the key of the input function that triggered it.
         """
