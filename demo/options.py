@@ -134,7 +134,7 @@ class DemoOptions(object):
             :class:`~demo.exceptions.OptionNotFoundError`: If an option does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`.
             :class:`~demo.exceptions.CallbackNotFoundError`: If :attr:`~demo.options.Option.callback` has not been set in an :class:`~demo.options.Option` instance.
             :class:`~demo.exceptions.CallbackLockError`: If the :attr:`~demo.options.Option.lock` attribute of an :class:`~demo.options.Option` instance is ``True`` but its :attr:`~demo.options.Option.callback` does not accept a `key` argument.
-            :class:`~demo.exceptions.CallbackResponseError`: If an :class:`~demo.options.Option` instance is registered under an input function key but its :attr:`~demo.options.Option.callback` does not accept a `response` argument.
+            :class:`~demo.exceptions.CallbackResponseError`: If the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance registered under `key` does not accept a `response` argument.
             :class:`~demo.exceptions.DemoRetry`: If the user response was invalid.
         """
         retry = kw_opts.pop("retry", "Please try again.")
