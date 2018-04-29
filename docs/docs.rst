@@ -43,6 +43,7 @@ Control flow tools of a Demo instance
 ==========
 
 .. autoclass:: cli_demo.code.CodeDemo
+    :show-inheritance:
 
 Program logic of a CodeDemo instance
 ------------------------------------
@@ -50,11 +51,7 @@ Program logic of a CodeDemo instance
 
 Setup process of a CodeDemo instance
 ------------------------------------
-.. automethod:: cli_demo.code.CodeDemo.run_setup
-
 .. automethod:: cli_demo.code.CodeDemo.setup_callback
-
-.. automethod:: cli_demo.code.CodeDemo.setup_options
 
 Commands process of a CodeDemo instance
 ---------------------------------------
@@ -68,12 +65,6 @@ Commands process of a CodeDemo instance
 
 Print functions of a CodeDemo instance
 --------------------------------------
-.. automethod:: cli_demo.code.CodeDemo.print_intro
-
-.. automethod:: cli_demo.code.CodeDemo.print_options
-
-.. automethod:: cli_demo.code.CodeDemo.print_help
-
 .. automethod:: cli_demo.code.CodeDemo.print_setup
 
 .. automethod:: cli_demo.code.CodeDemo.print_in
@@ -85,9 +76,13 @@ Print functions of a CodeDemo instance
 =============
 
 .. autoclass:: cli_demo.sandbox.SandboxDemo
-    :members:
-    :member-order: bysource
     :show-inheritance:
+
+Commands process of a SandboxDemo instance
+------------------------------------------
+.. automethod:: cli_demo.sandbox.SandboxDemo.get_commands
+
+.. automethod:: cli_demo.sandbox.SandboxDemo.sandbox
 
 =============
  DemoOptions

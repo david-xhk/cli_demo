@@ -18,7 +18,19 @@ class SandboxDemo(CodeDemo):
 
     options = CodeDemo.options.copy()
 
-    options.insert("commands", 2, "s")
+    @options("c", "o", "s", "r", "q", key="commands")
+    def get_commands(self):
+        """Prompt the user to select a command from :attr:`~cli_demo.code.CodeDemo.commands`.
+
+        Sandbox mode, ``"s"``, has been added to the available options.
+
+        :meth:`~cli_demo.demo.Demo.get_commands` is decorated with::
+
+            @options("c", "o", "s", "r", "q", key="commands")
+            def get_commands(self):
+                ...
+        """
+        return input(self.command_prompt)
 
     @options.register("s", "Sandbox mode.", retry=True, lock=True)
     def sandbox(self, key):
