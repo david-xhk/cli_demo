@@ -147,21 +147,21 @@ class DemoOptions(object):
             @catch_exc(DemoRetry)
             def inner(demo):
                 response = input_func(demo)
-                opts, kw_opts = cli_demo.options.get_options(key or input_func)
+                opts, kw_opts = demo.options.get_options(key or input_func)
                 if response in opts or response in kw_opts:
                     option = kw_opts.get(response) or response
-                    if option not in cli_demo.options:
+                    if option not in demo.options:
                         raise OptionNotFoundError(response)
-                    elif cli_demo.options.is_lock(option):
+                    elif demo.options.is_lock(option):
                         try:
-                            return cli_demo.options.call(option, key=key)
+                            return demo.options.call(option, key=key)
                         except TypeError as exc:
                             raise CallbackLockError(response)
                     else:
-                        return cli_demo.options.call(option)
+                        return demo.options.call(option)
                 elif key:
                     try:
-                        return cli_demo.options.call(key, response=response,
+                        return demo.options.call(key, response=response,
                             *args, **kwargs)
                     except TypeError as exc:
                         raise CallbackResponseError(response)
