@@ -10,28 +10,28 @@
 
 .. autoclass:: cli_demo.demo.Demo
 
-Program logic
--------------
+Program logic of a Demo instance
+--------------------------------
 .. automethod:: cli_demo.demo.Demo.run
 
-Setup process
--------------
+Setup process of a Demo instance
+--------------------------------
 .. automethod:: cli_demo.demo.Demo.run_setup
 
 .. automethod:: cli_demo.demo.Demo.setup_callback
 
 .. automethod:: cli_demo.demo.Demo.setup_options
 
-Print functions
----------------
+Print functions of a Demo instance
+----------------------------------
 .. automethod:: cli_demo.demo.Demo.print_intro
 
 .. automethod:: cli_demo.demo.Demo.print_options
 
 .. automethod:: cli_demo.demo.Demo.print_help
 
-Control flow tools
-------------------
+Control flow tools of a Demo instance
+-------------------------------------
 .. automethod:: cli_demo.demo.Demo.restart
 
 .. automethod:: cli_demo.demo.Demo.quit
@@ -44,16 +44,20 @@ Control flow tools
 
 .. autoclass:: cli_demo.code.CodeDemo
 
-Program logic
--------------
+Program logic of a CodeDemo instance
+------------------------------------
 .. automethod:: cli_demo.code.CodeDemo.run
 
-Setup process
--------------
+Setup process of a CodeDemo instance
+------------------------------------
+.. automethod:: cli_demo.code.CodeDemo.run_setup
+
 .. automethod:: cli_demo.code.CodeDemo.setup_callback
 
-Commands process
-----------------
+.. automethod:: cli_demo.code.CodeDemo.setup_options
+
+Commands process of a CodeDemo instance
+---------------------------------------
 .. automethod:: cli_demo.code.CodeDemo.get_commands
 
 .. automethod:: cli_demo.code.CodeDemo.commands_callback
@@ -62,8 +66,14 @@ Commands process
 
 .. automethod:: cli_demo.code.CodeDemo.execute
 
-Print functions
----------------
+Print functions of a CodeDemo instance
+--------------------------------------
+.. automethod:: cli_demo.code.CodeDemo.print_intro
+
+.. automethod:: cli_demo.code.CodeDemo.print_options
+
+.. automethod:: cli_demo.code.CodeDemo.print_help
+
 .. automethod:: cli_demo.code.CodeDemo.print_setup
 
 .. automethod:: cli_demo.code.CodeDemo.print_in
