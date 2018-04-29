@@ -109,7 +109,7 @@ class DemoOptions(object):
             **kw_opts: The user responses that should be redirected.
 
         Note:
-            If `key` is defined:
+            If `key` is provided:
 
                 * `key` will be used to store a record of `opts` and `kw_opts` in :attr:`~demo.options.DemoOptions.cache`.
                 
@@ -117,7 +117,7 @@ class DemoOptions(object):
 
                 * If a user input does not fall within the designated options, the response will be forwarded to the :meth:`~demo.options.DemoOptions.call` method of the :class:`~demo.options.Option` instance registered under `key`.
 
-            If `key` is not defined:
+            If `key` is not provided:
                 
                 * The input function itself will be used to store a record of `opts` and `kw_opts` in :attr:`~demo.options.DemoOptions.cache`.
 
@@ -134,7 +134,7 @@ class DemoOptions(object):
             :class:`~demo.exceptions.OptionNotFoundError`: If an option does not exist in :attr:`~demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~demo.options.Option`.
             :class:`~demo.exceptions.CallbackNotFoundError`: If :attr:`~demo.options.Option.callback` has not been set in an :class:`~demo.options.Option` instance.
             :class:`~demo.exceptions.CallbackLockError`: If the :attr:`~demo.options.Option.lock` attribute of an :class:`~demo.options.Option` instance is ``True`` but its :attr:`~demo.options.Option.callback` does not accept a `key` argument.
-            :class:`~demo.exceptions.CallbackResponseError`: If the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance registered under `key` does not accept a `response` argument.
+            :class:`~demo.exceptions.CallbackResponseError`: If `key` is provided but the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance registered under `key` does not accept a `response` argument.
             :class:`~demo.exceptions.DemoRetry`: If the user response was invalid.
         """
         retry = kw_opts.pop("retry", "Please try again.")
