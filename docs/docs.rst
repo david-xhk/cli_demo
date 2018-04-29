@@ -4,18 +4,9 @@
 
 .. automodule:: cli_demo
 
-======
- Demo
-======
-
-.. autoclass:: cli_demo.demo.Demo
-    :members:
-    :member-order: bysource
-
 ==========
  CodeDemo
 ==========
-
 
 .. autoclass:: cli_demo.code.CodeDemo
     :members:
@@ -30,6 +21,14 @@
     :members:
     :member-order: bysource
     :show-inheritance:
+
+======
+ Demo
+======
+
+.. autoclass:: cli_demo.demo.Demo
+    :members:
+    :member-order: bysource
 
 =========
  options
