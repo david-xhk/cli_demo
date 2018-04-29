@@ -101,7 +101,7 @@ class DemoOptions(object):
         If a user input falls within the designated options, the :attr:`~demo.options.Option.callback` of the corresponding :class:`~demo.options.Option` instance will be invoked through its :meth:`~demo.options.DemoOptions.call` method.
 
         Args:
-            retry (str): The retry text to print if the user response was invalid. Defaults to ``"Please try again"``.
+            retry (str): The text to print before the input function is called again when the user response is invalid. Defaults to ``"Please try again"``.
             key (str, optional): The key of the input function.
             key_args (tuple): The arguments that should be passed to :attr:`~demo.options.Option.callback`. Defaults to ``()``.
             key_kwargs (dict): The keyword arguments that should be passed to :attr:`~demo.options.Option.callback`. Defaults to ``{}``.
