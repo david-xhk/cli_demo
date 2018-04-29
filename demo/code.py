@@ -45,8 +45,27 @@ spam = 14"""
 
     options = Demo.options.copy()
 
+    @catch_exc
+    def run(self):
+        """The main logic of a :class:`~demo.code.CodeDemo` program.
+        
+        :meth:`~demo.code.CodeDemo.run` first calls :meth:`~demo.demo.Demo.print_intro`, then prints the options for :meth:`~demo.demo.Demo.run_setup` via :meth:`~demo.demo.Demo.print_options` before calling it, followed by the same process for :meth:`~demo.code.CodeDemo.get_commands`.
+
+        :meth:`~demo.demo.Demo.run` is decorated with::
+
+            @catch_exc
+            def run(self):
+                ...
+        """
+        self.print_intro()
+        self.print_options(key="setup")
+        self.run_setup()
+        self.print_options(key="commands")
+        self.get_commands()
+
     @options.register("c", "Setup code.", retry=True, newline=True)
     def print_setup(self):
+        """Print :attr:`~demo.code.CodeDemo.setup_code`."""
         print("Setup:")
         self.print_in(self.setup_code)
         print()
@@ -54,6 +73,8 @@ spam = 14"""
     @options.register("setup")
     def setup_callback(self, response):
         """Handle user input to :meth:`~demo.code.CodeDemo.run_setup`.
+        
+        Sets :attr:`~demo.code.CodeDemo.locals` to the global namespace from :mod:`__main__` before updating with `response`. Then, copies the ``__builtins__`` of :mod:`__main__` into :attr:`~demo.code.CodeDemo.globals`. Finally, ``exec``s :attr:`~demo.code.CodeDemo.setup_code` in :attr:`~demo.code.CodeDemo.locals` and :attr:`~demo.code.CodeDemo.globals` before printing it via :meth:`~demo.code.CodeDemo.print_setup`.
 
         :meth:`~demo.code.CodeDemo.setup_callback` is decorated with::
 
@@ -62,20 +83,10 @@ spam = 14"""
                 ...
 
         Args:
-            response (str): The user input.
+            response (str): The user input to :meth:`~demo.demo.Demo.run_setup`.
 
         Note:
-            * When :meth:`~demo.code.CodeDemo.setup_callback` is called, the following occurs:
-    
-              1. :attr:`~demo.code.CodeDemo.locals` is updated with the global namespace from :mod:`__main__` and `response`.
-
-              2. The ``__builtins__`` of :mod:`__main__` is copied into :attr:`~demo.code.CodeDemo.globals`.
-
-              3. :attr:`~demo.code.CodeDemo.setup_code` is ``exec``-ed in :attr:`~demo.code.CodeDemo.locals` and :attr:`~demo.code.CodeDemo.globals`.
-
-            * The :attr:`~demo.code.CodeDemo.commands` selected by the user will be ``exec``-ed in :attr:`~demo.code.CodeDemo.locals` and :attr:`~demo.code.CodeDemo.globals`.
-
-            * The :class:`~demo.code.CodeDemo` instance is available in :attr:`~demo.code.CodeDemo.locals` under the name `demo`, and the user response under `response`.
+            The :class:`~demo.code.CodeDemo` instance is available in :attr:`~demo.code.CodeDemo.locals` under the name `demo`, and the user response under `response`.
         """
         main = sys.modules["__main__"]
         self.globals = vars(main.__builtins__).copy()
@@ -91,7 +102,19 @@ spam = 14"""
 
     @options.register("commands", retry=True)
     def commands_callback(self, response):
-        """Check if commands are correct and push them to `execute`."""
+        """Handle user input to :meth:`~demo.code.CodeDemo.get_commands`.
+        
+        :meth:`~demo.code.CodeDemo.execute` the respective code snippet or all :attr:`~demo.code.CodeDemo.commands` if `response` is a valid index or ``"a"``. Otherwise, :meth:`~demo.demo.Demo.retry` with the error message: ``"Invalid index. Please try again."``.
+
+        :meth:`~demo.code.CodeDemo.commands_callback` is decorated with::
+
+            @options.register("commands", retry=True)
+            def commands_callback(self, response):
+                ...
+
+        Args:
+            response (str): The user input to :meth:`~demo.code.CodeDemo.get_commands`.
+        """
         commands = None
         if response == "a":
             commands = self.commands[:]
@@ -101,24 +124,24 @@ spam = 14"""
             self.execute(commands)
         else:
             self.retry("Invalid index. Please try again.")
-    
-    @catch_exc
-    def run(self):
-        self.print_intro()
-        self.print_options(key="setup")
-        self.run_setup()
-        self.print_options(key="commands")
-        self.get_commands()
 
     @options("c", "o", "r", "q", key="commands")
     def get_commands(self):
-        """Allow the user to select a command to his liking. 
+        """Prompt the user to select a command from :attr:`~demo.code.CodeDemo.commands`.
 
-        Several other options are provided as well in order to navigate around the demo. An invalid command or option will prompt the user to try again.
+        :meth:`~demo.demo.Demo.get_commands` is decorated with::
+
+            @options("c", "o", "r", "q", key="commands")
+            def get_commands(self):
+                ...
         """
         return input(self.command_prompt)
 
     def commands_options(self):
+        """Provide options for :meth:`~demo.demo.Demo.get_commands`.
+
+        The descriptions and options are the code snippets and their enumerations. An additional option is ``"a"``, which is ``"Execute all of the above."``.
+        """
         for index, command in enumerate(self.commands):
             yield (str(index), "\n    ".join(command.splitlines()))
         yield ("a", "Execute all of the above.")

@@ -210,7 +210,7 @@ Several key features are introduced:
                 ...
 
         Args:
-            response (str): The user input.
+            response (str): The user input to :meth:`~demo.demo.Demo.run_setup`.
         """
         print("Got: {}".format(response))
         print()
@@ -228,7 +228,7 @@ Several key features are introduced:
         return input(self.setup_prompt)
 
     def setup_options(self):
-        """Provide options for setup.
+        """Provide options for :meth:`~demo.demo.Demo.run_setup`.
 
         The default option is ``"*"`` with description ``"Any response."``.
         """
@@ -237,6 +237,8 @@ Several key features are introduced:
     @catch_exc
     def run(self):
         """The main logic of a :class:`~demo.demo.Demo` program.
+        
+        :meth:`~demo.demo.Demo.run` first calls :meth:`~demo.demo.Demo.print_intro`, then prints the options for :meth:`~demo.demo.Demo.run_setup` via :meth:`~demo.demo.Demo.print_options` before calling it.
 
         :meth:`~demo.demo.Demo.run` is decorated with::
 
