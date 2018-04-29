@@ -72,7 +72,7 @@ spam = 14"""
 
     @options.register("setup")
     def setup_callback(self, response):
-        """Handle user input to :meth:`~cli_demo.code.CodeDemo.run_setup`.
+        """Handle user input to :meth:`~cli_demo.demo.Demo.run_setup`.
         
         Set :attr:`~cli_demo.code.CodeDemo.locals` to the global namespace from :mod:`__main__` before updating with `response`. Then, copy the ``__builtins__`` of :mod:`__main__` into :attr:`~cli_demo.code.CodeDemo.globals`. Finally, ``exec`` :attr:`~cli_demo.code.CodeDemo.setup_code` in :attr:`~cli_demo.code.CodeDemo.locals` and :attr:`~cli_demo.code.CodeDemo.globals` before printing it via :meth:`~cli_demo.code.CodeDemo.print_setup`.
 
@@ -104,14 +104,14 @@ spam = 14"""
     def get_commands(self):
         """Prompt the user to select a command from :attr:`~cli_demo.code.CodeDemo.commands`.
 
-        :meth:`~cli_demo.demo.Demo.get_commands` is decorated with::
+        :meth:`~cli_demo.code.CodeDemo.get_commands` is decorated with::
 
             @options("c", "o", "r", "q", key="commands")
             def get_commands(self):
                 ...
         """
         return input(self.command_prompt)
-    
+
     @options.register("commands", retry=True)
     def commands_callback(self, response):
         """Handle user input to :meth:`~cli_demo.code.CodeDemo.get_commands`.
@@ -138,7 +138,7 @@ spam = 14"""
             self.retry("Invalid index. Please try again.")
 
     def commands_options(self):
-        """Provide options for :meth:`~cli_demo.demo.Demo.get_commands`.
+        """Provide options for :meth:`~cli_demo.code.CodeDemo.get_commands`.
 
         The descriptions and options are the code snippets and their enumerations. An additional option is ``"a"``, which is ``"Execute all of the above."``.
         """

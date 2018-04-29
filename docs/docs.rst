@@ -116,9 +116,9 @@ Registering an Option instance
 
 Invoking the callback of an Option instance
 -------------------------------------------
-.. autoclass:: cli_demo.options.DemoOptions.call
+.. automethod:: cli_demo.options.DemoOptions.call
 
-.. autoclass:: cli_demo.options.Option.call
+.. automethod:: cli_demo.options.Option.call
 
 Getting attributes of an Option instance
 ----------------------------------------
