@@ -79,29 +79,11 @@ Print functions
     :member-order: bysource
     :show-inheritance:
 
-=========
- options
-=========
+=============
+ DemoOptions
+=============
 
-.. automodule:: cli_demo.options
-
-Designating options for an input function
------------------------------------------
-.. automethod:: cli_demo.options.DemoOptions.__call__
-
-Getting the options for an input function
------------------------------------------
-.. automethod:: cli_demo.options.DemoOptions.get_options
-
-.. automethod:: cli_demo.options.DemoOptions.has_options
-
-.. automethod:: cli_demo.options.DemoOptions.get_id
-
-Setting the options for an input function
------------------------------------------
-.. automethod:: cli_demo.options.DemoOptions.set_options
-
-.. automethod:: cli_demo.options.DemoOptions.insert
+.. autoclass:: cli_demo.options.DemoOptions
 
 Registering an Option instance
 ------------------------------
@@ -150,6 +132,24 @@ Setting attributes of an Option instance
 .. automethod:: cli_demo.options.DemoOptions.set_args
 
 .. automethod:: cli_demo.options.DemoOptions.set_kwargs
+
+Designating options for an input function
+-----------------------------------------
+.. automethod:: cli_demo.options.DemoOptions.__call__
+
+Getting the options for an input function
+-----------------------------------------
+.. automethod:: cli_demo.options.DemoOptions.get_options
+
+.. automethod:: cli_demo.options.DemoOptions.has_options
+
+.. automethod:: cli_demo.options.DemoOptions.get_id
+
+Setting the options for an input function
+-----------------------------------------
+.. automethod:: cli_demo.options.DemoOptions.set_options
+
+.. automethod:: cli_demo.options.DemoOptions.insert
 
 Inheriting options
 ------------------
