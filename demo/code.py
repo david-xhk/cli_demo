@@ -74,7 +74,7 @@ spam = 14"""
     def setup_callback(self, response):
         """Handle user input to :meth:`~demo.code.CodeDemo.run_setup`.
         
-        Sets :attr:`~demo.code.CodeDemo.locals` to the global namespace from :mod:`__main__` before updating with `response`. Then, copies the ``__builtins__`` of :mod:`__main__` into :attr:`~demo.code.CodeDemo.globals`. Finally, ``exec``s :attr:`~demo.code.CodeDemo.setup_code` in :attr:`~demo.code.CodeDemo.locals` and :attr:`~demo.code.CodeDemo.globals` before printing it via :meth:`~demo.code.CodeDemo.print_setup`.
+        Set :attr:`~demo.code.CodeDemo.locals` to the global namespace from :mod:`__main__` before updating with `response`. Then, copy the ``__builtins__`` of :mod:`__main__` into :attr:`~demo.code.CodeDemo.globals`. Finally, ``exec`` :attr:`~demo.code.CodeDemo.setup_code` in :attr:`~demo.code.CodeDemo.locals` and :attr:`~demo.code.CodeDemo.globals` before printing it via :meth:`~demo.code.CodeDemo.print_setup`.
 
         :meth:`~demo.code.CodeDemo.setup_callback` is decorated with::
 
