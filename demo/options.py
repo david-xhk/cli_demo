@@ -98,7 +98,7 @@ class DemoOptions(object):
     def __call__(self, *opts, **kw_opts):
         """Designate a set of options to an input function.
         
-        If a user input falls within the designated options, the :attr:`~demo.options.Option.callback` of the corresponding :class:`~demo.options.Option` instance will be invoked through :meth:`~demo.options.DemoOptions.call`.
+        If a user input falls within the designated options, the :attr:`~demo.options.Option.callback` of the corresponding :class:`~demo.options.Option` instance will be invoked through its :meth:`~demo.options.DemoOptions.call` method.
 
         Args:
             retry (str): The retry text to print if the user response was invalid. Defaults to ``"Please try again"``.
