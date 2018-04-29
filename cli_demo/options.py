@@ -170,6 +170,88 @@ class DemoOptions(object):
             return inner
         return options_decorator
 
+    @staticmethod
+    def get_id(key):
+        """Create a unique id for `key`.
+        
+        Args:
+            key: A key for a set of options and keyword options.
+
+        Returns:
+            int: The id of `key`.
+        """
+        return id(key)
+
+    def has_options(self, key):
+        """Check if there are any options set with `key`.
+
+        Args:
+            key: A key for a set of options and keyword options.
+
+        Returns:
+            ``True`` if the id of `key` exists in :attr:`~cli_demo.options.DemoOptions.cache`, ``False`` otherwise.
+        """
+        return self.get_id(key) in self.cache
+
+    def get_options(self, key):
+        """Get the options that were set with `key`.
+
+        Args:
+            key: A key for a set of options and keyword options.
+
+        Returns:
+            list[list, dict]: The options and keyword options set under `key`.
+
+        Raises:
+            :class:`~cli_demo.exceptions.KeyNotFoundError`: If the id of `key` does not exist in :attr:`~cli_demo.options.DemoOptions.cache`.
+        """
+        try:
+            return self.cache[self.get_id(key)]
+        except KeyError:
+            raise KeyNotFoundError(key)
+
+    def set_options(self, key, *opts, **kw_opts):
+        """Change the options that were set with `key`.
+        
+        If `opts` or `kw_opts` are provided, the options or keyword options that were recorded previously will be overridden.
+
+        Args:
+            key: A key for a set of options and keyword options.
+            *opts: Argument options for `key`.
+            **kw_opts: Keyword options for `key`.
+        """
+        key_id = self.get_id(key)
+        if key_id not in self.cache:
+            self.cache[key_id] = [[], {}]
+        if opts:
+            self.cache[key_id][0] = list(opts)
+        if kw_opts:
+            self.cache[key_id][1] = dict(kw_opts)
+
+    def insert(self, key, kw, opt, **kw_opts):
+        """Insert an option into the options that were set with `key`.
+
+        If `kw` is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
+
+        Args:
+            key: A key for a set of options and keyword options.
+            kw: An index for argument options or a keyword option.
+            opt (str): The option to insert.
+            **kw_opts: More kw and opt pairs.
+
+        Raises:
+            :class:`~cli_demo.exceptions.KeyNotFoundError`: If the id of `key` does not exist in :attr:`~cli_demo.options.DemoOptions.cache`.
+
+        Note:
+            `kw_opts` are are treated similarly as `kw` and `opt`.
+        """
+        options = self.get_options(key)
+        for kw, opt in dict(kw_opts, **{kw:opt}).items():
+            if isinstance(kw, str) and not kw.isdigit():
+                options[1][kw] = opt
+            else:
+                options[0].insert(int(kw), opt)
+    
     def register(self, option, desc="", **kwargs):
         """Register an option.
 
@@ -447,88 +529,6 @@ class DemoOptions(object):
             :class:`~cli_demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~cli_demo.options.Option`. 
         """
         self[option].kwargs = dict(kwargs)
-
-    @staticmethod
-    def get_id(key):
-        """Create a unique id for `key`.
-        
-        Args:
-            key: A key for a set of options and keyword options.
-
-        Returns:
-            int: The id of `key`.
-        """
-        return id(key)
-
-    def has_options(self, key):
-        """Check if there are any options set with `key`.
-
-        Args:
-            key: A key for a set of options and keyword options.
-
-        Returns:
-            ``True`` if the id of `key` exists in :attr:`~cli_demo.options.DemoOptions.cache`, ``False`` otherwise.
-        """
-        return self.get_id(key) in self.cache
-
-    def get_options(self, key):
-        """Get the options that were set with `key`.
-
-        Args:
-            key: A key for a set of options and keyword options.
-
-        Returns:
-            list[list, dict]: The options and keyword options set under `key`.
-
-        Raises:
-            :class:`~cli_demo.exceptions.KeyNotFoundError`: If the id of `key` does not exist in :attr:`~cli_demo.options.DemoOptions.cache`.
-        """
-        try:
-            return self.cache[self.get_id(key)]
-        except KeyError:
-            raise KeyNotFoundError(key)
-
-    def set_options(self, key, *opts, **kw_opts):
-        """Change the options that were set with `key`.
-        
-        If `opts` or `kw_opts` are provided, the options or keyword options that were recorded previously will be overridden.
-
-        Args:
-            key: A key for a set of options and keyword options.
-            *opts: Argument options for `key`.
-            **kw_opts: Keyword options for `key`.
-        """
-        key_id = self.get_id(key)
-        if key_id not in self.cache:
-            self.cache[key_id] = [[], {}]
-        if opts:
-            self.cache[key_id][0] = list(opts)
-        if kw_opts:
-            self.cache[key_id][1] = dict(kw_opts)
-
-    def insert(self, key, kw, opt, **kw_opts):
-        """Insert an option into the options that were set with `key`.
-
-        If `kw` is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
-
-        Args:
-            key: A key for a set of options and keyword options.
-            kw: An index for argument options or a keyword option.
-            opt (str): The option to insert.
-            **kw_opts: More kw and opt pairs.
-
-        Raises:
-            :class:`~cli_demo.exceptions.KeyNotFoundError`: If the id of `key` does not exist in :attr:`~cli_demo.options.DemoOptions.cache`.
-
-        Note:
-            `kw_opts` are are treated similarly as `kw` and `opt`.
-        """
-        options = self.get_options(key)
-        for kw, opt in dict(kw_opts, **{kw:opt}).items():
-            if isinstance(kw, str) and not kw.isdigit():
-                options[1][kw] = opt
-            else:
-                options[0].insert(int(kw), opt)
 
     def copy(self):
         """Initialize a new copy of :class:`~cli_demo.options.DemoOptions`.

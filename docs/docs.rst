@@ -89,6 +89,20 @@ Designating options for an input function
 -----------------------------------------
 .. automethod:: cli_demo.options.DemoOptions.__call__
 
+Getting the options for an input function
+-----------------------------------------
+.. automethod:: cli_demo.options.DemoOptions.get_options
+
+.. automethod:: cli_demo.options.DemoOptions.has_options
+
+.. automethod:: cli_demo.options.DemoOptions.get_id
+
+Setting the options for an input function
+-----------------------------------------
+.. automethod:: cli_demo.options.DemoOptions.set_options
+
+.. automethod:: cli_demo.options.DemoOptions.insert
+
 Registering a callback
 ----------------------
 .. automethod:: cli_demo.options.DemoOptions.register
@@ -101,14 +115,8 @@ Calling a callback
 
 .. autoclass:: cli_demo.options.Option.call
 
-Inheriting options
-------------------
-.. automethod:: cli_demo.options.DemoOptions.copy
-
-.. automethod:: cli_demo.options.Option.copy
-
-Getting Option attributes
--------------------------
+Getting attributes of an Option instance
+----------------------------------------
 .. automethod:: cli_demo.options.DemoOptions.__contains__
 
 .. automethod:: cli_demo.options.DemoOptions.__getitem__
@@ -127,8 +135,8 @@ Getting Option attributes
 
 .. automethod:: cli_demo.options.DemoOptions.get_kwargs
 
-Setting Option attributes
--------------------------
+Setting attributes of an Option instance
+----------------------------------------
 .. automethod:: cli_demo.options.DemoOptions.set_callback
 
 .. automethod:: cli_demo.options.DemoOptions.set_lock
@@ -143,15 +151,11 @@ Setting Option attributes
 
 .. automethod:: cli_demo.options.DemoOptions.set_kwargs
 
-Getting the options for an input function
------------------------------------------
-.. automethod:: cli_demo.options.DemoOptions.get_options
+Inheriting options
+------------------
+.. automethod:: cli_demo.options.DemoOptions.copy
 
-Setting the options for an input function
------------------------------------------
-.. automethod:: cli_demo.options.DemoOptions.set_options
-
-.. automethod:: cli_demo.options.DemoOptions.insert
+.. automethod:: cli_demo.options.Option.copy
 
 ============
  exceptions
