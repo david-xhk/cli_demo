@@ -156,8 +156,8 @@ Setting attributes of an Option instance
 
 .. automethod:: cli_demo.options.DemoOptions.set_kwargs
 
-Inheriting options from a Demo base class
------------------------------------------
+Inheriting an instance of DemoOptions / Option
+----------------------------------------------
 .. automethod:: cli_demo.options.DemoOptions.copy
 
 .. automethod:: cli_demo.options.Option.copy
