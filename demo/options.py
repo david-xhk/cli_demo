@@ -126,7 +126,7 @@ class DemoOptions(object):
                 * If a user input does not fall within the designated options, :class:`~demo.exceptions.DemoRetry` will be raised and `retry` will be printed.
 
         Returns:
-            ``options_decorator()``: A decorator which takes a function and returns a wrapped function.
+            ``options_decorator()``: A decorator which takes a function (expected to be an input function) and returns a wrapped function.
         
         The following exceptions will only be raised when the wrapped function is invoked.
 
