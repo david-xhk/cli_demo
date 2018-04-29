@@ -9,11 +9,7 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=.
 set BUILDDIR=_build
-<<<<<<< HEAD
 set SPHINXPROJ=cli_demo
-=======
-set SPHINXPROJ=demo
->>>>>>> 4ad383388e7e1ba7bf9b253439e011ef33d646b9
 
 if "%1" == "" goto help
 
