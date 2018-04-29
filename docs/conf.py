@@ -20,13 +20,11 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../cli_demo/exceptions/'))
-sys.path.insert(0, os.path.abspath('../cli_demo/options/'))
-sys.path.insert(0, os.path.abspath('../cli_demo/sandbox/'))
-sys.path.insert(0, os.path.abspath('../cli_demo/code/'))
-sys.path.insert(0, os.path.abspath('../cli_demo/demo/'))
 sys.path.insert(0, os.path.abspath('..'))
 import cli_demo
+
+sys.path.insert(0, os.path.abspath('../cli_demo'))
+
 
 # -- General configuration ---------------------------------------------
 
