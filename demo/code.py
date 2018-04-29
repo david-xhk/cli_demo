@@ -18,7 +18,7 @@ class CodeDemo(Demo):
     """CodeDemo improves Demo by introducing a feature called :attr:`~demo.code.CodeDemo.commands`, which allows the user to select from a set of code snippets and view the result of it being ``exec``-ed.
     
     Attributes:
-        setup_code (str): Code to ``exec`` for setting up a context in :meth:`~demo.code.CodeDemo.setup_callback`.
+        setup_code (str): The code to ``exec`` in :meth:`~demo.code.CodeDemo.setup_callback`.
         command_prompt (str): The input prompt for :meth:`~demo.code.CodeDemo.get_commands`.
         commands (list[str]): The code snippets to ``exec`` that the user can choose from in :meth:`~demo.code.CodeDemo.get_commands`.
         locals (dict): The local namespace for ``exec`` populated in :meth:`~demo.code.CodeDemo.setup_callback`.
