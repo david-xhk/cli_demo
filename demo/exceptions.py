@@ -66,17 +66,22 @@ class KeyNotFoundError(OptionError):
 
 
 class OptionNotFoundError(OptionError):
-    """Raised when an :class:`~demo.options.Option` object is not registered."""
+    """Raised when an :class:`~demo.options.Option` instance is not registered."""
     text = "Option object for '{}' not registered."
 
 
 class CallbackNotFoundError(OptionError):
-    """Raised when the :attr:`~demo.options.Option.callback` of an :class:`~demo.options.Option` object has not been set."""
+    """Raised when the :attr:`~demo.options.Option.callback` of an :class:`~demo.options.Option` instance has not been set."""
     text = "'{}' callback not registered"
 
 
-class CallbackNotLockError(OptionError):
-    """Raised when the :attr:`~demo.options.Option.lock` of an :class:`~demo.options.Option` object is ``True`` but its :attr:`~demo.options.Option.callback` does not accept a `key` argument."""
+class CallbackLockError(OptionError):
+    """Raised when the :attr:`~demo.options.Option.lock` attribute of an :class:`~demo.options.Option` instance is ``True`` but its :attr:`~demo.options.Option.callback` does not accept a `key` argument."""
+    text = "'{}' callback does not accept `key` argument."
+
+
+class CallbackResponseError(OptionError):
+    """Raised when an :class:`~demo.options.Option` instance is registered under an input function key but its :attr:`~demo.options.Option.callback` does not accept a `response` argument."""
     text = "'{}' callback does not accept `key` argument."
 
 
@@ -87,7 +92,7 @@ def catch_exc(*demo_exc):
         *demo_exc: One or a few subclasses of :class:`~demo.exceptions.DemoException`, and possibly a function to wrap.
 
     Returns:
-        :func:`catch_exc_decorator`: A decorator that takes a function and returns a wrapped function. As a shortcut, if a function was passed into `demo_exc`, the wrapped function is returned instead.
+        ``catch_exc_decorator()``: A decorator that takes a function and returns a wrapped function. As a shortcut, if a function was passed into `demo_exc`, the wrapped function is returned instead.
     
     Note:
         * Non-subclasses of :class:`~demo.exceptions.DemoException` are ignored, aside from a function or method.

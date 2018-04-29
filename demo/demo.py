@@ -74,12 +74,12 @@ Several key features are introduced:
                 ...
 
         Args:
-            symbols (list): A list of symbols for each level of indentation. Defaults to [" ", "●", "○", "▸", "▹"].
-            width (int): The maximum width for a line printed. Defaults to 60.
-            indent (int): The number of spaces per indent for the text printed. Defaults to 4.
-            border (str): The character used for the border for :attr:`~demo.demo.Demo.help_text`. Defaults to "~".
-            title (str): The character used for the border for the "Help" title. Defaults to "=".
-            subtitle (str): The character used for the border for the name of each :class:`~demo.demo.Demo` subclass. Defaults to "-".
+            symbols (list): A list of symbols for each level of indentation. Defaults to ``[" ", "●", "○", "▸", "▹"]``.
+            width (int): The maximum width for a line printed. Defaults to ``60``.
+            indent (int): The number of spaces per indent for the text printed. Defaults to ``4``.
+            border (str): The character used for the border for :attr:`~demo.demo.Demo.help_text`. Defaults to ``"~"``.
+            title (str): The character used for the border for the "Help" title. Defaults to ``"="``.
+            subtitle (str): The character used for the border for the name of each :class:`~demo.demo.Demo` subclass. Defaults to ``"-"``.
             include (bool): Whether to include the :attr:`~demo.demo.Demo.help_text` of all superclasses that are subclasses of :class:`~demo.demo.Demo`. Defaults to ``True``.
         """
         symbols = list(enumerate(kwargs.get(
@@ -142,7 +142,7 @@ Several key features are introduced:
     def print_options(self, *opts, **key):
         """Print what responses are allowed for an input function.
 
-        :func:`~demo.demo.Demo.print_options` is decorated with::
+        :meth:`~demo.demo.Demo.print_options` is decorated with::
 
             @options.register("o", "Options", retry=True, lock=True, newline=True)
             def print_options(self, *opts, **key):
@@ -153,7 +153,7 @@ Several key features are introduced:
             **key (str): An input function key.
         
         Note:
-            * If an input function `key` is provided, :func:`~demo.demo.Demo.print_options` will do the following:
+            * If an input function `key` is provided, :meth:`~demo.demo.Demo.print_options` will do the following:
             
               1. Retrieve options and descriptions (in a tuple) from ``key_options()``- a function that starts with `key` and ends in '_options'- if it is defined.
 
@@ -167,7 +167,7 @@ Several key features are introduced:
                 
               3. Argument options from :func:`~demo.options.DemoOptions.get_options`
                 
-              4. Argument options passed to :func:`~demo.demo.Demo.print_options`
+              4. Argument options passed to :meth:`~demo.demo.Demo.print_options`
 
             * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the :class:`~demo.options.Option` instance.
         """
