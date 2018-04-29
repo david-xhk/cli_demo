@@ -9,8 +9,34 @@
 ======
 
 .. autoclass:: cli_demo.demo.Demo
-    :members:
-    :member-order: bysource
+
+Program logic
+-------------
+.. automethod:: cli_demo.demo.Demo.run
+
+Setup process
+-------------
+.. automethod:: cli_demo.demo.Demo.run_setup
+
+.. automethod:: cli_demo.demo.Demo.setup_callback
+
+.. automethod:: cli_demo.demo.Demo.setup_options
+
+Print functions
+---------------
+.. automethod:: cli_demo.demo.Demo.print_intro
+
+.. automethod:: cli_demo.demo.Demo.print_options
+
+.. automethod:: cli_demo.demo.Demo.print_help
+
+Control flow tools
+------------------
+.. automethod:: cli_demo.demo.Demo.restart
+
+.. automethod:: cli_demo.demo.Demo.quit
+
+.. automethod:: cli_demo.demo.Demo.retry
 
 ==========
  CodeDemo

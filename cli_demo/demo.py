@@ -215,6 +215,18 @@ Several key features are introduced:
         print(border)
         print()
 
+    @options("h", "o", "r", "q", key="setup")
+    def run_setup(self):
+        """Prompt the user for input for the setup process.
+
+        :meth:`~cli_demo.demo.Demo.run_setup` is decorated with::
+
+            @options("h", "o", "r", "q", key="setup")
+            def run_setup(self):
+                ...
+        """
+        return input(self.setup_prompt)
+    
     @options.register("setup", retry=True)
     def setup_callback(self, response):
         """Handle user input to :meth:`~cli_demo.demo.Demo.run_setup`.
@@ -230,18 +242,6 @@ Several key features are introduced:
         """
         print("Got: {}".format(response))
         print()
-
-    @options("h", "o", "r", "q", key="setup")
-    def run_setup(self):
-        """Prompt the user for input for the setup process.
-
-        :meth:`~cli_demo.demo.Demo.run_setup` is decorated with::
-
-            @options("h", "o", "r", "q", key="setup")
-            def run_setup(self):
-                ...
-        """
-        return input(self.setup_prompt)
 
     def setup_options(self):
         """Provide options for :meth:`~cli_demo.demo.Demo.run_setup`.
