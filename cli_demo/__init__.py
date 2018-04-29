@@ -12,9 +12,9 @@ Examples:
                 class SpamDemo(CodeDemo):
                     help_text = "An eggs and bacon bonanza."
 
-                    setup_code = '''\
-                    spam = 6
-                    eggs = 42'''
+                    setup_code = '''\\
+                spam = 6
+                eggs = 42'''
 
                     commands = [
                         "spam  # is good for you",
