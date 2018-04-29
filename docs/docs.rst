@@ -16,11 +16,10 @@
  CodeDemo
 ==========
 
-.. autoclass:: cli_demo.code.CodeDemo
+.. automodule:: cli_demo.code
     :members:
     :member-order: bysource
     :show-inheritance:
-    :no-inherited-members:
 
 =============
  SandboxDemo
@@ -30,7 +29,6 @@
     :members:
     :member-order: bysource
     :show-inheritance:
-    :no-inherited-members:
 
 =========
  options
