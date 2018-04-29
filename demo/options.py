@@ -98,7 +98,7 @@ class DemoOptions(object):
     def __call__(self, *opts, **kw_opts):
         """Designate a set of options to an input function.
         
-        If a user input falls within the designated options, :meth:`~demo.options.DemoOptions.call` will be used to invoke the :attr:`~demo.options.Option.callback` of the corresponding :class:`~demo.options.Option` instance.
+        If a user input falls within the designated options, the :attr:`~demo.options.Option.callback` of the corresponding :class:`~demo.options.Option` instance will be invoked via its :meth:`~demo.options.Option.call` method.
 
         Args:
             retry (str): The text to print before the input function is called again when the user response is invalid. Defaults to ``"Please try again"``.
@@ -115,7 +115,7 @@ class DemoOptions(object):
                 
                 * To reference the options stored in :attr:`~demo.options.DemoOptions.cache` when calling :meth:`~demo.demo.Demo.print_options`, you can pass in `key` as the `key` argument.
 
-                * If a user input does not fall within the designated options, the response will be forwarded to the :meth:`~demo.options.Option.call` method of the :class:`~demo.options.Option` instance registered under `key`.
+                * If a user input does not fall within the designated options, the response will be forwarded to the :attr:`~demo.options.Option.callback` of the :class:`~demo.options.Option` instance registered under `key` via its :meth:`~demo.options.Option.call` method.
 
             If `key` is not provided:
                 
