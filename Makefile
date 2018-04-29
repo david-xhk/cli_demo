@@ -51,7 +51,11 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: ## check style with flake8
+<<<<<<< HEAD
 	flake8 cli_demo tests
+=======
+	flake8 demo tests
+>>>>>>> 4ad383388e7e1ba7bf9b253439e011ef33d646b9
 
 test: ## run tests quickly with the default Python
 	py.test
@@ -60,15 +64,25 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
+<<<<<<< HEAD
 	coverage run --source cli_demo -m pytest
+=======
+	coverage run --source demo -m pytest
+>>>>>>> 4ad383388e7e1ba7bf9b253439e011ef33d646b9
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
+<<<<<<< HEAD
 	rm -f docs/cli_demo.rst
 	rm -f docs/modules.rst
 	sphinx-apidoc -o docs/ cli_demo
+=======
+	rm -f docs/demo.rst
+	rm -f docs/modules.rst
+	sphinx-apidoc -o docs/ demo
+>>>>>>> 4ad383388e7e1ba7bf9b253439e011ef33d646b9
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 * cli_demo version:
+=======
+* demo version:
+>>>>>>> 4ad383388e7e1ba7bf9b253439e011ef33d646b9
 * Python version:
 * Operating System:
 

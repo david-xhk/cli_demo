@@ -25,5 +25,9 @@ deploy:
     secure: PLEASE_REPLACE_ME
   on:
     tags: true
+<<<<<<< HEAD
     repo: han-keong/cli_demo
+=======
+    repo: han-keong/demo
+>>>>>>> 4ad383388e7e1ba7bf9b253439e011ef33d646b9
     python: 3.6
