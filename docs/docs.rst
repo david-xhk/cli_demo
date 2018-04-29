@@ -103,14 +103,14 @@ Setting the options for an input function
 
 .. automethod:: cli_demo.options.DemoOptions.insert
 
-Registering a callback
-----------------------
+Registering an Option instance
+------------------------------
 .. automethod:: cli_demo.options.DemoOptions.register
 
 .. autoclass:: cli_demo.options.Option
 
-Calling a callback
-------------------
+Invoking the callback of an Option instance
+-------------------------------------------
 .. autoclass:: cli_demo.options.DemoOptions.call
 
 .. autoclass:: cli_demo.options.Option.call
