@@ -147,7 +147,13 @@ spam = 14"""
         yield ("a", "Execute all of the above.")
 
     def execute(self, commands, print_in=True):
-        """For each command, print with `print_in` and exec in locals, then pretty-print the result via `print_out`."""
+        """``exec`` each command in :attr:`~cli_demo.code.CodeDemo.locals` and :attr:`~cli_demo.code.CodeDemo.globals`.
+
+        :meth:`~cli_demo.code.CodeDemo.print_in` the command if necessary, then strip any comments, and then compile the command if there are multiple lines or assignments before ``exec``-ing it. :meth:`~cli_demo.code.CodeDemo.print_out` the result or catch and print any errors. If there are any assignments in the command, :meth:`~cli_demo.code.CodeDemo.execute` their assigned names.
+
+        Args:
+            print_in (bool): Whether to :meth:`~cli_demo.code.CodeDemo.print_in` a command before ``exec``-ing it.
+        """
         for command in commands:
             if print_in:
                 self.print_in(command)
@@ -186,6 +192,7 @@ spam = 14"""
                 print()
 
     def print_in(self, text):
+        """Print each line in `text` starting with ">>>" or "..."."""
         for line in text.splitlines():
             if line.startswith("    "):
                 print("... " + line)
@@ -193,6 +200,7 @@ spam = 14"""
                 print(">>> " + line)
 
     def print_out(self, *args):
+        """Pretty-print or print `args`."""
         if args:
             try:
                 pprint.pprint(*args)
