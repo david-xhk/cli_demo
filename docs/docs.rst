@@ -4,13 +4,19 @@
 
 .. automodule:: cli_demo
 
+======
+ Demo
+======
+
+.. autoclass:: cli_demo.demo.Demo
+    :members:
+
 ==========
  CodeDemo
 ==========
 
-.. autoclass:: cli_demo.code.CodeDemo
+.. autoclass:: cli_demo.CodeDemo
     :members:
-    :member-order: bysource
     :show-inheritance:
 
 =============
@@ -19,16 +25,7 @@
 
 .. autoclass:: cli_demo.sandbox.SandboxDemo
     :members:
-    :member-order: bysource
     :show-inheritance:
-
-======
- Demo
-======
-
-.. autoclass:: cli_demo.demo.Demo
-    :members:
-    :member-order: bysource
 
 =========
  options
@@ -36,9 +33,7 @@
 
 .. automodule:: cli_demo.options
     :members:
-    :member-order: bysource
-    :special-members:
-    :exclude-members: __weakref__
+    :special-members: __call__, __contains__, __getitem__
 
 ============
  exceptions
@@ -47,6 +42,5 @@
 .. automodule:: cli_demo.exceptions
     :members:
     :show-inheritance:
-    :member-order: bysource
     :special-members: __init__
 

@@ -34,6 +34,8 @@ import cli_demo
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode', 
               'sphinx.ext.napoleon', 'sphinx.ext.autosectionlabel']
 
+autodoc_member_order = "bysource"
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
