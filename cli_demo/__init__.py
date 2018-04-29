@@ -5,7 +5,8 @@
 Examples:
     Making a simple CodeDemo subclass:
     ::  
-
+        
+        # spam.py
         from cli_demo import CodeDemo
 
         class SpamDemo(CodeDemo):
@@ -94,6 +95,7 @@ Examples:
     Making a Demo script:
     ::
 
+        # spam.py
         ...
         ...
 
