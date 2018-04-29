@@ -20,7 +20,7 @@ Examples:
         spam = 42'''
 
             commands = [
-                "eggs + spam  # yum yum",
+                "eggs + spam  # yum",
                 "bacon = spam % eggs",
                 "eggs // bacon",
                 "scramble(eggs)",
@@ -63,7 +63,7 @@ Examples:
         >>> spam = 42
 
         Options:
-         0: "eggs + spam  # yum yum"
+         0: "eggs + spam  # yum"
          1: "bacon = spam % eggs"
          2: "eggs // bacon"
          3: "scramble(eggs)"
@@ -75,7 +75,7 @@ Examples:
          q: Quit.
 
         Choose a command: a
-        >>> eggs + spam  # yum yum
+        >>> eggs + spam  # yum
         48
 
         >>> bacon = spam % eggs
