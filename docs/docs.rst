@@ -12,23 +12,25 @@
     :members:
     :member-order: bysource
 
-==========
- CodeDemo
-==========
+..
 
-.. autoclass:: demo.code.CodeDemo
-    :members:
-    :member-order: bysource
-    :show-inheritance:
+    ==========
+     CodeDemo
+    ==========
 
-=============
- SandboxDemo
-=============
+    .. autoclass:: demo.code.CodeDemo
+        :members:
+        :member-order: bysource
+        :show-inheritance:
 
-.. autoclass:: demo.sandbox.SandboxDemo
-    :members:
-    :member-order: bysource
-    :show-inheritance:
+    =============
+     SandboxDemo
+    =============
+
+    .. autoclass:: demo.sandbox.SandboxDemo
+        :members:
+        :member-order: bysource
+        :show-inheritance:
 
 =========
  options
