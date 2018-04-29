@@ -115,7 +115,7 @@ class DemoOptions(object):
                 
                 * To reference the options stored in :attr:`~demo.options.DemoOptions.cache` when calling :meth:`~demo.demo.Demo.print_options`, you can pass in `key` as the `key` argument.
 
-                * If a user input does not fall within the designated options, the response will be forwarded to the :meth:`~demo.options.DemoOptions.call` method of the :class:`~demo.options.Option` instance registered under `key`.
+                * If a user input does not fall within the designated options, the response will be forwarded to the :meth:`~demo.options.Option.call` method of the :class:`~demo.options.Option` instance registered under `key`.
 
             If `key` is not provided:
                 
