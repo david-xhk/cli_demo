@@ -18,6 +18,7 @@
 .. autoclass:: cli_demo.code.CodeDemo
     :members:
     :show-inheritance:
+    :inherited-members:
 
 =============
  SandboxDemo
@@ -26,6 +27,7 @@
 .. autoclass:: cli_demo.sandbox.SandboxDemo
     :members:
     :show-inheritance:
+    :inherited-members:
 
 =========
  options
