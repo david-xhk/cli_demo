@@ -201,7 +201,7 @@ spam = 14"""
                 print(">>> " + line)
 
     def print_out(self, *args):
-        """``pprint()`` or ``print()`` `args`."""
+        """Pretty-print `args` using ``pprint()``."""
         if args:
             try:
                 pprint.pprint(*args)
