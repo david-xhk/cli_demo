@@ -115,11 +115,15 @@ class DemoOptions(object):
 
                 * `key` will be used to store a record of `opts` and `kw_opts` in :attr:`~demo.options.DemoOptions.cache`.
 
+                * If a user input does not fall within the designated options, the response will be forwarded to the :meth:`~demo.options.DemoOptions.call` method of the :class:`~demo.options.Option` instance registered under `key`.
+
             If `key` is not defined:
                 
                 * The input function itself will be used to store a record of `opts` and `kw_opts` in :attr:`~demo.options.DemoOptions.cache`.
 
                 * :meth:`~demo.demo.Demo.print_options` will not have access to the options stored in :attr:`~demo.options.DemoOptions.cache`.
+
+                * If a user input does not fall within the designated options, :class:`~demo.exceptions.DemoRetry` will be raised and `retry` will be printed.
 
         Returns:
             ``options_decorator()``: A decorator which takes a function and returns a wrapped function.
