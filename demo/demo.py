@@ -20,7 +20,7 @@ class Demo(object):
     Attributes:
         help_text (str): The help text used in :func:`~Demo.print_help`.
         setup_prompt (str): The input prompt for :func:`~Demo.run_setup`.
-        options (DemoOptions): A delegate for registering option callbacks and designating options to input functions.
+        options: A :class:`~demo.options.DemoOptions` instance for registering option callbacks and designating options to input functions.
 
     Warning:
         When inheriting :attr:`~demo.demo.Demo.options` from a :class:`~demo.demo.Demo` superclass, either a new :class:`~demo.options.DemoOptions` instance should be created::
@@ -57,7 +57,7 @@ Several key features are introduced:
     def print_intro(self):
         """Print the welcome text once.
 
-        After :func:`~demo.demo.Demo.print_intro` is called once, calling it again will no longer have any effect.
+        After :func:`~demo.demo.Demo.print_intro` is called the first time, calling it again will no longer have any effect.
         """
         print("Welcome to {}!".format(self.__class__.__name__))
         print()
@@ -169,7 +169,7 @@ Several key features are introduced:
                 
               4. Argument options passed to :func:`~demo.demo.Demo.print_options`
 
-            * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the registered :class:`~demo.options.Option` instance.
+            * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~demo.options.Option.desc` of the :class:`~demo.options.Option` instance.
         """
         print("Options:")
         opt_list = []
@@ -228,7 +228,10 @@ Several key features are introduced:
         return input(self.setup_prompt)
 
     def setup_options(self):
-        """Provide options for setup."""
+        """Provide options for setup.
+
+        By default, only one option, ``("*", "Any response.")``, is provided.
+        """
         yield "*", "Any response."
 
     @catch_exc
@@ -257,6 +260,9 @@ Several key features are introduced:
 
         Args:
             text (str, optional): The text to print when restarting.
+
+        Raises:
+            DemoRestart
         """
         raise DemoRestart(text)
 
@@ -272,6 +278,9 @@ Several key features are introduced:
 
         Args:
             text (str, optional): The text to print when quitting.
+
+        Raises:
+            DemoQuit
         """
         raise DemoExit(text)
 
@@ -280,6 +289,9 @@ Several key features are introduced:
 
         Args:
             text (str, optional): The text to print when retrying.
+
+        Raises:
+            DemoRetry
         """
         raise DemoRetry(text)
 
