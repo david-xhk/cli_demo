@@ -57,7 +57,7 @@ Several key features are introduced:
     def print_intro(self):
         """Print the welcome text once.
 
-        After :func:`~demo.demo.Demo.print_intro` is called the first time, calling it again will no longer have any effect.
+        After :func:`~demo.demo.Demo.print_intro` is called for the first time, calling it again will no longer have any effect.
         """
         print("Welcome to {}!".format(self.__class__.__name__))
         print()
@@ -155,7 +155,7 @@ Several key features are introduced:
         Note:
             * If an input function `key` is provided, :func:`~demo.demo.Demo.print_options` will do the following:
             
-              1. Retrieve options and descriptions from ``key_options()``- a function that starts with `key` and ends in '_options'- if it is defined.
+              1. Retrieve options and descriptions (in a tuple) from ``key_options()``- a function that starts with `key` and ends in '_options'- if it is defined.
 
               2. Get options from :func:`~demo.options.DemoOptions.get_options` using the input function `key`.
 
@@ -230,7 +230,7 @@ Several key features are introduced:
     def setup_options(self):
         """Provide options for setup.
 
-        By default, only one option, ``("*", "Any response.")``, is provided.
+        The default option is ``"*"`` with description ``"Any response."``.
         """
         yield "*", "Any response."
 
@@ -262,7 +262,7 @@ Several key features are introduced:
             text (str, optional): The text to print when restarting.
 
         Raises:
-            DemoRestart
+            :class:`~demo.exceptions.DemoRestart`
         """
         raise DemoRestart(text)
 
@@ -280,7 +280,7 @@ Several key features are introduced:
             text (str, optional): The text to print when quitting.
 
         Raises:
-            DemoQuit
+            :class:`~demo.exceptions.DemoQuit`
         """
         raise DemoExit(text)
 
@@ -291,7 +291,7 @@ Several key features are introduced:
             text (str, optional): The text to print when retrying.
 
         Raises:
-            DemoRetry
+            :class:`~demo.exceptions.DemoRetry`
         """
         raise DemoRetry(text)
 
