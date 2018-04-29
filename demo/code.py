@@ -15,14 +15,14 @@ from .exceptions import catch_exc
 
 
 class CodeDemo(Demo):
-    """CodeDemo improves Demo by introducing a feature called `commands`, which allows the user to select from a set of code snippets and view the result of it being executed.
+    """CodeDemo improves Demo by introducing a feature called :attr:`~demo.code.CodeDemo.commands`, which allows the user to select from a set of code snippets and view the result of it being ``exec``-ed.
     
     Attributes:
-        setup_code (str): Code to ``exec()`` for setting up a context in :meth:`~demo.code.CodeDemo.setup_callback`.
+        setup_code (str): Code to ``exec`` for setting up a context in :meth:`~demo.code.CodeDemo.setup_callback`.
         command_prompt (str): The input prompt for :meth:`~demo.code.CodeDemo.get_commands`.
-        commands (list[str]): The commands to ``exec()`` that the user can choose from in :meth:`~demo.code.CodeDemo.get_commands`.
-        locals (dict): The local namespace for ``exec()`` statements. Populated in :meth:`~demo.code.CodeDemo.setup_callback`.
-        globals (dict): The global namespace for ``exec()`` statements. Populated in :meth:`~demo.code.CodeDemo.setup_callback`.
+        commands (list[str]): The commands to ``exec`` that the user can choose from in :meth:`~demo.code.CodeDemo.get_commands`.
+        locals (dict): The local namespace for ``exec`` statements. Populated in :meth:`~demo.code.CodeDemo.setup_callback`.
+        globals (dict): The global namespace for ``exec`` statements. Populated in :meth:`~demo.code.CodeDemo.setup_callback`.
     """
     
     help_text = """CodeDemo improves Demo by introducing a feature called `commands`, which allows the user to select from a set of code snippets and view the result of it being executed."""
@@ -71,11 +71,11 @@ spam = 14"""
 
               2. The ``__builtins__`` of :mod:`__main__` is copied into :attr:`~demo.code.CodeDemo.globals`.
 
-              3. :attr:`~demo.code.CodeDemo.setup_code` is ``exec()``-ed in :attr:`~demo.code.CodeDemo.locals` and :attr:`~demo.code.CodeDemo.globals`.
+              3. :attr:`~demo.code.CodeDemo.setup_code` is ``exec``-ed in :attr:`~demo.code.CodeDemo.locals` and :attr:`~demo.code.CodeDemo.globals`.
 
-            * The :attr:`~demo.code.CodeDemo.commands` selected by the user will be executed in this very namespace.
+            * The :attr:`~demo.code.CodeDemo.commands` selected by the user will be ``exec``-ed in :attr:`~demo.code.CodeDemo.locals` and :attr:`~demo.code.CodeDemo.globals`.
 
-            * The :class:`~demo.demo.Demo` instance is available in this local namespace under the name `demo`, and the user response under `response`.
+            * The :class:`~demo.code.CodeDemo` instance is available in :attr:`~demo.code.CodeDemo.locals` under the name `demo`, and the user response under `response`.
         """
         main = sys.modules["__main__"]
         self.globals = vars(main.__builtins__).copy()
