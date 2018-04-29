@@ -18,8 +18,8 @@ class Demo(object):
     """A basic framework for interactive demonstrations in a command line interface.
     
     Attributes:
-        help_text (str): The help text used in :func:`~Demo.print_help`.
-        setup_prompt (str): The input prompt for :func:`~Demo.run_setup`.
+        help_text (str): The help text used in :meth:`~demo.demo.Demo.print_help`.
+        setup_prompt (str): The input prompt for :meth:`~demo.demo.Demo.run_setup`.
         options: A :class:`~demo.options.DemoOptions` instance for :meth:`registering <demo.options.DemoOptions.register>` option callbacks and :meth:`designating <demo.options.DemoOptions.__call__>` options to input functions.
 
     Warning:
@@ -29,7 +29,7 @@ class Demo(object):
                 options = DemoOptions()
                 ...
 
-        Or a copy should be made by calling :func:`~demo.options.DemoOptions.copy`::
+        Or a copy should be made by calling :meth:`~demo.options.DemoOptions.copy`::
 
             class DemoSubclass(Demo):
                 options = Demo.options.copy()
@@ -57,7 +57,7 @@ Several key features are introduced:
     def print_intro(self):
         """Print the welcome text once.
 
-        After :func:`~demo.demo.Demo.print_intro` is called for the first time, calling it again will no longer have any effect.
+        After :meth:`~demo.demo.Demo.print_intro` is called for the first time, calling it again will no longer have any effect.
         """
         print("Welcome to {}!".format(self.__class__.__name__))
         print()
@@ -67,7 +67,7 @@ Several key features are introduced:
     def print_help(self, **kwargs):
         """Format and print :attr:`~demo.demo.Demo.help_text`.
 
-        :func:`~demo.demo.Demo.print_help` is decorated with::
+        :meth:`~demo.demo.Demo.print_help` is decorated with::
 
             @options.register("h", "Help.", retry=True, newline=True)
             def print_help(self, **kwargs):
@@ -201,9 +201,9 @@ Several key features are introduced:
 
     @options.register("setup", retry=True)
     def setup_callback(self, response):
-        """Handle user input to :func:`~demo.demo.Demo.run_setup`.
+        """Handle user input to :meth:`~demo.demo.Demo.run_setup`.
 
-        :func:`~demo.demo.Demo.setup_callback` is decorated with::
+        :meth:`~demo.demo.Demo.setup_callback` is decorated with::
 
             @options.register("setup", retry=True)
             def setup_callback(self, response):
@@ -219,7 +219,7 @@ Several key features are introduced:
     def run_setup(self):
         """Prompt the user for input for the setup process.
 
-        :func:`~demo.demo.Demo.run_setup` is decorated with::
+        :meth:`~demo.demo.Demo.run_setup` is decorated with::
 
             @options("h", "o", "r", "q", key="setup")
             def run_setup(self):
@@ -238,7 +238,7 @@ Several key features are introduced:
     def run(self):
         """The main logic of a :class:`~demo.demo.Demo` program.
 
-        :func:`~demo.demo.Demo.run` is decorated with::
+        :meth:`~demo.demo.Demo.run` is decorated with::
 
             @catch_exc
             def run(self):
@@ -250,9 +250,9 @@ Several key features are introduced:
 
     @options.register("r", "Restart.")
     def restart(self, text=None):
-        """Restart the main :func:`~demo.demo.Demo.run` loop.
+        """Restart the main :meth:`~demo.demo.Demo.run` loop.
         
-        :func:`~demo.demo.Demo.restart` is decorated with::
+        :meth:`~demo.demo.Demo.restart` is decorated with::
 
             @options.register("r", "Restart.")
             def restart(self, text=None):
@@ -268,9 +268,9 @@ Several key features are introduced:
 
     @options.register("q", "Quit.")
     def quit(self, text=None):
-        """Break out of the main :func:`~demo.demo.Demo.run` loop.
+        """Break out of the main :meth:`~demo.demo.Demo.run` loop.
 
-        :func:`~demo.demo.Demo.quit` is decorated with::
+        :meth:`~demo.demo.Demo.quit` is decorated with::
 
             @options.register("q", "Quit.")
             def quit(self, text=None):

@@ -15,7 +15,15 @@ from .exceptions import catch_exc
 
 
 class CodeDemo(Demo):
-    """CodeDemo improves Demo by introducing a feature called `commands`, which allows the user to select from a set of code snippets and view the result of it being executed."""
+    """CodeDemo improves Demo by introducing a feature called `commands`, which allows the user to select from a set of code snippets and view the result of it being executed.
+    
+    Attributes:
+        setup_code (str): Code to ``exec()`` for setting up a context in :meth:`~demo.code.CodeDemo.setup_callback`.
+        command_prompt (str): The input prompt for :meth:`~demo.code.CodeDemo.get_commands`.
+        commands (list[str]): The commands to ``exec()`` that the user can choose from in :meth:`~demo.code.CodeDemo.get_commands`.
+        locals (dict): The local namespace for ``exec()`` statements. Populated in :meth:`~demo.code.CodeDemo.setup_callback`.
+        globals (dict): The global namespace for ``exec()`` statements. Populated in :meth:`~demo.code.CodeDemo.setup_callback`.
+    """
     
     help_text = """CodeDemo improves Demo by introducing a feature called `commands`, which allows the user to select from a set of code snippets and view the result of it being executed."""
 
@@ -24,16 +32,15 @@ class CodeDemo(Demo):
 foo = 1 + 1
 bar = 5 * 2
 spam = 14"""
-    """Code for setting up a context for the commands."""
 
     command_prompt = "Choose a command: "
 
     commands = [
         "1  # Comments will be removed.",
+        "response + \" was your response\"  # Variables are stored in memory",
         "foo + bar  # Operations will print their result.",
         "eggs = spam + 5  # Assignments will print the assigned value.",
-        "spam / 0  # Errors will get printed too!",
-        "response + \" was your response\"  # Variables are stored in memory"
+        "spam / 0  # Errors will get printed too!"
         ]
 
     options = Demo.options.copy()
@@ -46,11 +53,29 @@ spam = 14"""
 
     @options.register("setup")
     def setup_callback(self, response):
-        """Import the global namespace from __main__ and execute `setup_code`.
+        """Handle user input to :meth:`~demo.code.CodeDemo.run_setup`.
 
-        The commands selected by the user will be executed in this very namespace.
+        :meth:`~demo.code.CodeDemo.setup_callback` is decorated with::
 
-        The demo instance is available in this locals namespace under the name `demo`, and the user response as `response`.
+            @options.register("setup")
+            def setup_callback(self, response):
+                ...
+
+        Args:
+            response (str): The user input.
+
+        Note:
+            * When :meth:`~demo.code.CodeDemo.setup_callback` is called, the following occurs:
+    
+              1. :attr:`~demo.code.CodeDemo.locals` is updated with the global namespace from :mod:`__main__` and `response`.
+
+              2. The ``__builtins__`` of :mod:`__main__` is copied into :attr:`~demo.code.CodeDemo.globals`.
+
+              3. :attr:`~demo.code.CodeDemo.setup_code` is ``exec()``-ed in :attr:`~demo.code.CodeDemo.locals` and :attr:`~demo.code.CodeDemo.globals`.
+
+            * The :attr:`~demo.code.CodeDemo.commands` selected by the user will be executed in this very namespace.
+
+            * The :class:`~demo.demo.Demo` instance is available in this local namespace under the name `demo`, and the user response under `response`.
         """
         main = sys.modules["__main__"]
         self.globals = vars(main.__builtins__).copy()
