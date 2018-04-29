@@ -54,6 +54,22 @@ Several key features are introduced:
 
     options = DemoOptions()
 
+    @catch_exc
+    def run(self):
+        """The main logic of a :class:`~demo.demo.Demo` program.
+        
+        :meth:`~demo.demo.Demo.run` first calls :meth:`~demo.demo.Demo.print_intro`, then prints the options for :meth:`~demo.demo.Demo.run_setup` via :meth:`~demo.demo.Demo.print_options` before calling it.
+
+        :meth:`~demo.demo.Demo.run` is decorated with::
+
+            @catch_exc
+            def run(self):
+                ...
+        """
+        self.print_intro()
+        self.print_options(key="setup")
+        self.run_setup()
+    
     def print_intro(self):
         """Print the welcome text once.
 
@@ -233,22 +249,6 @@ Several key features are introduced:
         The default option is ``"*"`` with description ``"Any response."``.
         """
         yield "*", "Any response."
-
-    @catch_exc
-    def run(self):
-        """The main logic of a :class:`~demo.demo.Demo` program.
-        
-        :meth:`~demo.demo.Demo.run` first calls :meth:`~demo.demo.Demo.print_intro`, then prints the options for :meth:`~demo.demo.Demo.run_setup` via :meth:`~demo.demo.Demo.print_options` before calling it.
-
-        :meth:`~demo.demo.Demo.run` is decorated with::
-
-            @catch_exc
-            def run(self):
-                ...
-        """
-        self.print_intro()
-        self.print_options(key="setup")
-        self.run_setup()
 
     @options.register("r", "Restart.")
     def restart(self, text=None):
