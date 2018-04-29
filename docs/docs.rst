@@ -14,8 +14,8 @@ Program logic of a Demo instance
 --------------------------------
 .. automethod:: cli_demo.demo.Demo.run
 
-Setup process of a Demo instance
---------------------------------
+``setup`` process of a Demo instance
+------------------------------------
 .. automethod:: cli_demo.demo.Demo.run_setup
 
 .. automethod:: cli_demo.demo.Demo.setup_callback
@@ -49,12 +49,12 @@ Program logic of a CodeDemo instance
 ------------------------------------
 .. automethod:: cli_demo.code.CodeDemo.run
 
-Setup process of a CodeDemo instance
-------------------------------------
+``setup`` process of a CodeDemo instance
+----------------------------------------
 .. automethod:: cli_demo.code.CodeDemo.setup_callback
 
-Commands process of a CodeDemo instance
----------------------------------------
+``commands`` process of a CodeDemo instance
+-------------------------------------------
 .. automethod:: cli_demo.code.CodeDemo.get_commands
 
 .. automethod:: cli_demo.code.CodeDemo.commands_callback
@@ -78,8 +78,8 @@ Print functions of a CodeDemo instance
 .. autoclass:: cli_demo.sandbox.SandboxDemo
     :show-inheritance:
 
-Commands process of a SandboxDemo instance
-------------------------------------------
+``commands`` process of a SandboxDemo instance
+----------------------------------------------
 .. automethod:: cli_demo.sandbox.SandboxDemo.get_commands
 
 .. automethod:: cli_demo.sandbox.SandboxDemo.sandbox
@@ -94,16 +94,16 @@ Designating options for an input function
 -----------------------------------------
 .. automethod:: cli_demo.options.DemoOptions.__call__
 
-Getting the options for an input function
------------------------------------------
+Getting the options of an input function
+----------------------------------------
 .. automethod:: cli_demo.options.DemoOptions.get_options
 
 .. automethod:: cli_demo.options.DemoOptions.has_options
 
 .. automethod:: cli_demo.options.DemoOptions.get_id
 
-Setting the options for an input function
------------------------------------------
+Setting the options of an input function
+----------------------------------------
 .. automethod:: cli_demo.options.DemoOptions.set_options
 
 .. automethod:: cli_demo.options.DemoOptions.insert
