@@ -15,7 +15,7 @@
  CodeDemo
 ==========
 
-.. autoclass:: cli_demo.CodeDemo
+.. autoclass:: cli_demo.code.CodeDemo
     :members:
     :show-inheritance:
 
