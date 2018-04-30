@@ -15,7 +15,7 @@ class DemoException(Exception):
     Format (if ``"{}"`` is present) or overwrite :attr:`~cli_demo.exceptions.DemoException.text` if initialized with a ``str``.
     
     Attributes:
-        text (str): The text to print when a :class:`~cli_demo.exceptions.DemoException` instance is caught.
+        text (str): The text to print when an instance of :class:`~cli_demo.exceptions.DemoException` is caught in :func:`~cli_demo.exceptions.catch_exc`.
     """
     text = None
     def __init__(self, text=None):
