@@ -11,21 +11,24 @@ import inspect
 
 class DemoException(Exception):
     """Base exception for any error raised in a :class:`~cli_demo.demo.Demo`.
-
-    Initializing an instance of :class:`~cli_demo.exceptions.DemoException` with some text will override the default text defined in the class.
+    
+    Format (if ``"{}"`` is present) or overwrite :attr:`~cli_demo.exceptions.DemoException.text` if initialized with `text`.
     
     Attributes:
         text (str): The text to print when a :class:`~cli_demo.exceptions.DemoException` instance is caught.
     """
     text = None
     def __init__(self, text=None):
-        """Override the default :attr:`~cli_demo.exceptions.DemoException.text` if `text` is given.
+        """Format or override the default :attr:`~cli_demo.exceptions.DemoException.text` if `text` is provided.
 
         Args:
             text (str, optional): A custom error text.
         """
         if text:
-            self.text = text
+            if self.text and "{}" in self.text:
+                self.text = self.text.format(text)
+            else:
+                self.text = text
 
 
 class DemoRestart(DemoException):
@@ -43,46 +46,29 @@ class DemoRetry(DemoException):
     text = ""
 
 
-class OptionError(DemoException):
-    """Base exception for any error raised when an option is selected.
-
-    Instances of :class:`~cli_demo.exceptions.OptionError` must be initialized with an option name. It will be used to format the default :attr:`~cli_demo.exceptions.OptionError.text`.
-    
-    Attributes:
-        text (str): A format string for an option.
-    """
-    def __init__(self, option):
-        """Format the default :attr:`~cli_demo.exceptions.OptionError.text` with an option name.
-        
-        Args:
-            option (str): The option name.
-        """
-        self.text = self.text.format(option)
-
-
-class KeyNotFoundError(OptionError):
+class KeyNotFoundError(DemoException):
     """Raised when a key id does not exist in a :attr:`~cli_demo.options.DemoOptions.cache`."""
     text = "'{}' id does not exist in the cache."
 
 
-class OptionNotFoundError(OptionError):
+class OptionNotFoundError(DemoException):
     """Raised when an :class:`~cli_demo.options.Option` instance is not registered."""
     text = "Option object for '{}' not registered."
 
 
-class CallbackNotFoundError(OptionError):
+class CallbackNotFoundError(DemoException):
     """Raised when the :attr:`~cli_demo.options.Option.callback` of an :class:`~cli_demo.options.Option` instance has not been set."""
     text = "'{}' callback not registered"
 
 
-class CallbackLockError(OptionError):
+class CallbackLockError(DemoException):
     """Raised when the :attr:`~cli_demo.options.Option.lock` attribute of an :class:`~cli_demo.options.Option` instance is ``True`` but its :attr:`~cli_demo.options.Option.callback` does not accept a `key` argument."""
     text = "'{}' callback does not accept `key` argument."
 
 
-class CallbackResponseError(OptionError):
+class CallbackResponseError(DemoException):
     """Raised when an :class:`~cli_demo.options.Option` instance is registered under an input function key but its :attr:`~cli_demo.options.Option.callback` does not accept a `response` argument."""
-    text = "'{}' callback does not accept `key` argument."
+    text = "'{}' callback does not accept `response` argument."
 
 
 def catch_exc(*demo_exc):
