@@ -12,7 +12,7 @@ import inspect
 class DemoException(Exception):
     """Base exception for any error raised in a :class:`~cli_demo.demo.Demo`.
     
-    Format (if ``"{}"`` is present) or overwrite :attr:`~cli_demo.exceptions.DemoException.text` if initialized with `text`.
+    Format (if ``"{}"`` is present) or overwrite :attr:`~cli_demo.exceptions.DemoException.text` if initialized with a ``str``.
     
     Attributes:
         text (str): The text to print when a :class:`~cli_demo.exceptions.DemoException` instance is caught.
@@ -28,7 +28,7 @@ class DemoException(Exception):
             if self.text and "{}" in self.text:
                 self.text = self.text.format(text)
             else:
-                self.text = text
+                self.text = str(text)
 
 
 class DemoRestart(DemoException):
