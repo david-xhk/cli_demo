@@ -98,7 +98,7 @@ class DemoOptions(object):
     def __call__(self, *opts, **kw_opts):
         """Designate a set of options to an input function.
         
-        If a user input falls within the designated options, the :attr:`~cli_demo.options.Option.callback` of the corresponding :class:`~cli_demo.options.Option` instance will be invoked through its :meth:`~cli_demo.options.Option.call` method.
+        If a user input falls within the designated options, invoke the :attr:`~cli_demo.options.Option.callback` of the corresponding :class:`~cli_demo.options.Option` instance through its :meth:`~cli_demo.options.Option.call` method.
 
         Args:
             retry (str, optional): The text to print before the input function is called again when the user response is invalid. Defaults to ``"Please try again"``.
@@ -213,7 +213,7 @@ class DemoOptions(object):
     def set_options(self, key, *opts, **kw_opts):
         """Change the options that were set with `key`.
         
-        If `opts` or `kw_opts` are provided, the options or keyword options that were recorded previously will be overridden.
+        If `opts` or `kw_opts` are provided, override the options or keyword options that were recorded previously.
 
         Args:
             key: A key for a set of options and keyword options.
@@ -231,7 +231,7 @@ class DemoOptions(object):
     def insert(self, key, kw, opt, **kw_opts):
         """Insert an option into the options that were set with `key`.
 
-        If `kw` is an int or a digit, it is treated as an argument option index to insert at. Otherwise, it is treated as a keyword option to update.
+        Insert `opt` into the argument options at `kw` index if `kw` is an int or a digit. Otherwise, update the keyword options with `kw` and `opt`.
 
         Args:
             key: A key for a set of options and keyword options.

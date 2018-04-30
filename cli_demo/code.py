@@ -49,13 +49,14 @@ spam = 14"""
     def run(self):
         """The main logic of a :class:`~cli_demo.code.CodeDemo` program.
         
-        First, :meth:`~cli_demo.demo.Demo.print_intro` is called, then the options for :meth:`~cli_demo.demo.Demo.run_setup` is printed via :meth:`~cli_demo.demo.Demo.print_options` before :meth:`~cli_demo.demo.Demo.run_setup` itself is called, followed by the same process for :meth:`~cli_demo.code.CodeDemo.get_commands`.
+        First, call :meth:`~cli_demo.demo.Demo.print_intro`, then print the options for :meth:`~cli_demo.demo.Demo.run_setup` using :meth:`~cli_demo.demo.Demo.print_options` before calling :meth:`~cli_demo.demo.Demo.run_setup` itself, and then repeat the same process for :meth:`~cli_demo.code.CodeDemo.get_commands`.
+        
+        Note:
+            :meth:`~cli_demo.demo.Demo.run` is decorated with::
 
-        :meth:`~cli_demo.demo.Demo.run` is decorated with::
-
-            @catch_exc
-            def run(self):
-                ...
+                @catch_exc
+                def run(self):
+                    ...
         """
         self.print_intro()
         self.print_options(key="setup")
@@ -76,17 +77,17 @@ spam = 14"""
         
         Set :attr:`~cli_demo.code.CodeDemo.locals` to the global namespace of :mod:`__main__` before updating with `response`. Then, copy the ``__builtins__`` of :mod:`__main__` into :attr:`~cli_demo.code.CodeDemo.globals`. Finally, ``exec`` :attr:`~cli_demo.code.CodeDemo.setup_code` in :attr:`~cli_demo.code.CodeDemo.locals` and :attr:`~cli_demo.code.CodeDemo.globals` before printing it via :meth:`~cli_demo.code.CodeDemo.print_setup`.
 
-        :meth:`~cli_demo.code.CodeDemo.setup_callback` is decorated with::
-
-            @options.register("setup")
-            def setup_callback(self, response):
-                ...
-
         Args:
             response (str): The user input to :meth:`~cli_demo.demo.Demo.run_setup`.
 
         Note:
-            The :class:`~cli_demo.code.CodeDemo` instance is available in :attr:`~cli_demo.code.CodeDemo.locals` under the name `demo`, and the user response under `response`.
+            * The :class:`~cli_demo.code.CodeDemo` instance is available in :attr:`~cli_demo.code.CodeDemo.locals` under the name `demo`, and the user response under `response`.
+
+            * :meth:`~cli_demo.code.CodeDemo.setup_callback` is decorated with::
+
+                @options.register("setup")
+                def setup_callback(self, response):
+                    ...
         """
         main = sys.modules["__main__"]
         self.globals = vars(main.__builtins__).copy()
@@ -103,12 +104,13 @@ spam = 14"""
     @options("c", "o", "r", "q", key="commands")
     def get_commands(self):
         """Prompt the user to select a command from :attr:`~cli_demo.code.CodeDemo.commands`.
+        
+        Note:
+            :meth:`~cli_demo.code.CodeDemo.get_commands` is decorated with::
 
-        :meth:`~cli_demo.code.CodeDemo.get_commands` is decorated with::
-
-            @options("c", "o", "r", "q", key="commands")
-            def get_commands(self):
-                ...
+                @options("c", "o", "r", "q", key="commands")
+                def get_commands(self):
+                    ...
         """
         return input(self.command_prompt)
 
@@ -118,14 +120,15 @@ spam = 14"""
         
         :meth:`~cli_demo.code.CodeDemo.execute` the respective code snippet or all :attr:`~cli_demo.code.CodeDemo.commands` if `response` is a valid index or ``"a"``. Otherwise, :meth:`~cli_demo.demo.Demo.retry` with the error message: ``"Invalid index. Please try again."``.
 
-        :meth:`~cli_demo.code.CodeDemo.commands_callback` is decorated with::
-
-            @options.register("commands", retry=True)
-            def commands_callback(self, response):
-                ...
-
         Args:
             response (str): The user input to :meth:`~cli_demo.code.CodeDemo.get_commands`.
+
+        Note:
+            :meth:`~cli_demo.code.CodeDemo.commands_callback` is decorated with::
+
+                @options.register("commands", retry=True)
+                def commands_callback(self, response):
+                    ...
         """
         commands = None
         if response == "a":
@@ -139,8 +142,9 @@ spam = 14"""
 
     def commands_options(self):
         """Provide options for :meth:`~cli_demo.code.CodeDemo.get_commands`.
-
-        The descriptions and options are the code snippets and their enumerations. An additional option is ``"a"``, which is ``"Execute all of the above."``.
+        
+        Note:
+            The descriptions and options are the code snippets and their enumerations. An additional option is ``"a"``, which is ``"Execute all of the above."``.
         """
         for index, command in enumerate(self.commands):
             yield (str(index), "\n    ".join(command.splitlines()))

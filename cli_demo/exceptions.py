@@ -66,14 +66,14 @@ def catch_exc(*demo_exc):
 class DemoException(Exception):
     """Base exception for any error raised in a :class:`~cli_demo.demo.Demo`.
     
-    Format (if ``"{}"`` is present) or overwrite :attr:`~cli_demo.exceptions.DemoException.text` if initialized with a ``str``.
+    :attr:`~cli_demo.exceptions.DemoException.text` is formatted (if ``"{}"`` is present) or overwritten if :class:`~cli_demo.exceptions.DemoException` is initialized with a ``str``.
     
     Attributes:
         text (str): The text to print when an instance of :class:`~cli_demo.exceptions.DemoException` is caught in :func:`~cli_demo.exceptions.catch_exc`.
     """
     text = None
     def __init__(self, text=None):
-        """Format or override the default :attr:`~cli_demo.exceptions.DemoException.text` if `text` is provided.
+        """Format (if ``"{}"`` is present) or override the default :attr:`~cli_demo.exceptions.DemoException.text` if `text` is provided.
 
         Args:
             text (str, optional): A custom error text.

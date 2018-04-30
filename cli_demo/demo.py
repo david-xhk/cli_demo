@@ -61,13 +61,14 @@ Several key features are introduced:
     def run(self):
         """The main logic of a :class:`~cli_demo.demo.Demo` program.
         
-        First, :meth:`~cli_demo.demo.Demo.print_intro` is called, then the options for :meth:`~cli_demo.demo.Demo.run_setup` is printed with :meth:`~cli_demo.demo.Demo.print_options` before :meth:`~cli_demo.demo.Demo.run_setup` itself is called.
+        First, call :meth:`~cli_demo.demo.Demo.print_intro`, then print the options for :meth:`~cli_demo.demo.Demo.run_setup` using :meth:`~cli_demo.demo.Demo.print_options` before calling :meth:`~cli_demo.demo.Demo.run_setup` itself.
+        
+        Note:
+            :meth:`~cli_demo.demo.Demo.run` is decorated with::
 
-        :meth:`~cli_demo.demo.Demo.run` is decorated with::
-
-            @catch_exc
-            def run(self):
-                ...
+                @catch_exc
+                def run(self):
+                    ...
         """
         self.print_intro()
         self.print_options(key="setup")
@@ -75,8 +76,9 @@ Several key features are introduced:
 
     def print_intro(self):
         """Print the welcome text once.
-
-        After :meth:`~cli_demo.demo.Demo.print_intro` is called for the first time, calling it again will no longer have any effect.
+        
+        Note:
+            After :meth:`~cli_demo.demo.Demo.print_intro` is called for the first time, calling it again will no longer have any effect.
         """
         print("Welcome to {}!".format(self.__class__.__name__))
         print()
@@ -85,12 +87,6 @@ Several key features are introduced:
     @options.register("o", "Options.", retry=True, lock=True, newline=True)
     def print_options(self, *opts, **key):
         """Print what responses are allowed for an input function.
-
-        :meth:`~cli_demo.demo.Demo.print_options` is decorated with::
-
-            @options.register("o", "Options", retry=True, lock=True, newline=True)
-            def print_options(self, *opts, **key):
-                ...
 
         Args:
             *opts (str): Which options to print.
@@ -114,6 +110,12 @@ Several key features are introduced:
               4. Argument options passed into :meth:`~cli_demo.demo.Demo.print_options`
 
             * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~cli_demo.options.Option.desc` of the :class:`~cli_demo.options.Option` instance.
+
+            * :meth:`~cli_demo.demo.Demo.print_options` is decorated with::
+
+                @options.register("o", "Options", retry=True, lock=True, newline=True)
+                def print_options(self, *opts, **key):
+                    ...
         """
         print("Options:")
         opt_list = []
@@ -144,12 +146,6 @@ Several key features are introduced:
     def print_help(self, **kwargs):
         """Format and print :attr:`~cli_demo.demo.Demo.help_text`.
 
-        :meth:`~cli_demo.demo.Demo.print_help` is decorated with::
-
-            @options.register("h", "Help.", retry=True, newline=True)
-            def print_help(self, **kwargs):
-                ...
-
         Args:
             symbols (list): A list of symbols for each level of indentation. Defaults to ``[" ", "●", "○", "▸", "▹"]``.
             width (int): The maximum width for a line printed. Defaults to ``60``.
@@ -158,6 +154,13 @@ Several key features are introduced:
             title (str): The character used for the border for the "Help" title. Defaults to ``"="``.
             subtitle (str): The character used for the border for the name of each :class:`~cli_demo.demo.Demo` subclass. Defaults to ``"-"``.
             include (bool): Whether to include the :attr:`~cli_demo.demo.Demo.help_text` of all superclasses that are subclasses of :class:`~cli_demo.demo.Demo`. Defaults to ``False``.
+
+        Note:
+            :meth:`~cli_demo.demo.Demo.print_help` is decorated with::
+
+                @options.register("h", "Help.", retry=True, newline=True)
+                def print_help(self, **kwargs):
+                    ...
         """
         symbols = list(enumerate(kwargs.get(
             "symbols", [" ", "●", "○", "▸", "▹"])))
@@ -218,12 +221,13 @@ Several key features are introduced:
     @options("h", "o", "r", "q", key="setup")
     def run_setup(self):
         """Prompt the user for input for the setup process.
+        
+        Note:
+            :meth:`~cli_demo.demo.Demo.run_setup` is decorated with::
 
-        :meth:`~cli_demo.demo.Demo.run_setup` is decorated with::
-
-            @options("h", "o", "r", "q", key="setup")
-            def run_setup(self):
-                ...
+                @options("h", "o", "r", "q", key="setup")
+                def run_setup(self):
+                    ...
         """
         return input(self.setup_prompt)
     
@@ -231,22 +235,24 @@ Several key features are introduced:
     def setup_callback(self, response):
         """Handle user input to :meth:`~cli_demo.demo.Demo.run_setup`.
 
-        :meth:`~cli_demo.demo.Demo.setup_callback` is decorated with::
-
-            @options.register("setup", retry=True)
-            def setup_callback(self, response):
-                ...
-
         Args:
             response (str): The user input to :meth:`~cli_demo.demo.Demo.run_setup`.
+
+        Note:
+            :meth:`~cli_demo.demo.Demo.setup_callback` is decorated with::
+
+                @options.register("setup", retry=True)
+                def setup_callback(self, response):
+                    ...
         """
         print("Got: {}".format(response))
         print()
 
     def setup_options(self):
         """Provide options for :meth:`~cli_demo.demo.Demo.run_setup`.
-
-        The default option is ``"*"`` with description ``"Any response."``.
+        
+        Note:
+            The default option is ``"*"`` with description ``"Any response."``.
         """
         yield "*", "Any response."
 
@@ -254,17 +260,18 @@ Several key features are introduced:
     def restart(self, text=None):
         """Restart the main :meth:`~cli_demo.demo.Demo.run` loop.
         
-        :meth:`~cli_demo.demo.Demo.restart` is decorated with::
-
-            @options.register("r", "Restart.")
-            def restart(self, text=None):
-                ...
-
         Args:
             text (str, optional): The text to print when restarting.
 
         Raises:
             :class:`~cli_demo.exceptions.DemoRestart`
+
+        Note:
+            :meth:`~cli_demo.demo.Demo.restart` is decorated with::
+
+                @options.register("r")
+                def restart(self, text=None):
+                    ...
         """
         raise DemoRestart(text)
 
@@ -272,17 +279,18 @@ Several key features are introduced:
     def quit(self, text=None):
         """Break out of the main :meth:`~cli_demo.demo.Demo.run` loop.
 
-        :meth:`~cli_demo.demo.Demo.quit` is decorated with::
-
-            @options.register("q", "Quit.")
-            def quit(self, text=None):
-                ...
-
         Args:
             text (str, optional): The text to print when quitting.
 
         Raises:
             :class:`~cli_demo.exceptions.DemoQuit`
+
+        Note:
+            :meth:`~cli_demo.demo.Demo.quit` is decorated with::
+
+                @options.register("q")
+                def quit(self, text=None):
+                    ...
         """
         raise DemoExit(text)
 
