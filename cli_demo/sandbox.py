@@ -22,14 +22,14 @@ class SandboxDemo(CodeDemo):
     def get_commands(self):
         """Prompt the user to select a command from :attr:`~cli_demo.code.CodeDemo.commands`.
 
-        :meth:`~cli_demo.demo.Demo.get_commands` is decorated with::
-
-            @options("c", "o", "s", "r", "q", key="commands")
-            def get_commands(self):
-                ...
-
         Note:
-            Sandbox mode, ``"s"``, has been added to the available options.
+            * :meth:`~cli_demo.demo.Demo.get_commands` is decorated with::
+
+                @options("c", "o", "s", "r", "q", key="commands")
+                def get_commands(self):
+                    ...
+
+            * Sandbox mode, ``"s"``, has been added to the available options.
         """
         return input(self.command_prompt)
 
