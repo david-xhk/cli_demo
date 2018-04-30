@@ -101,10 +101,10 @@ class DemoOptions(object):
         If a user input falls within the designated options, the :attr:`~cli_demo.options.Option.callback` of the corresponding :class:`~cli_demo.options.Option` instance will be invoked via its :meth:`~cli_demo.options.Option.call` method.
 
         Args:
-            retry (str): The text to print before the input function is called again when the user response is invalid. Defaults to ``"Please try again"``.
+            retry (str, optional): The text to print before the input function is called again when the user response is invalid. Defaults to ``"Please try again"``.
             key (str, optional): The key of the input function.
-            args (tuple): The arguments that should be passed into the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance registered under `key`. Defaults to ``()``.
-            kwargs (dict): The keyword arguments that should be passed into :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance registered under `key`. Defaults to ``{}``.
+            args (tuple, optional): The arguments that should be passed into the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance registered under `key`. Defaults to ``()``.
+            kwargs (dict, optional): The keyword arguments that should be passed into :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance registered under `key`. Defaults to ``{}``.
             *opts: The user responses that should be accepted.
             **kw_opts: The user responses that should be redirected.
 
