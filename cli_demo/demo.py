@@ -61,7 +61,7 @@ Several key features are introduced:
     def run(self):
         """The main logic of a :class:`~cli_demo.demo.Demo` program.
         
-        First, :meth:`~cli_demo.demo.Demo.print_intro` is called, then the options for :meth:`~cli_demo.demo.Demo.run_setup` is printed via :meth:`~cli_demo.demo.Demo.print_options` before :meth:`~cli_demo.demo.Demo.run_setup` itself is called.
+        First, :meth:`~cli_demo.demo.Demo.print_intro` is called, then the options for :meth:`~cli_demo.demo.Demo.run_setup` is printed with :meth:`~cli_demo.demo.Demo.print_options` before :meth:`~cli_demo.demo.Demo.run_setup` itself is called.
 
         :meth:`~cli_demo.demo.Demo.run` is decorated with::
 
@@ -250,7 +250,7 @@ Several key features are introduced:
         """
         yield "*", "Any response."
 
-    @options.register("r", "Restart.")
+    @options.register("r")
     def restart(self, text=None):
         """Restart the main :meth:`~cli_demo.demo.Demo.run` loop.
         
@@ -268,7 +268,7 @@ Several key features are introduced:
         """
         raise DemoRestart(text)
 
-    @options.register("q", "Quit.")
+    @options.register("q")
     def quit(self, text=None):
         """Break out of the main :meth:`~cli_demo.demo.Demo.run` loop.
 

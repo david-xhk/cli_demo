@@ -98,7 +98,7 @@ class DemoOptions(object):
     def __call__(self, *opts, **kw_opts):
         """Designate a set of options to an input function.
         
-        If a user input falls within the designated options, the :attr:`~cli_demo.options.Option.callback` of the corresponding :class:`~cli_demo.options.Option` instance will be invoked via its :meth:`~cli_demo.options.Option.call` method.
+        If a user input falls within the designated options, the :attr:`~cli_demo.options.Option.callback` of the corresponding :class:`~cli_demo.options.Option` instance will be invoked through its :meth:`~cli_demo.options.Option.call` method.
 
         Args:
             retry (str, optional): The text to print before the input function is called again when the user response is invalid. Defaults to ``"Please try again"``.
@@ -115,7 +115,7 @@ class DemoOptions(object):
                 
                 * To reference the options stored in :attr:`~cli_demo.options.DemoOptions.cache` when calling :meth:`~cli_demo.demo.Demo.print_options`, you can pass in `key` as the `key` argument.
 
-                * If a user input does not fall within the designated options, the response will be forwarded to the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance registered under `key` via its :meth:`~cli_demo.options.Option.call` method.
+                * If a user input does not fall within the designated options, the response will be forwarded to the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance registered under `key` through its :meth:`~cli_demo.options.Option.call` method.
 
             If `key` is not provided:
                 
@@ -255,19 +255,19 @@ class DemoOptions(object):
     def register(self, option, desc="", **kwargs):
         """Register an option.
 
-        An :class:`~cli_demo.options.Option` instance will be created based on the arguments and keyword arguments provided and then stored in :attr:`~cli_demo.options.DemoOptions.registry`.
-        
-        Args:
-            option (str): The name of the option.
-            desc (str, optional): The description of the option that should be printed in :meth:`~cli_demo.demo.Demo.print_options`. Defaults to ``""``.
-            newline (bool, optional): Whether an empty line should be printed before the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance is called. Defaults to ``False``.
-            retry (bool, optional): Whether an input function should be called again once the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance has returned. Defaults to ``False``.
-            lock (bool, optional): Whether the `key` of a triggering input function should be received by the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance. Defaults to ``False``.
-            args (tuple, optional): The default arguments that should be used to call the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance. Defaults to ``()``.
-            kwargs (dict, optional): The default keyword arguments that should be used to call the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance. Defaults to ``{}``.
+        Create an :class:`~cli_demo.options.Option` instance based on the arguments and keyword arguments provided and then store in :attr:`~cli_demo.options.DemoOptions.registry`.
 
         Returns:
-            ``register_decorator()``: A decorator which takes a function, sets the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance, and returns the original function.
+            ``register_decorator()``: A decorator which takes a function, sets the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance using :meth:`~cli_demo.options.DemoOption.set_callback`, and returns the original function.
+
+        Args:
+            option (str): The name of the option.
+            desc (str, optional): The description of the option that should be printed in :meth:`~cli_demo.demo.Demo.print_options`. If not provided, it will be set to the name of :attr:`~cli_demo.options.Option.callback`.
+            newline (bool, optional): Whether an empty line should be printed before :attr:`~cli_demo.options.Option.callback` is called. Defaults to ``False``.
+            retry (bool, optional): Whether an input function should be called again once :attr:`~cli_demo.options.Option.callback` has returned. Defaults to ``False``.
+            lock (bool, optional): Whether the `key` of a triggering input function should be received by :attr:`~cli_demo.options.Option.callback`. Defaults to ``False``.
+            args (tuple, optional): The default arguments that should be used to call :attr:`~cli_demo.options.Option.callback`. Defaults to ``()``.
+            kwargs (dict, optional): The default keyword arguments that should be used to call :attr:`~cli_demo.options.Option.callback`. Defaults to ``{}``.
 
         Note:
             * `option` can be an expected user response or an input function key.
@@ -276,7 +276,7 @@ class DemoOptions(object):
 
               * The :attr:`~cli_demo.options.Option.callback` that is set must accept a `response` argument- the user's response to that input function.
 
-              * Any response to that input function which does not fall within its designated options will be forwarded to the :attr:`~cli_demo.options.Option.callback` via the :meth:`~cli_demo.options.Option.call` method of the :class:`~cli_demo.options.Option` instance for further processing.
+              * Any response to that input function which does not fall within its designated options will be forwarded to the :attr:`~cli_demo.options.Option.callback` through the :meth:`~cli_demo.options.Option.call` method of the :class:`~cli_demo.options.Option` instance for further processing.
 
             * If `lock` is ``True``, the :attr:`~cli_demo.options.Option.callback` that is set must accept a `key` argument- the key of the input function that triggered it.
         """
@@ -322,7 +322,7 @@ class DemoOptions(object):
             
 
     def call(self, option, *args, **kwargs):
-        """Invoke the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance via its :meth:`~cli_demo.options.Option.call` method.
+        """Invoke the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance through its :meth:`~cli_demo.options.Option.call` method.
 
         Args:
             option (str): The :attr:`~cli_demo.options.Option.name` used to register the :class:`~cli_demo.options.Option` instance.
@@ -356,11 +356,11 @@ class DemoOptions(object):
             :class:`~cli_demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~cli_demo.options.Option`.
             :class:`~cli_demo.exceptions.CallbackNotFoundError`: If :attr:`~cli_demo.options.Option.callback` has not been set in the :class:`~cli_demo.options.Option` instance.
         """
-        option_obj = self[option]
-        if option_obj.callback is None:
+        opt = self[option]
+        if opt.callback is None:
             raise CallbackNotFoundError(option)
         else:
-            return option_obj.call
+            return opt.call
 
     def set_callback(self, option, callback):
         """Set the function that the :meth:`~cli_demo.options.Option.call` method of the :class:`~cli_demo.options.Option` instance should wrap.
@@ -370,9 +370,15 @@ class DemoOptions(object):
             callback: The function that :meth:`~cli_demo.options.Option.call` should wrap.
 
         Raises:
-            :class:`~cli_demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance :class:`~cli_demo.options.Option`. 
+            :class:`~cli_demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance :class:`~cli_demo.options.Option`.
+
+        Note:
+            If :attr:`~cli_demo.options.Option.desc` is empty, it will be set to the name of `callback`. 
         """
-        self[option].callback = callback                 
+        self[option].callback = callback
+        if not self.get_desc(option):
+            self.set_desc(option, "{}.".format(
+                callback.__name__.replace("_", " ").capitalize()))
 
     def is_lock(self, option):
         """Check if the `key` of a triggering input function will be received by the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance.
