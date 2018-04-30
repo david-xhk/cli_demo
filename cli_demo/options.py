@@ -364,6 +364,8 @@ class DemoOptions(object):
 
     def set_callback(self, option, callback):
         """Set the function that the :meth:`~cli_demo.options.Option.call` method of the :class:`~cli_demo.options.Option` instance should wrap.
+        
+        If the :attr:`~cli_demo.options.Option.desc` of the :class:`~cli_demo.options.Option` instance is blank, use the name of `callback` to set it. 
 
         Args:
             option (str): The :attr:`~cli_demo.options.Option.name` used to register the :class:`~cli_demo.options.Option` instance.
@@ -371,9 +373,6 @@ class DemoOptions(object):
 
         Raises:
             :class:`~cli_demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance :class:`~cli_demo.options.Option`.
-
-        Note:
-            If the :attr:`~cli_demo.options.Option.desc` of the :class:`~cli_demo.options.Option` instance is blank, the name of `callback` will be used to set it. 
         """
         self[option].callback = callback
         if not self.get_desc(option):
