@@ -231,7 +231,7 @@ class DemoOptions(object):
     def insert(self, key, kw, opt, **kw_opts):
         """Insert an option into the options that were set with `key`.
 
-        Insert `opt` into the argument options at `kw` index if `kw` is an int or a digit. Otherwise, update the keyword options with `kw` and `opt`.
+        Insert `opt` into the argument options at index `kw` if it is an int or a digit. Otherwise, update the keyword options with `kw` and `opt`.
 
         Args:
             key: A key for a set of options and keyword options.
