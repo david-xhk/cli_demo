@@ -87,7 +87,7 @@ class DemoException(Exception):
 
 class DemoRestart(DemoException):
     """Raised when user wants to restarts a :class:`~cli_demo.demo.Demo`."""
-    text = "Restarting."
+    text = "Restarting.."
 
 
 class DemoExit(DemoException):
@@ -101,26 +101,26 @@ class DemoRetry(DemoException):
 
 
 class KeyNotFoundError(DemoException):
-    """Raised when a key id does not exist in a :attr:`~cli_demo.options.DemoOptions.cache`."""
-    text = "'{}' id does not exist in the cache."
+    """Raised when a key id could not be found in a :attr:`~cli_demo.options.DemoOptions.cache`."""
+    text = "'{}' id not in cache"
 
 
 class OptionNotFoundError(DemoException):
-    """Raised when an :class:`~cli_demo.options.Option` instance is not registered."""
-    text = "Option object for '{}' not registered."
+    """Raised when an :class:`~cli_demo.options.Option` instance could not be found in a :attr:`~cli_demo.options.DemoOptions.registry`."""
+    text = "Option instance for '{}' not in registry"
 
 
 class CallbackNotFoundError(DemoException):
     """Raised when the :attr:`~cli_demo.options.Option.callback` of an :class:`~cli_demo.options.Option` instance has not been set."""
-    text = "'{}' callback not registered"
+    text = "'{}' callback not set"
 
 
 class CallbackLockError(DemoException):
     """Raised when the :attr:`~cli_demo.options.Option.lock` attribute of an :class:`~cli_demo.options.Option` instance is ``True`` but its :attr:`~cli_demo.options.Option.callback` does not accept a `key` argument."""
-    text = "'{}' callback does not accept `key` argument."
+    text = "'{}' callback does not accept `key` argument"
 
 
 class CallbackResponseError(DemoException):
     """Raised when an :class:`~cli_demo.options.Option` instance is registered under an input function key but its :attr:`~cli_demo.options.Option.callback` does not accept a `response` argument."""
-    text = "'{}' callback does not accept `response` argument."
+    text = "'{}' callback does not accept `response` argument"
 
