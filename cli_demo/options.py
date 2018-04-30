@@ -373,7 +373,7 @@ class DemoOptions(object):
             :class:`~cli_demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance :class:`~cli_demo.options.Option`.
 
         Note:
-            If :attr:`~cli_demo.options.Option.desc` is empty, it will be set to the name of `callback`. 
+            If the :attr:`~cli_demo.options.Option.desc` of the :class:`~cli_demo.options.Option` instance is blank, the name of `callback` will be used to set it. 
         """
         self[option].callback = callback
         if not self.get_desc(option):
