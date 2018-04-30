@@ -144,7 +144,9 @@ spam = 14"""
         """Provide options for :meth:`~cli_demo.code.CodeDemo.get_commands`.
         
         Note:
-            The descriptions and options are the code snippets and their enumerations. An additional option is ``"a"``, which is ``"Execute all of the above."``.
+            * The descriptions and options are the code snippets and their enumerations.
+
+            * An additional option is ``"a"``, which is ``"Execute all of the above."``.
         """
         for index, command in enumerate(self.commands):
             yield (str(index), "\n    ".join(command.splitlines()))
@@ -153,11 +155,11 @@ spam = 14"""
     def execute(self, commands, print_in=True):
         """``exec`` each command in :attr:`~cli_demo.code.CodeDemo.locals` and :attr:`~cli_demo.code.CodeDemo.globals`.
 
-        :meth:`~cli_demo.code.CodeDemo.print_in` the command if necessary, then strip any comments, and then compile the command if there are multiple lines or assignments before ``exec``-ing it. :meth:`~cli_demo.code.CodeDemo.print_out` the result or catch and print any errors. If there are any assignments in the command, :meth:`~cli_demo.code.CodeDemo.execute` their assigned names.
+        :meth:`~cli_demo.code.CodeDemo.print_in` the command if `print_in` is ``True``. Remove any comments, then compile the command if there are multiple lines or assignments. ``exec`` the code snippet, and :meth:`~cli_demo.code.CodeDemo.print_out` the result or catch and print any errors. If there are any assignments in the code snippet, :meth:`~cli_demo.code.CodeDemo.execute` their assigned names.
 
         Args:
             commands (list): The code snippets to ``exec``.
-            print_in (bool): Whether to :meth:`~cli_demo.code.CodeDemo.print_in` a command before ``exec``-ing it.
+            print_in (bool): Whether to :meth:`~cli_demo.code.CodeDemo.print_in` a command.
         """
         for command in commands:
             if print_in:
