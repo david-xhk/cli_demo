@@ -23,7 +23,7 @@ class SandboxDemo(CodeDemo):
         """Prompt the user to select a command from :attr:`~cli_demo.code.CodeDemo.commands`.
 
         Note:
-            * :meth:`~cli_demo.demo.Demo.get_commands` is decorated with::
+            * :meth:`~cli_demo.sandbox.SandboxDemo.get_commands` is decorated with::
 
                 @options("c", "o", "s", "r", "q", key="commands")
                 def get_commands(self):
@@ -35,6 +35,20 @@ class SandboxDemo(CodeDemo):
 
     @options.register("s", "Sandbox mode.", retry=True, lock=True)
     def sandbox(self, key):
+        """Set up an interactive shell to experiment with.
+
+        :meth:`~cli_demo.code.CodeDemo.execute` the provided command or code block, or print the previous options using :meth:`~cli_demo.demo.Demo.print_options` and return if the input is ``"quit()"``.
+
+        Args:
+            key (str): The key of the input function which triggered sandbox mode.
+
+        Note:
+            * :meth:`~cli_demo.sandbox.SandboxDemo.sandbox` is decorated with::
+
+                @options.register("s", "Sandbox mode.", retry=True, lock=True)
+                def sandbox(self, key):
+                    ...
+        """
         print("Switched to sandbox mode.")
         print("Use quit() to leave sandbox mode.")
         print()
