@@ -12,7 +12,7 @@ from .code import CodeDemo
 
 
 class SandboxDemo(CodeDemo):
-    """SandboxDemo extends CodeDemo by providing :meth:`~cli_demo.sandbox.SandboxDemo.sandbox`, a shell in which users can experiment with the context that has been set up."""
+    """SandboxDemo extends CodeDemo by providing :meth:`~cli_demo.sandbox.SandboxDemo.sandbox`, a Python shell in which users can experiment with the context that has been set up."""
     
     help_text = """SandboxDemo extends CodeDemo by providing a shell in which users can experiment with the context that has been set up."""
 
