@@ -128,7 +128,7 @@ class DemoOptions(object):
         Returns:
             ``options_decorator()``: A decorator which takes a function (expected to be an input function) and returns a wrapped function.
         
-        The following exceptions will only be raised while the wrapped function is being called.
+        The following exceptions will only be raised when the wrapped function is called.
 
         Raises:
             :class:`~cli_demo.exceptions.OptionNotFoundError`: If an option does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~cli_demo.options.Option`.
