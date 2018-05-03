@@ -237,13 +237,10 @@ class DemoOptions(object):
             key: A key for a set of options and keyword options.
             kw: An index for argument options or a keyword option.
             opt (str): The option to insert.
-            **kw_opts: More kw and opt pairs.
+            **kw_opts: More `kw` and `opt` arguments.
 
         Raises:
             :class:`~cli_demo.exceptions.KeyNotFoundError`: If the id of `key` does not exist in :attr:`~cli_demo.options.DemoOptions.cache`.
-
-        Note:
-            `kw_opts` are are treated similarly as `kw` and `opt`.
         """
         options = self.get_options(key)
         for kw, opt in dict(kw_opts, **{kw:opt}).items():
