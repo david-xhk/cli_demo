@@ -12,7 +12,7 @@ from .code import CodeDemo
 
 
 class SandboxDemo(CodeDemo):
-    """SandboxDemo extends CodeDemo by providing a shell in which users can experiment with the context that has been set up."""
+    """SandboxDemo extends CodeDemo by providing :meth:`~cli_demo.sandbox.SandboxDemo.sandbox`, a shell in which users can experiment with the context that has been set up."""
     
     help_text = """SandboxDemo extends CodeDemo by providing a shell in which users can experiment with the context that has been set up."""
 
@@ -29,7 +29,7 @@ class SandboxDemo(CodeDemo):
                 def get_commands(self):
                     ...
 
-            * :meth:`~cli_demo.sandbox.SandboxDemo.sandbox` mode, ``"s"``, has been added to the available options.
+            * ``"s"``, for :meth:`Sandbox mode. <cli_demo.sandbox.SandboxDemo.sandbox>`, has been added to the available options.
         """
         return input(self.command_prompt)
 
