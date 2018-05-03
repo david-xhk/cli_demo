@@ -259,7 +259,7 @@ class DemoOptions(object):
 
         Args:
             option (str): The name of the option.
-            desc (str, optional): The description of the option that should be printed in :meth:`~cli_demo.demo.Demo.print_options`. If not provided, it will be set to the name of :attr:`~cli_demo.options.Option.callback` in :meth:`~cli_demo.options.DemoOption.set_callback`.
+            desc (str, optional): The description of the option that should be printed in :meth:`~cli_demo.demo.Demo.print_options`. If not provided, it will be set to the name of the function passed into :meth:`~cli_demo.options.DemoOption.set_callback`.
             newline (bool, optional): Whether an empty line should be printed before :attr:`~cli_demo.options.Option.callback` is called. Defaults to ``False``.
             retry (bool, optional): Whether an input function should be called again once :attr:`~cli_demo.options.Option.callback` has returned. Defaults to ``False``.
             lock (bool, optional): Whether the `key` of a triggering input function should be received by :attr:`~cli_demo.options.Option.callback`. Defaults to ``False``.
