@@ -37,7 +37,7 @@ class SandboxDemo(CodeDemo):
     def sandbox(self, key):
         """Set up an interactive shell to experiment with.
 
-        :meth:`~cli_demo.code.CodeDemo.execute` the provided command or code block, or print the previous options using :meth:`~cli_demo.demo.Demo.print_options` and return if the input is ``"quit()"``.
+        :meth:`~cli_demo.code.CodeDemo.execute` the entered command or code block repeatedly. If the input is ``"quit()"``, print the previous options using :meth:`~cli_demo.demo.Demo.print_options` and return.
 
         Args:
             key (str): The key of the input function which triggered sandbox mode.
