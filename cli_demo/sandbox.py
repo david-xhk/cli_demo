@@ -29,7 +29,7 @@ class SandboxDemo(CodeDemo):
                 def get_commands(self):
                     ...
 
-            * Sandbox mode, ``"s"``, has been added to the available options.
+            * :meth:`~cli_demo.sandbox.SandboxDemo.sandbox` mode, ``"s"``, has been added to the available options.
         """
         return input(self.command_prompt)
 
