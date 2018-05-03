@@ -46,7 +46,7 @@ class Option(object):
             * :attr:`~cli_demo.options.Option.args` is used if `args` is empty.
             * :attr:`~cli_demo.options.Option.kwargs` is used if `kwargs` is empty.
             * An empty line is printed before :attr:`~cli_demo.options.Option.callback` is called if :attr:`~cli_demo.options.Option.newline` is ``True``.
-            * DemoRetry will be raised if :attr:`~cli_demo.options.Option.retry` is ``True`` and :attr:`~cli_demo.options.Option.callback` successfully returned.
+            * :meth:`~cli_demo.demo.Demo.retry` will be called if :attr:`~cli_demo.options.Option.retry` is ``True`` and :attr:`~cli_demo.options.Option.callback` successfully returned.
         """
         if not args:
             args = self.args
@@ -123,7 +123,7 @@ class DemoOptions(object):
 
                 * To reference the options stored in :attr:`~cli_demo.options.DemoOptions.cache` when calling :meth:`~cli_demo.demo.Demo.print_options`, you need to pass in the input function itself as the `key` argument.
 
-                * If a user input does not fall within the designated options, :class:`~cli_demo.exceptions.DemoRetry` will be raised and `retry` will be printed.
+                * If a user input does not fall within the designated options, :meth:`~cli_demo.demo.Demo.retry` will be called and `retry` will be printed.
 
         Returns:
             ``options_decorator()``: A decorator which takes a function (expected to be an input function) and returns a wrapped function.
@@ -132,10 +132,9 @@ class DemoOptions(object):
 
         Raises:
             :class:`~cli_demo.exceptions.OptionNotFoundError`: If an option does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~cli_demo.options.Option`.
-            :class:`~cli_demo.exceptions.CallbackNotFoundError`: If :attr:`~cli_demo.options.Option.callback` has not been set in an :class:`~cli_demo.options.Option` instance.
+            :class:`~cli_demo.exceptions.CallbackNotFoundError`: If the :attr:`~cli_demo.options.Option.callback` of an :class:`~cli_demo.options.Option` instance has not been set.
             :class:`~cli_demo.exceptions.CallbackLockError`: If the :attr:`~cli_demo.options.Option.lock` attribute of an :class:`~cli_demo.options.Option` instance is ``True`` but its :attr:`~cli_demo.options.Option.callback` does not accept a `key` argument.
             :class:`~cli_demo.exceptions.CallbackResponseError`: If `key` is provided but the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance registered under `key` does not accept a `response` argument.
-            :class:`~cli_demo.exceptions.DemoRetry`: If the user response was invalid.
         """
         retry = kw_opts.pop("retry", "Please try again.")
         key = kw_opts.pop("key", None)
@@ -271,11 +270,11 @@ class DemoOptions(object):
 
             * If `option` is an input function key:
 
-              * The :attr:`~cli_demo.options.Option.callback` that is set must accept a `response` argument- the user's response to that input function.
+              * The function passed into ``register_decorator()`` must accept a `response` argument- the user's response to that input function.
 
-              * Any response to that input function which does not fall within its designated options will be forwarded to the :attr:`~cli_demo.options.Option.callback` through the :meth:`~cli_demo.options.Option.call` method of the :class:`~cli_demo.options.Option` instance for further processing.
+              * Any response to that input function which does not fall within its designated options will be forwarded to the function through the :meth:`~cli_demo.options.Option.call` method of the :class:`~cli_demo.options.Option` instance for further processing.
 
-            * If `lock` is ``True``, the :attr:`~cli_demo.options.Option.callback` that is set must accept a `key` argument- the key of the input function that triggered it.
+            * If `lock` is ``True``, the function passed into ``register_decorator()`` must accept a `key` argument- the key of the input function that triggered it.
         """
         self.registry[option] = Option(name=option, desc=desc,
             newline=kwargs.get("newline", False), 
@@ -327,12 +326,12 @@ class DemoOptions(object):
             **kwargs: The keyword arguments to use when calling :attr:`~cli_demo.options.Option.callback`.
 
         Returns:
-            The return value of the :attr:`~cli_demo.options.Option.callback`.
+            The return value of :attr:`~cli_demo.options.Option.callback`.
 
         Raises:
             :class:`~cli_demo.exceptions.DemoException`: If :attr:`~cli_demo.options.DemoOptions.demo` is not set.
             :class:`~cli_demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~cli_demo.options.Option`.
-            :class:`~cli_demo.exceptions.CallbackNotFoundError`: If :attr:`~cli_demo.options.Option.callback` has not been set in the :class:`~cli_demo.options.Option` instance.
+            :class:`~cli_demo.exceptions.CallbackNotFoundError`: If the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance has not been set.
         """
         if not self.demo:
             raise DemoException("Demo not set yet.")
@@ -351,7 +350,7 @@ class DemoOptions(object):
 
         Raises:
             :class:`~cli_demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~cli_demo.options.Option`.
-            :class:`~cli_demo.exceptions.CallbackNotFoundError`: If :attr:`~cli_demo.options.Option.callback` has not been set in the :class:`~cli_demo.options.Option` instance.
+            :class:`~cli_demo.exceptions.CallbackNotFoundError`: If the :attr:`~cli_demo.options.Option.callback` of the :class:`~cli_demo.options.Option` instance has not been set.
         """
         opt = self[option]
         if opt.callback is None:
