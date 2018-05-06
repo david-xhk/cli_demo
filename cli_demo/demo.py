@@ -69,6 +69,8 @@ Several key features are introduced:
                 @catch_exc
                 def run(self):
                     ...
+
+            For more information, refer to :meth:`~cli_demo.exceptions.catch_exc`.
         """
         self.print_intro()
         self.print_options(key="setup")
@@ -116,6 +118,8 @@ Several key features are introduced:
                 @options.register("o", "Options", retry=True, lock=True, newline=True)
                 def print_options(self, *opts, **key):
                     ...
+
+              For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
         """
         print("Options:")
         opt_list = []
@@ -161,6 +165,8 @@ Several key features are introduced:
                 @options.register("h", "Help.", retry=True, newline=True)
                 def print_help(self, **kwargs):
                     ...
+
+            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
         """
         symbols = list(enumerate(kwargs.get(
             "symbols", [" ", "●", "○", "▸", "▹"])))
@@ -228,6 +234,8 @@ Several key features are introduced:
                 @options("h", "o", "r", "q", key="setup")
                 def run_setup(self):
                     ...
+
+            For more information, refer to :meth:`options <cli_demo.options.DemoOptions.__call__>`.
         """
         return input(self.setup_prompt)
     
@@ -244,6 +252,8 @@ Several key features are introduced:
                 @options.register("setup", retry=True)
                 def setup_callback(self, response):
                     ...
+
+            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
         """
         print("Got: {}".format(response))
         print()
@@ -272,6 +282,8 @@ Several key features are introduced:
                 @options.register("r")
                 def restart(self, text=None):
                     ...
+
+            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
         """
         raise DemoRestart(text)
 
@@ -291,6 +303,8 @@ Several key features are introduced:
                 @options.register("q")
                 def quit(self, text=None):
                     ...
+
+            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
         """
         raise DemoExit(text)
 

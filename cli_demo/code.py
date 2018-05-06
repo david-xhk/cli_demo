@@ -66,7 +66,17 @@ spam = 14"""
 
     @options.register("c", "Setup code.", retry=True, newline=True)
     def print_setup(self):
-        """Print :attr:`~cli_demo.code.CodeDemo.setup_code`."""
+        """Print :attr:`~cli_demo.code.CodeDemo.setup_code`.
+
+        Note:
+            :meth:`~cli_demo.code.CodeDemo.print_setup` is decorated with::
+
+                @options.register("c", "Setup code.", retry=True, newline=True)
+                def print_setup(self):
+                    ...
+
+            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
+        """
         print("Setup:")
         self.print_in(self.setup_code)
         print()
@@ -88,6 +98,8 @@ spam = 14"""
                 @options.register("setup")
                 def setup_callback(self, response):
                     ...
+
+              For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
         """
         main = sys.modules["__main__"]
         self.globals = vars(main.__builtins__).copy()
@@ -111,6 +123,8 @@ spam = 14"""
                 @options("c", "o", "r", "q", key="commands")
                 def get_commands(self):
                     ...
+
+            For more information, refer to :meth:`options <cli_demo.options.DemoOptions.__call__>`.
         """
         return input(self.command_prompt)
 
@@ -129,6 +143,8 @@ spam = 14"""
                 @options.register("commands", retry=True)
                 def commands_callback(self, response):
                     ...
+
+            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
         """
         commands = None
         if response == "a":

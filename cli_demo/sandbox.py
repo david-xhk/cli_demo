@@ -29,6 +29,8 @@ class SandboxDemo(CodeDemo):
                 def get_commands(self):
                     ...
 
+              For more information, refer to :meth:`options <cli_demo.options.DemoOptions.__call__>`.
+
             * ``"s"``, for :meth:`"Sandbox mode." <cli_demo.sandbox.SandboxDemo.sandbox>`, has been added to the available options.
         """
         return input(self.command_prompt)
@@ -43,11 +45,13 @@ class SandboxDemo(CodeDemo):
             key (str): The key of the input function which triggered sandbox mode.
 
         Note:
-            * :meth:`~cli_demo.sandbox.SandboxDemo.sandbox` is decorated with::
+            :meth:`~cli_demo.sandbox.SandboxDemo.sandbox` is decorated with::
 
                 @options.register("s", "Sandbox mode.", retry=True, lock=True)
                 def sandbox(self, key):
                     ...
+
+            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
         """
         print("Switched to sandbox mode.")
         print("Use quit() to leave sandbox mode.")
