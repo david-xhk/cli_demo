@@ -119,7 +119,7 @@ Several key features are introduced:
                 def print_options(self, *opts, **key):
                     ...
 
-              For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
+              For more information, refer to :meth:`options.register <cli_demo.options.DemoOptions.register>`.
         """
         print("Options:")
         opt_list = []
@@ -166,7 +166,7 @@ Several key features are introduced:
                 def print_help(self, **kwargs):
                     ...
 
-            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
+            For more information, refer to :meth:`options.register <cli_demo.options.DemoOptions.register>`.
         """
         symbols = list(enumerate(kwargs.get(
             "symbols", [" ", "●", "○", "▸", "▹"])))
@@ -253,7 +253,7 @@ Several key features are introduced:
                 def setup_callback(self, response):
                     ...
 
-            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
+            For more information, refer to :meth:`options.register <cli_demo.options.DemoOptions.register>`.
         """
         print("Got: {}".format(response))
         print()
@@ -283,7 +283,7 @@ Several key features are introduced:
                 def restart(self, text=None):
                     ...
 
-            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
+            For more information, refer to :meth:`options.register <cli_demo.options.DemoOptions.register>`.
         """
         raise DemoRestart(text)
 
@@ -304,7 +304,7 @@ Several key features are introduced:
                 def quit(self, text=None):
                     ...
 
-            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
+            For more information, refer to :meth:`options.register <cli_demo.options.DemoOptions.register>`.
         """
         raise DemoExit(text)
 

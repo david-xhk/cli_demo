@@ -51,7 +51,7 @@ class SandboxDemo(CodeDemo):
                 def sandbox(self, key):
                     ...
 
-            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
+            For more information, refer to :meth:`options.register <cli_demo.options.DemoOptions.register>`.
         """
         print("Switched to sandbox mode.")
         print("Use quit() to leave sandbox mode.")

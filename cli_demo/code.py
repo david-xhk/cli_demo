@@ -75,7 +75,7 @@ spam = 14"""
                 def print_setup(self):
                     ...
 
-            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
+            For more information, refer to :meth:`options.register <cli_demo.options.DemoOptions.register>`.
         """
         print("Setup:")
         self.print_in(self.setup_code)
@@ -99,7 +99,7 @@ spam = 14"""
                 def setup_callback(self, response):
                     ...
 
-              For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
+              For more information, refer to :meth:`options.register <cli_demo.options.DemoOptions.register>`.
         """
         main = sys.modules["__main__"]
         self.globals = vars(main.__builtins__).copy()
@@ -144,7 +144,7 @@ spam = 14"""
                 def commands_callback(self, response):
                     ...
 
-            For more information, refer to :meth:`~cli_demo.options.DemoOptions.register`.
+            For more information, refer to :meth:`options.register <cli_demo.options.DemoOptions.register>`.
         """
         commands = None
         if response == "a":
