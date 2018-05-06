@@ -109,7 +109,7 @@ Several key features are introduced:
                 
               4. Argument options passed into :meth:`~cli_demo.demo.Demo.print_options`
 
-            * Other than the options from ``key_options()``, option descriptions are taken from the :attr:`~cli_demo.options.Option.desc` of the :class:`~cli_demo.options.Option` instance.
+            * Besides the options from ``key_options()``, option descriptions are taken from the :attr:`~cli_demo.options.Option.desc` of the :class:`~cli_demo.options.Option` instance registered under it. If an option is not :meth:`registered <cli_demo.options.DemoOptions.__contains__>`, then ``""`` is used for the description.
 
             * :meth:`~cli_demo.demo.Demo.print_options` is decorated with::
 
@@ -136,10 +136,10 @@ Several key features are introduced:
                 desc = self.options.get_desc(opt)
             else:
                 desc = ""
-            opt_list.append((opt, desc))
-        opt_width = (max(len(opt) for opt, desc in opt_list)-3)//4*4+6
-        for opt, desc in opt_list:
-            print("{}: {}".format(opt.rjust(opt_width), desc))
+            opt_list.append((name, desc))
+        name_width = (max(len(name) for name, desc in opt_list)-3)//4*4+6
+        for name, desc in opt_list:
+            print("{}: {}".format(name.rjust(opt_width), name_width))
         print()
 
     @options.register("h", "Help.", retry=True, newline=True)
