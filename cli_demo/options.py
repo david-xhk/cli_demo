@@ -346,7 +346,7 @@ class DemoOptions(object):
             option (str): The :attr:`~cli_demo.options.Option.name` used to register the :class:`~cli_demo.options.Option` instance.
 
         Returns:
-            The :meth:`~cli_demo.options.Option.call` method of the :class:`~cli_demo.options.Option` instance, which wraps the :attr:`~cli_demo.options.Option.callback` that was set.
+            The :meth:`~cli_demo.options.Option.call` method of the :class:`~cli_demo.options.Option` instance.
 
         Raises:
             :class:`~cli_demo.exceptions.OptionNotFoundError`: If `option` does not exist in :attr:`~cli_demo.options.DemoOptions.registry`, or if its value is not an instance of :class:`~cli_demo.options.Option`.
