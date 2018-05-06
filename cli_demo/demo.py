@@ -70,7 +70,7 @@ Several key features are introduced:
                 def run(self):
                     ...
 
-            For more information, refer to :meth:`~cli_demo.exceptions.catch_exc`.
+            For more information, refer to :func:`~cli_demo.exceptions.catch_exc`.
         """
         self.print_intro()
         self.print_options(key="setup")
