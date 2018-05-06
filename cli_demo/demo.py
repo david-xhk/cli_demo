@@ -151,7 +151,7 @@ Several key features are introduced:
             width (int): The maximum width for a line printed. Defaults to ``60``.
             indent (int): The number of spaces per indent for the text printed. Defaults to ``4``.
             border (str): The character used for the border for :attr:`~cli_demo.demo.Demo.help_text`. Defaults to ``"~"``.
-            title (str): The character used for the border for the "Help" title. Defaults to ``"="``.
+            title (str): The character used for the border for the ``"Help"`` title. Defaults to ``"="``.
             subtitle (str): The character used for the border for the name of each :class:`~cli_demo.demo.Demo` subclass. Defaults to ``"-"``.
             include (bool): Whether to include the :attr:`~cli_demo.demo.Demo.help_text` of all superclasses that are subclasses of :class:`~cli_demo.demo.Demo`. Defaults to ``False``.
 
